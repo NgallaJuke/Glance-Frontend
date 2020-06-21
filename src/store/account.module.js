@@ -1,4 +1,4 @@
-import { authServices } from '../services';
+import { authServices, userServices } from '../services';
 import router from '../router/index';
 const state = {
   user: {},
@@ -36,6 +36,19 @@ const actions = {
       }
     );
   },
+  getCurrentUser({ dispatch, commit }) {
+    commit('UserProfilRequest');
+    userServices.getCurrentUser().then(
+      (userProfil) => {
+        console.log('UserProfil', userProfil);
+        commit('UserProfilSuccess', userProfil);
+      },
+      (error) => {
+        commit('UserProfilFailure', error);
+        dispatch('alert/error', error, { root: true });
+      }
+    );
+  },
 };
 const mutations = {
   registerRequest(state, user) {
@@ -60,6 +73,17 @@ const mutations = {
   loginFailure(state) {
     state.status = {};
     state.user = null;
+  },
+  UserProfilRequest(state) {
+    state.status = { laoding: true };
+  },
+  UserProfilSuccess(state, userProfil) {
+    state.user = userProfil;
+    state.status = { loggedIn: true };
+  },
+  UserProfilFailure(state, error) {
+    state.user = null;
+    state.error = error;
   },
 };
 
