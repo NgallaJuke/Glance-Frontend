@@ -23,6 +23,19 @@ const actions = {
       }
     );
   },
+  login({ dispatch, commit }, credentials) {
+    commit('loginRequest', credentials);
+    authServices.login(credentials).then(
+      (user) => {
+        commit('loginSuccess', user);
+        router.push('/');
+      },
+      (error) => {
+        commit('loginFailure', error);
+        dispatch('alert/error', error, { root: true });
+      }
+    );
+  },
 };
 const mutations = {
   registerRequest(state, user) {
@@ -36,6 +49,17 @@ const mutations = {
   registerFailure(state, error) {
     state.status = {};
     state.error = error;
+  },
+  loginRequest(state) {
+    state.status = { loggingIn: true };
+  },
+  loginSuccess(state, user) {
+    state.status = { loggedIn: true };
+    state.user = user;
+  },
+  loginFailure(state) {
+    state.status = {};
+    state.user = null;
   },
 };
 

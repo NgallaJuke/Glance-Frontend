@@ -1,64 +1,50 @@
 <template>
   <div class="container my-5">
     <v-form v-model="valid" ref="form" lazy-validation>
-      <v-text-field outlined label="Name" v-model="name" :rules="nameRules" :counter="10" required></v-text-field>
-      <v-text-field outlined label="E-mail" v-model="email" :rules="emailRules" required></v-text-field>
-      <v-select
+      <v-text-field outlined label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
+
+      <v-text-field
         outlined
-        label="Item"
-        v-model="select"
-        :items="items"
-        :rules="[(v) => !!v || 'Item is required']"
+        v-model="user.password"
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :rules="passwordRules"
+        :type="show1 ? 'text' : 'password'"
+        name="input-10-1"
+        label="Password"
+        hint="At least 6 characters"
+        counter
+        @click:append="show1 = !show1"
         required
-      ></v-select>
-      <v-checkbox
-        label="Do you agree?"
-        v-model="checkbox"
-        :rules="[(v) => !!v || 'You must agree to continue!']"
-        required
-      ></v-checkbox>
+      ></v-text-field>
       <router-link to="/register">Register</router-link>
       <v-spacer></v-spacer>
       <v-btn @click="submit" :disabled="!valid">
         submit
       </v-btn>
       <v-btn @click="clear">clear</v-btn>
+      <img v-show="status.loggingIn" src="../../assets/loader.gif" />
     </v-form>
   </div>
 </template>
 
 <script>
 /* import axios from 'axios'; */
-
+import { mapState, mapActions } from 'vuex';
 export default {
   data: () => ({
     valid: true,
-    name: '',
-    nameRules: [
-      (v) => !!v || 'Name is required',
-      (v) => (v && v.length <= 10) || 'Name must be less than 10 characters',
-    ],
-    email: '',
-    emailRules: [
-      (v) => !!v || 'E-mail is required',
-      (v) => /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/.test(v) || 'E-mail must be valid',
-    ],
-    select: null,
-    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
-    checkbox: false,
+    user: { email: '', password: '' },
+    show1: false,
+    emailRules: [(v) => !!v || 'E-mail is required'],
+    passwordRules: [(v) => v.length >= 6 || 'Min 6 characters'],
   }),
 
+  computed: { ...mapState('account', ['status']) },
   methods: {
+    ...mapActions('account', ['login']),
     submit() {
       if (this.$refs.form.validate()) {
-        // Native form submission is not yet supported
-        /*  axios.post('/api/submit', {
-          name: this.name,
-          email: this.email,
-          select: this.select,
-          checkbox: this.checkbox,
-        }); */
-        console.log('Submited');
+        this.login(this.user);
       }
     },
     clear() {
