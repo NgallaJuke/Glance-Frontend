@@ -36,6 +36,21 @@ const actions = {
       }
     );
   },
+  logout({ dispatch, commit }) {
+    commit('logoutRequest');
+    authServices.logout().then(
+      (response) => {
+        if (response.success) {
+          commit('logoutSuccess');
+          router.push('/login');
+        }
+      },
+      (error) => {
+        commit('logoutFailure', error);
+        dispatch('alert/error', error, { root: true });
+      }
+    );
+  },
   getCurrentUser({ dispatch, commit }) {
     commit('UserProfilRequest');
     userServices.getCurrentUser().then(
@@ -71,6 +86,17 @@ const mutations = {
     state.user = user;
   },
   loginFailure(state) {
+    state.status = {};
+    state.user = null;
+  },
+  logoutRequest(state) {
+    state.status = { loggingOut: true };
+  },
+  logoutSuccess(state) {
+    state.status = { loggedOut: true };
+    state.user = null;
+  },
+  logoutFailure(state) {
     state.status = {};
     state.user = null;
   },
