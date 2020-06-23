@@ -13,6 +13,9 @@ const actions = {
   clear({ commit }) {
     commit('clear');
   },
+  fade({ commit }) {
+    commit('fade');
+  },
 };
 
 const mutations = {
@@ -25,6 +28,10 @@ const mutations = {
     state.message = message;
   },
   clear(state) {
+    state.type = null;
+    state.message = null;
+  },
+  fade(state) {
     state.type = null;
     state.message = null;
   },

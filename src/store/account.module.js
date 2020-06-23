@@ -14,7 +14,11 @@ const actions = {
         router.push('/login');
         setTimeout(() => {
           // display success message after route change completes
-          dispatch('alert/success', 'Registration successful', { root: true });
+          dispatch(
+            'alert/success',
+            ['Registration successful.', 'Please check your email to confirm your registration!'],
+            { root: true }
+          );
         });
       },
       (error) => {
@@ -26,9 +30,14 @@ const actions = {
   login({ dispatch, commit }, credentials) {
     commit('loginRequest', credentials);
     authServices.login(credentials).then(
-      (user) => {
-        commit('loginSuccess', user);
-        router.push('/');
+      (response) => {
+        if (response.success === true && response.error === undefined) {
+          commit('loginSuccess', response.user);
+          router.push('/');
+        } else {
+          commit('loginFailure', response.error);
+          dispatch('alert/error', response.error, { root: true });
+        }
       },
       (error) => {
         commit('loginFailure', error);
@@ -55,7 +64,6 @@ const actions = {
     commit('UserProfilRequest');
     userServices.getCurrentUser().then(
       (userProfil) => {
-        console.log('UserProfil', userProfil);
         commit('UserProfilSuccess', userProfil);
       },
       (error) => {

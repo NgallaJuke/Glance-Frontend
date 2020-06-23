@@ -17,12 +17,18 @@
         required
       ></v-text-field>
       <router-link to="/register">Register</router-link>
+
       <v-spacer></v-spacer>
-      <v-btn @click="submit" :disabled="!valid">
-        submit
+      <v-btn class="ma-2" :disabled="!valid" @click="submit">
+        <img
+          v-if="account.status.loggingIn"
+          class="mx-3"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <p class="mb-0" v-else>Login</p>
       </v-btn>
+
       <v-btn @click="clear">clear</v-btn>
-      <img v-show="status.loggingIn" src="../../assets/loader.gif" />
     </v-form>
   </div>
 </template>
@@ -39,7 +45,11 @@ export default {
     passwordRules: [(v) => v.length >= 6 || 'Min 6 characters'],
   }),
 
-  computed: { ...mapState('account', ['status']) },
+  computed: {
+    ...mapState({
+      account: (state) => state.account,
+    }),
+  },
   methods: {
     ...mapActions('account', ['login']),
     submit() {

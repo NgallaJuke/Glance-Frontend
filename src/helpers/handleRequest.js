@@ -14,5 +14,7 @@ export async function handleRequest(response) {
     const error = (data && data.message) || response.statusText;
     return Promise.reject(error);
   }
+  console.log('DATA', data);
+
   return data;
 }
