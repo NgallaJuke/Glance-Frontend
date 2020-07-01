@@ -38,7 +38,7 @@
         :rules="[(v) => !!v || 'You must agree to continue!']"
         required
       ></v-checkbox>
-      <router-link to="/login">Login</router-link>
+      <p>I have an account! <router-link to="/login">Login</router-link></p>
       <v-spacer></v-spacer>
       <v-btn class="ma-2" :disabled="!valid" @click="submit">
         <img

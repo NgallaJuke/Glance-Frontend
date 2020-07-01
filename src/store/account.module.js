@@ -60,17 +60,16 @@ const actions = {
       }
     );
   },
-  getCurrentUser({ dispatch, commit }) {
+  async getCurrentUser({ dispatch, commit }) {
     commit('UserProfilRequest');
-    userServices.getCurrentUser().then(
-      (userProfil) => {
-        commit('UserProfilSuccess', userProfil);
-      },
-      (error) => {
-        commit('UserProfilFailure', error);
-        dispatch('alert/error', error, { root: true });
-      }
-    );
+    const userProfil = await userServices.getCurrentUser();
+    if (userProfil) {
+      commit('UserProfilSuccess', userProfil);
+    } else {
+      const error = 'User Not Found.';
+      commit('UserProfilFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
   },
 };
 const mutations = {

@@ -6,15 +6,12 @@ export const userServices = {
   getCurrentUser,
 };
 
-function getCurrentUser() {
+async function getCurrentUser() {
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
   };
-  return fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/current-user`, requestOptions)
-    .then(handleRequest)
-    .then((response) => {
-      return response.UserProfil;
-    })
-    .catch((error) => console.error(error));
+  const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/current-user`, requestOptions);
+  const data = await handleRequest(response);
+  return data.UserProfil;
 }

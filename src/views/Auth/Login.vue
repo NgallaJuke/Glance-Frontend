@@ -16,8 +16,7 @@
         @click:append="show1 = !show1"
         required
       ></v-text-field>
-      <router-link to="/register">Register</router-link>
-
+      <p>New user? <router-link to="/register">Register</router-link></p>
       <v-spacer></v-spacer>
       <v-btn class="ma-2" :disabled="!valid" @click="submit">
         <img
