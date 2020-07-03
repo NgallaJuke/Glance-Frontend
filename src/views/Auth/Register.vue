@@ -3,15 +3,17 @@
     <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field
         outlined
+        dense
         label="userName"
         v-model="user.userName"
         :rules="nameRules"
         :counter="20"
         required
       ></v-text-field>
-      <v-text-field outlined label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
+      <v-text-field outlined dense label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
       <v-select
         outlined
+        dense
         label="Profil"
         v-model="user.role"
         :items="role"
@@ -21,6 +23,7 @@
 
       <v-text-field
         outlined
+        dense
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
@@ -80,7 +83,11 @@ export default {
     show1: false,
     checkbox: false,
   }),
-  computed: { ...mapState('account', ['status']) },
+  computed: {
+    ...mapState({
+      account: (state) => state.account,
+    }),
+  },
   methods: {
     ...mapActions('account', ['register']),
     submit() {

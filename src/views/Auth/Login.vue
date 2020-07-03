@@ -1,10 +1,11 @@
 <template>
   <div class="container my-5">
     <v-form v-model="valid" ref="form" lazy-validation>
-      <v-text-field outlined label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
+      <v-text-field outlined dense label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
 
       <v-text-field
         outlined
+        dense
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
