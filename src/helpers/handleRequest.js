@@ -8,11 +8,14 @@ export async function handleRequest(response) {
       localStorage.removeItem('user_token');
       router.push('/login');
     }
+    // location.reload(true);
   }
   const data = await response.json();
-  if (!data.success === 'false') {
+  if (data.success === false) {
     const error = (data && data.message) || response.statusText;
     return Promise.reject(error);
   }
+  console.log('Handlerequest', data);
+
   return data;
 }

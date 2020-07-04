@@ -99,7 +99,7 @@
         :closedialog="dialog"
         @update:closedialog="dialog = $event"
       ></div>
-      <div :is="currentComponent"></div>
+      <div :key="componentKey" :is="currentComponent"></div>
       <div v-show="!currentComponent" v-for="(component, index) in componentsArray" :key="index">
         <button @click="swapComponent(component)">{{ component }}</button>
       </div>
@@ -125,6 +125,7 @@ export default {
       dialogComponent: UploadPost,
       componentsArray: ['HomeTimeline'],
       dialog: false,
+      componentKey: 1,
     };
   },
   components: { UploadPost, HomeTimeline },
@@ -134,9 +135,9 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('account', ['getCurrentUser', 'logout']),
+    ...mapActions(['account/getCurrentUser', 'account/logout']),
     Logout() {
-      this.logout();
+      this['account/logout']();
     },
     swapComponent: function(component) {
       this.currentComponent = component;
@@ -144,9 +145,12 @@ export default {
     ShowDialog() {
       if (!this.dialog) this.dialog = true;
     },
+    forceRerender() {
+      this.componentKey += 1;
+    },
   },
   created() {
-    this.getCurrentUser().then(() => {
+    this['account/getCurrentUser']().then(() => {
       const avatar = this.account.user.avatar;
       const lastIndex = avatar.lastIndexOf('avatars');
       this.avatar = this.account.user.avatar.substring(lastIndex + 8);

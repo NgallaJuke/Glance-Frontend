@@ -9,13 +9,13 @@
           <v-container>
             <v-col cols="12">
               <v-file-input
-                :rules="pictureRules"
                 v-model="post.pictures"
                 prepend-icon="mdi-camera"
                 chips
                 show-size
                 outlined
                 dense
+                multiple
                 accept="image/png, image/jpeg, image/jpg"
                 label="Picture"
                 placeholder="Pick a picture"
@@ -41,33 +41,7 @@
                   persistent-hint
                   required
                 ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password*" type="password" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="[
-                    'Skiing',
-                    'Ice hockey',
-                    'Soccer',
-                    'Basketball',
-                    'Hockey',
-                    'Reading',
-                    'Writing',
-                    'Coding',
-                    'Basejump',
-                  ]"
-                  label="Interests"
-                  multiple
-                ></v-autocomplete>
-              </v-col> -->
+              </v-col>-->
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -89,6 +63,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
   props: ['dialog'],
   data: () => ({
@@ -97,18 +72,23 @@ export default {
       description: '',
     },
     dialoge: true,
-    pictureRules: [(v) => !v || v.size < 2000000 || 'Avatar size should be less than 2 MB!'],
+    // pictureRules: [(v) => !!v || v.size < 2000000 || 'Picture"s size should be less than 2 MB!'],
     descriptionRules: [(v) => !!v || 'the description is required!'],
   }),
+  computed: {
+    ...mapState({
+      posts: (state) => state.posts,
+    }),
+  },
   methods: {
+    ...mapActions('posts', ['createpost']),
+
     CloseDialog() {
       this.dialoge = false;
       this.$emit('update:closedialog', false);
     },
     CreatePost() {
-      console.log('Post Created');
-      console.log('Post Picture', this.post.pictures);
-      console.log('Post Descrition', this.post.description);
+      this.createpost(this.post);
     },
   },
 };
