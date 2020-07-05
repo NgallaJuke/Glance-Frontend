@@ -1,13 +1,19 @@
 <template>
   <div>
     <h1>HomeTimeline Component</h1>
-    <div>
-      <v-container v-if="posts.timeline" fluid>
+    <div v-if="posts.status.laoding">
+      <img
+        class="mx-3"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+      />
+    </div>
+    <div v-else-if="posts.timeline">
+      <v-container fluid>
         <v-row>
           <v-col v-for="post in posts.timeline" :key="post.id" cols="6" sm="4">
-            <div v-for="(pic, index) in post.picture" :key="index">
+            <v-col v-for="(pic, index) in post.picture" :key="index">
               <v-img :src="`${url}posts_pic/${pic}`" alt="postImage"></v-img>
-            </div>
+            </v-col>
           </v-col>
         </v-row>
       </v-container>
@@ -26,11 +32,6 @@ export default {
   },
   methods: {
     ...mapActions(['posts/getUserTimeline']),
-    methodThatForcesUpdate() {
-      // ...
-      this.$forceUpdate(); // Notice we have to use a $ here
-      // ...
-    },
   },
   created() {
     this['posts/getUserTimeline']();

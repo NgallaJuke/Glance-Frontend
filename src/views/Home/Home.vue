@@ -91,6 +91,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+    <slot name="alert"></slot>
     <div class="container">
       <div
         v-if="dialog"
@@ -99,7 +100,7 @@
         :closedialog="dialog"
         @update:closedialog="dialog = $event"
       ></div>
-      <div :key="componentKey" :is="currentComponent"></div>
+      <div :is="currentComponent"></div>
       <div v-show="!currentComponent" v-for="(component, index) in componentsArray" :key="index">
         <button @click="swapComponent(component)">{{ component }}</button>
       </div>
@@ -125,7 +126,6 @@ export default {
       dialogComponent: UploadPost,
       componentsArray: ['HomeTimeline'],
       dialog: false,
-      componentKey: 1,
     };
   },
   components: { UploadPost, HomeTimeline },
@@ -146,6 +146,8 @@ export default {
       if (!this.dialog) this.dialog = true;
     },
     forceRerender() {
+      console.log('componentKey', this.componentKey);
+
       this.componentKey += 1;
     },
   },

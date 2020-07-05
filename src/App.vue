@@ -1,12 +1,13 @@
 <template>
   <v-app>
     <v-main class=" grey lighten-3">
-      <transition name="slide-fade">
-        <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
-          {{ alert.message }}
-        </v-alert>
-      </transition>
-      <router-view></router-view>
+      <router-view>
+        <transition name="slide-fade" cols="6" sm="4" slot="alert">
+          <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
+            {{ alert.message }}
+          </v-alert>
+        </transition></router-view
+      >
     </v-main>
   </v-app>
 </template>
@@ -31,7 +32,7 @@ export default {
   updated() {
     setTimeout(() => {
       this.fadeAlert();
-    }, 3000);
+    }, 5000);
   },
   watch: {
     /* eslint-disable no-unused-vars */

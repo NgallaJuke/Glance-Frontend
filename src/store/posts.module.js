@@ -1,6 +1,6 @@
 import { postServices } from '../services';
 // import router from '../router/index';
-const state = { post: null, status: {}, timeline: null, error: null };
+const state = { post: null, status: null, timeline: null, error: null };
 const getters = {};
 const actions = {
   createpost({ dispatch, commit }, post) {
@@ -25,10 +25,8 @@ const actions = {
     commit('UserTimelineRequest');
     const UserTimeline = await postServices.getUserTimeline();
     if (UserTimeline) {
-      console.log('UserTimeline', UserTimeline);
       commit('UserTimelineSuccess', UserTimeline);
     } else {
-      console.log('UserTimelineFALSE', UserTimeline);
       const error = 'Error getting UserTimeline.';
       commit('UserTimelineFailure', error);
       dispatch('alert/error', error, { root: true });
@@ -43,6 +41,7 @@ const mutations = {
   createPostSuccess(state, post) {
     state.status = { postCreated: true };
     state.post = post;
+    state.timeline.push(post.post);
   },
   createPostFailure(state, error) {
     state.post = null;
@@ -59,7 +58,7 @@ const mutations = {
   UserTimelineFailure(state, error) {
     state.timeline = null;
     state.error = error;
-    state.status = {};
+    state.status = { error: true };
   },
 };
 
