@@ -12,6 +12,7 @@ async function getCurrentUser() {
     headers: authHeader(),
   };
   const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/current-user`, requestOptions);
+  if (!response || !response.ok) return;
   const data = await handleRequest(response);
   return data.UserProfil;
 }

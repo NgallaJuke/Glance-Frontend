@@ -26,7 +26,7 @@ async function getUserTimeline() {
     headers: authHeader(),
   };
   const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/timeline`, requestOptions);
-  if (!response.ok) return;
+  if (!response || !response.ok) return;
   const data = await handleRequest(response);
   return data.userTimeline;
 }

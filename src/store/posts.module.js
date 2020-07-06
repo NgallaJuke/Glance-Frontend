@@ -11,7 +11,7 @@ const actions = {
           commit('createPostSuccess', post);
           dispatch('alert/success', 'Post created successfully.', { root: true });
         } else {
-          commit('createPostFailure', 'error');
+          commit('createPostFailure', 'Error: Image size too big!');
           dispatch('alert/error', 'error', { root: true });
         }
       },

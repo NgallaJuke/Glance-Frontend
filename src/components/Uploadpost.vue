@@ -32,16 +32,6 @@
                 required
               ></v-text-field>
             </v-col>
-
-            <!--
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field
-                  label="Legal last name*"
-                  hint="example of persistent helper text"
-                  persistent-hint
-                  required
-                ></v-text-field>
-              </v-col>-->
           </v-container>
         </v-card-text>
         <v-card-actions>

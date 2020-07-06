@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Auth/Login.vue';
+import Profil from '../views/Account/Profil.vue';
 import Register from '../views/Auth/Register.vue';
 import SuccessRegister from '../views/Auth/SuccessRegister.vue';
 import Home from '../views/Home/Home.vue';
@@ -27,6 +28,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+  },
+  {
+    path: '/account/:userName',
+    name: 'account',
+    component: Profil,
   },
   { path: '*', redirect: '/' },
 ];

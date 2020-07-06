@@ -6,8 +6,8 @@
           <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
             {{ alert.message }}
           </v-alert>
-        </transition></router-view
-      >
+        </transition>
+      </router-view>
     </v-main>
   </v-app>
 </template>
