@@ -1,5 +1,6 @@
 <template>
   <div class="container my-5">
+    <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field
         outlined

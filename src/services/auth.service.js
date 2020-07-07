@@ -27,10 +27,12 @@ function login(credentials) {
     .then((response) => {
       if (response.success) {
         localStorage.setItem('user_token', response.token);
-      } else return response;
-      return response;
+      }
+      return;
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      throw error;
+    });
 }
 
 function logout() {

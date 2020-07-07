@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <v-dialog v-model="dialoge" persistent max-width="600px">
+    <v-dialog v-model="avatarDialoge" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="headline">New Avatar</span>
@@ -9,7 +9,7 @@
           <v-container>
             <v-col cols="12">
               <v-file-input
-                v-model="post.pictures"
+                v-model="avatar"
                 prepend-icon="mdi-camera"
                 chips
                 show-size
@@ -17,8 +17,8 @@
                 dense
                 multiple
                 accept="image/png, image/jpeg, image/jpg"
-                label="Picture"
-                placeholder="Pick a picture"
+                label="Avatar"
+                placeholder="Pick a avatar"
                 required
               ></v-file-input>
             </v-col>
@@ -32,7 +32,7 @@
             text
             @click="
               CloseDialog();
-              CreatePost();
+              UpdateAvatar();
             "
             >Save</v-btn
           >
@@ -43,32 +43,24 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
-  props: ['dialog'],
+  props: ['avatarDialog'],
   data: () => ({
-    post: {
-      pictures: null,
-      description: '',
-    },
-    dialoge: true,
-    // pictureRules: [(v) => !!v || v.size < 2000000 || 'Picture"s size should be less than 2 MB!'],
-    descriptionRules: [(v) => !!v || 'the description is required!'],
+    avatar: null,
+    avatarDialoge: true,
+    pictureRules: [(v) => !!v || v.size < 2000000 || "Avartar's size should be less than 2 MB!"],
   }),
-  computed: {
-    ...mapState({
-      posts: (state) => state.posts,
-    }),
-  },
+
   methods: {
-    ...mapActions('posts', ['createpost']),
+    ...mapActions(['users/updateAvatar']),
 
     CloseDialog() {
-      this.dialoge = false;
+      this.avatarDialoge = false;
       this.$emit('update:closedialog', false);
     },
-    CreatePost() {
-      this.createpost(this.post);
+    UpdateAvatar() {
+      this['users/updateAvatar'](this.avatar);
     },
   },
 };

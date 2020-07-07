@@ -10,16 +10,18 @@ export async function handleRequest(response) {
       localStorage.removeItem('user_token');
       router.push('/login');
     }
+    if (response.status === 404 || response.status === 500) {
+      throw response.statusText;
+    }
+
     // location.reload(true);
-    const error = response.statusText;
-    return Promise.reject(error);
   }
   const data = await response.json();
-  if (data.success === false) {
-    const error = (data && data.message) || response.statusText;
-    return Promise.reject(error);
-  }
-  console.log('2Handlerequest', data);
+  console.log('DATA', data);
 
-  return data;
+  if (!data.success) {
+    throw data.error;
+  } else {
+    return data;
+  }
 }

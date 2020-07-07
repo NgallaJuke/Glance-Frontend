@@ -68,8 +68,6 @@ export default {
       this.currentComp = component;
     },
     ShowDialog() {
-      console.log('SHOWDIALOG');
-
       if (!this.dialog) this.dialog = true;
     },
   },
@@ -77,7 +75,7 @@ export default {
     this['account/getCurrentUser']().then(() => {
       const avatar = this.account.user.avatar;
       const lastIndex = avatar.lastIndexOf('avatars');
-      this.avatar = this.account.user.avatar.substring(lastIndex + 8);
+      this.avatar = avatar.substring(lastIndex + 8);
     });
   },
 };

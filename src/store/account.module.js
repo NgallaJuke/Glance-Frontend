@@ -29,21 +29,17 @@ const actions = {
   },
   login({ dispatch, commit }, credentials) {
     commit('loginRequest', credentials);
-    authServices.login(credentials).then(
-      (response) => {
-        if (response.success === true && response.error === undefined) {
-          commit('loginSuccess', response.user);
-          router.push('/');
-        } else {
-          commit('loginFailure', response.error);
-          dispatch('alert/error', response.error, { root: true });
-        }
-      },
-      (error) => {
+    authServices
+      .login(credentials)
+      .then(() => {
+        dispatch('getCurrentUser');
+        commit('loginSuccess');
+        router.push('/');
+      })
+      .catch((error) => {
         commit('loginFailure', error);
         dispatch('alert/error', error, { root: true });
-      }
-    );
+      });
   },
   logout({ dispatch, commit }) {
     commit('logoutRequest');
@@ -62,11 +58,12 @@ const actions = {
   },
   async getCurrentUser({ dispatch, commit }) {
     commit('UserProfilRequest');
-    const userProfil = await userServices.getCurrentUser();
-    if (userProfil) {
-      commit('UserProfilSuccess', userProfil);
-    } else {
-      const error = 'User Not Found.';
+    try {
+      const UserProfil = await userServices.getCurrentUser();
+      if (UserProfil) {
+        commit('UserProfilSuccess', UserProfil);
+      }
+    } catch (error) {
       commit('UserProfilFailure', error);
       dispatch('alert/error', error, { root: true });
     }
@@ -88,9 +85,8 @@ const mutations = {
   loginRequest(state) {
     state.status = { loggingIn: true };
   },
-  loginSuccess(state, user) {
+  loginSuccess(state) {
     state.status = { loggedIn: true };
-    state.user = user;
   },
   loginFailure(state) {
     state.status = {};

@@ -17,7 +17,9 @@ function createPost(post) {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/create`, requestOptions)
     .then(handleRequest)
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      throw error;
+    });
 }
 
 async function getUserTimeline() {

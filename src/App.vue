@@ -21,12 +21,14 @@ export default {
   computed: {
     ...mapState({
       alert: (state) => state.alert,
+      account: (state) => state.account,
     }),
   },
   methods: {
     ...mapActions({
       clearAlert: 'alert/clear',
       fadeAlert: 'alert/fade',
+      getCurrentuser: 'account/getCurrentuser',
     }),
   },
   updated() {
@@ -38,7 +40,9 @@ export default {
     /* eslint-disable no-unused-vars */
     $route(to, from) {
       // clear alert on location change
-      this.clearAlert();
+      if (this.alert.message) {
+        this.clearAlert();
+      }
     },
     /* eslint-enable no-unused-vars */
   },
