@@ -4,7 +4,11 @@
       <router-view>
         <transition name="slide-fade" cols="6" sm="4" slot="alert">
           <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
-            {{ alert.message }}
+            <h3>
+              <v-icon v-if="alert.type === 'success'">mdi-checkbox-marked-circle-outline</v-icon>
+              <v-icon v-else>mdi-close-circle-outline</v-icon>
+              {{ alert.message }}
+            </h3>
           </v-alert>
         </transition>
       </router-view>

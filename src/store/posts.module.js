@@ -1,6 +1,6 @@
 import { postServices } from '../services';
 // import router from '../router/index';
-const state = { post: null, status: null, timeline: null, error: null };
+const state = { post: null, status: null, timeline: null, error: null, message: null };
 const getters = {};
 const actions = {
   createpost({ dispatch, commit }, post) {
@@ -23,11 +23,15 @@ const actions = {
   },
   async getUserTimeline({ dispatch, commit }) {
     commit('UserTimelineRequest');
-    const UserTimeline = await postServices.getUserTimeline();
-    if (UserTimeline) {
-      commit('UserTimelineSuccess', UserTimeline);
-    } else {
-      const error = 'Error getting UserTimeline.';
+    try {
+      const UserTimeline = await postServices.getUserTimeline();
+      if (UserTimeline) {
+        commit('UserTimelineSuccess', UserTimeline);
+      } else {
+        const message = 'Your Home Timeline is empty. Please follow some users.';
+        commit('UserTimelineEmpty', message);
+      }
+    } catch (error) {
       commit('UserTimelineFailure', error);
       dispatch('alert/error', error, { root: true });
     }
@@ -42,18 +46,29 @@ const mutations = {
     state.status = { postCreated: true };
     state.post = post;
     state.timeline.push(post.post);
+    state.error = null;
   },
   createPostFailure(state, error) {
-    state.post = null;
-    state.status = {};
     state.error = error;
+    state.post = null;
+    state.status = null;
+    state.timeline = null;
   },
   UserTimelineRequest(state) {
     state.status = { laoding: true };
   },
   UserTimelineSuccess(state, userTimeline) {
     state.timeline = userTimeline;
-    state.status = { isLoad: true };
+    state.status = { isLoaded: true };
+    state.post = null;
+    state.error = null;
+  },
+  UserTimelineEmpty(state, message) {
+    state.message = message;
+    state.post = null;
+    state.status = { empty: true };
+    state.error = null;
+    state.timeline = null;
   },
   UserTimelineFailure(state, error) {
     state.timeline = null;

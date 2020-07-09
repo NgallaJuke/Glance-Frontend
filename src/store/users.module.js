@@ -13,7 +13,7 @@ const actions = {
         if (data !== undefined) {
           commit('updateAvatarSuccess', data.user);
           dispatch('alert/success', 'Avatar Updated Successfully.', { root: true });
-          location.reload();
+          location.reload(true);
         } else {
           commit('updateAvatarFailure', 'Error: Image size too big!');
           dispatch('alert/error', 'error', { root: true });

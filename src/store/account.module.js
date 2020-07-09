@@ -14,11 +14,9 @@ const actions = {
         router.push('/login');
         setTimeout(() => {
           // display success message after route change completes
-          dispatch(
-            'alert/success',
-            ['Registration successful.', 'Please check your email to confirm your registration!'],
-            { root: true }
-          );
+          dispatch('alert/success', 'Registration successful. Please check your email to confirm your registration!', {
+            root: true,
+          });
         });
       },
       (error) => {

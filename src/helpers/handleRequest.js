@@ -11,6 +11,8 @@ export async function handleRequest(response) {
       router.push('/login');
     }
     if (response.status === 404 || response.status === 500) {
+      const data = await response.json();
+      if (data.error) throw data.error;
       throw response.statusText;
     }
 
