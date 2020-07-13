@@ -6,6 +6,9 @@
           <v-btn icon><v-icon>mdi-home-variant</v-icon> </v-btn>
         </router-link>
       </v-toolbar-title>
+      <router-link class="ml-5" :to="{ name: 'tailors' }">
+        <v-btn depressed outlined>Tailors <v-icon class="ml-1">mdi-account-star</v-icon></v-btn>
+      </router-link>
       <v-spacer></v-spacer>
       <v-btn class="ma-2" depressed color="white black--text" @click="ShowDialog()">Upload</v-btn>
       <v-menu offsetY open-on-hover left bottom>
@@ -74,8 +77,8 @@ export default {
   created() {
     this['account/getCurrentUser']().then(() => {
       const avatar = this.account.user.avatar;
-      const lastIndex = avatar.lastIndexOf('avatars');
-      this.avatar = avatar.substring(lastIndex + 8);
+
+      this.avatar = avatar.substring(62);
     });
   },
 };

@@ -1,8 +1,11 @@
 import { userServices } from '../services';
 // import router from '../router/index';
 const state = {
-  user: {},
-  status: {},
+  user: null,
+  allUsers: null,
+  status: null,
+  follow: Boolean,
+  unfollow: Boolean,
 };
 const getters = {};
 const actions = {
@@ -37,6 +40,42 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+  async getAllUser({ dispatch, commit }) {
+    commit('UsersRequest');
+    try {
+      const allUsers = await userServices.getAllUser();
+      if (allUsers) {
+        commit('UsersSuccess', allUsers);
+      }
+    } catch (error) {
+      commit('UsersFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+  async followUser({ dispatch, commit }, userID) {
+    commit('followRequest');
+    try {
+      const follow = await userServices.followUser(userID);
+      if (follow.success) {
+        commit('followSuccess', follow.success);
+      }
+    } catch (error) {
+      commit('followFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+  async unfollowUser({ dispatch, commit }, userID) {
+    commit('unfollowRequest');
+    try {
+      const unfollow = await userServices.unFollowUser(userID);
+      if (unfollow.success) {
+        commit('unfollowSuccess', unfollow.success);
+      }
+    } catch (error) {
+      commit('unfollowFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
 };
 const mutations = {
   updateAvatarRequest(state) {
@@ -51,7 +90,7 @@ const mutations = {
     state.user = null;
   },
   UserProfilRequest(state) {
-    state.status = { laoding: true };
+    state.status = { UserProfilLaoding: true };
   },
   UserProfilSuccess(state, userProfil) {
     state.user = userProfil;
@@ -59,6 +98,35 @@ const mutations = {
   },
   UserProfilFailure(state, error) {
     state.user = null;
+    state.error = error;
+  },
+  UsersRequest(state) {
+    state.status = { allUsersLaoding: true };
+  },
+  UsersSuccess(state, allUsers) {
+    state.allUsers = allUsers;
+    state.status = { allUsersSuccess: true };
+  },
+  UsersFailure(state, error) {
+    state.allUsers = null;
+    state.error = error;
+  },
+  followRequest(state) {
+    state.status = { followLaoding: true };
+  },
+  followSuccess(state, follow) {
+    state.status = { followSuccess: follow };
+  },
+  followFailure(state, error) {
+    state.error = error;
+  },
+  unfollowRequest(state) {
+    state.status = { unfollowLaoding: true };
+  },
+  unfollowSuccess(state, unfollow) {
+    state.status = { unfollowSuccess: unfollow };
+  },
+  unfollowFailure(state, error) {
     state.error = error;
   },
 };

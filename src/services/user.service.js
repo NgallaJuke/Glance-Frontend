@@ -6,6 +6,9 @@ export const userServices = {
   getCurrentUser,
   getSingleUser,
   updateAvatar,
+  getAllUser,
+  followUser,
+  unFollowUser,
 };
 
 async function getCurrentUser() {
@@ -36,6 +39,21 @@ async function getSingleUser(userName) {
       throw error;
     });
 }
+async function getAllUser() {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      return response.users;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
 async function updateAvatar(avatar) {
   console.log('AVATAR', avatar);
 
@@ -52,6 +70,35 @@ async function updateAvatar(avatar) {
 
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/update-avatar`, requestOptions)
     .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+async function followUser(userID) {
+  const requestOptions = {
+    method: 'PUT',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${userID}/follow`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      return response.success;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+async function unFollowUser(userID) {
+  const requestOptions = {
+    method: 'PUT',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${userID}/unfollow`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      return response.success;
+    })
     .catch((error) => {
       throw error;
     });

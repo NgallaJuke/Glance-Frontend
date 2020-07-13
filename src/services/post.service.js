@@ -1,7 +1,7 @@
 import { authHeader } from '../helpers';
 
 import { handleRequest } from '../helpers/index';
-export const postServices = { createPost, getUserTimeline };
+export const postServices = { createPost, getUserTimeline, getUserHomeTimeline };
 
 function createPost(post) {
   const formData = new FormData();
@@ -31,4 +31,14 @@ async function getUserTimeline() {
   if (!response || !response.ok) return;
   const data = await handleRequest(response);
   return data.userTimeline;
+}
+async function getUserHomeTimeline() {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/home-timeline`, requestOptions);
+  if (!response || !response.ok) return;
+  const data = await handleRequest(response);
+  return data.userHomeFeed;
 }

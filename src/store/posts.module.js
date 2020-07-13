@@ -36,6 +36,21 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+  async getUserHomeTimeline({ dispatch, commit }) {
+    commit('UserTimelineRequest');
+    try {
+      const UserHomeTimeline = await postServices.getUserHomeTimeline();
+      if (UserHomeTimeline) {
+        commit('UserHomeTimelineSuccess', UserHomeTimeline);
+      } else {
+        const message = 'Your Home Timeline is empty. Please follow some users.';
+        commit('UserHomeTimelineEmpty', message);
+      }
+    } catch (error) {
+      commit('UserHomeTimelineFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
 };
 const mutations = {
   createPostRequest(state, post) {
@@ -72,6 +87,27 @@ const mutations = {
   },
   UserTimelineFailure(state, error) {
     state.timeline = null;
+    state.error = error;
+    state.status = { error: true };
+  },
+  UserHomeTimelineRequest(state) {
+    state.status = { laoding: true };
+  },
+  UserHomeTimelineSuccess(state, userTimeline) {
+    state.hometimeline = userTimeline;
+    state.status = { isLoaded: true };
+    state.post = null;
+    state.error = null;
+  },
+  UserHomeTimelineEmpty(state, message) {
+    state.message = message;
+    state.post = null;
+    state.status = { empty: true };
+    state.error = null;
+    state.hometimeline = null;
+  },
+  UserHomeTimelineFailure(state, error) {
+    state.hometimeline = null;
     state.error = error;
     state.status = { error: true };
   },

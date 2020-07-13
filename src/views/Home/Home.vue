@@ -18,7 +18,6 @@
 <script>
 import { mapState } from 'vuex';
 import AppBar from '../../components/AppBar';
-
 import HomeTimeline from '../../components/HomeTimeline';
 
 export default {

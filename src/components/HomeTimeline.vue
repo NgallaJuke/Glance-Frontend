@@ -13,12 +13,12 @@
         {{ posts.message }}
       </h2>
     </div>
-    <div v-else-if="posts.status.isLoaded">
+    <div v-else-if="posts.timeline">
       <v-container fluid>
         <v-row>
           <v-col v-for="post in posts.timeline.slice().reverse()" :key="post.id" cols="6" sm="4">
-            <v-col v-for="(pic, index) in post.picture" :key="index">
-              <v-img :src="`${url}posts_pic/${pic}`" alt="postImage"></v-img>
+            <v-col>
+              <v-img :src="`${url}posts_pic/${post.picture[0]}`" alt="postImage"></v-img>
             </v-col>
           </v-col>
         </v-row>
