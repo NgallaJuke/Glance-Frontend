@@ -1,7 +1,7 @@
 import { authHeader } from '../helpers';
 
 import { handleRequest } from '../helpers/index';
-export const postServices = { createPost, likePost, getUserTimeline, getUserHomeTimeline };
+export const postServices = { createPost, likePost, getPostFeed };
 
 async function createPost(post) {
   const formData = new FormData();
@@ -33,23 +33,13 @@ async function likePost(postID) {
     });
 }
 
-async function getUserTimeline() {
+async function getPostFeed(timeline) {
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
   };
-  const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/timeline`, requestOptions);
+  const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${timeline}`, requestOptions);
   if (!response || !response.ok) return;
   const data = await handleRequest(response);
-  return data.userTimeline;
-}
-async function getUserHomeTimeline() {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader(),
-  };
-  const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/home-timeline`, requestOptions);
-  if (!response || !response.ok) return;
-  const data = await handleRequest(response);
-  return data.userHomeFeed;
+  return data;
 }

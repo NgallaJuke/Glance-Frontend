@@ -3,69 +3,52 @@ import { postServices } from '../services';
 const state = { post: null, status: null, timeline: null, error: null, message: null };
 const getters = {};
 const actions = {
-  createpost({ dispatch, commit }, post) {
+  async createpost({ dispatch, commit }, post) {
     commit('createPostRequest', post);
-    postServices.createPost(post).then(
-      (post) => {
-        if (post !== undefined) {
-          commit('createPostSuccess', post);
-          dispatch('alert/success', 'Post created successfully.', { root: true });
-        } else {
-          commit('createPostFailure', 'Error: Image size too big!');
-          dispatch('alert/error', 'error', { root: true });
-        }
-      },
-      (error) => {
-        commit('createPostFailure', error);
-        dispatch('alert/error', error, { root: true });
-      }
-    );
-  },
-  likePost({ dispatch, commit }, postID) {
-    commit('likePostRequest');
-    postServices.likePost(postID).then(
-      (data) => {
-        if (data.success !== undefined) {
-          commit('likePostSuccess');
-          dispatch('alert/success', 'Post liked successfully.', { root: true });
-        } else {
-          commit('likePostFailure', 'Error: Error Like Post');
-          dispatch('alert/error', 'error', { root: true });
-        }
-      },
-      (error) => {
-        commit('likePostFailure', error);
-        dispatch('alert/error', error, { root: true });
-      }
-    );
-  },
-  async getUserTimeline({ dispatch, commit }) {
-    commit('UserTimelineRequest');
     try {
-      const UserTimeline = await postServices.getUserTimeline();
-      if (UserTimeline) {
-        commit('UserTimelineSuccess', UserTimeline);
+      const newPost = await postServices.createPost(post);
+      if (newPost.success) {
+        commit('createPostSuccess', newPost);
+        dispatch('alert/success', 'Post created successfully.', { root: true });
       } else {
-        const message = 'Your Home Timeline is empty. Please follow some users.';
-        commit('UserTimelineEmpty', message);
+        commit('createPostFailure', 'Error: Image size too big!');
+        dispatch('alert/error', 'error', { root: true });
       }
     } catch (error) {
-      commit('UserTimelineFailure', error);
+      commit('createPostFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
-  async getUserHomeTimeline({ dispatch, commit }) {
-    commit('UserTimelineRequest');
+
+  async likePost({ dispatch, commit }, postID) {
+    commit('likePostRequest');
     try {
-      const UserHomeTimeline = await postServices.getUserHomeTimeline();
-      if (UserHomeTimeline) {
-        commit('UserHomeTimelineSuccess', UserHomeTimeline);
+      const data = await postServices.likePost(postID);
+      if (data.success) {
+        commit('likePostSuccess');
+        dispatch('alert/success', 'Post liked successfully.', { root: true });
       } else {
-        const message = 'Your Home Timeline is empty. Please follow some users.';
-        commit('UserHomeTimelineEmpty', message);
+        commit('likePostFailure', 'Error: Error Like Post');
+        dispatch('alert/error', 'error', { root: true });
       }
     } catch (error) {
-      commit('UserHomeTimelineFailure', error);
+      commit('likePostFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async getPostFeed({ dispatch, commit }, timeline) {
+    commit('postFeedRequest');
+    try {
+      const postFeed = await postServices.getPostFeed(timeline);
+      if (postFeed.success) {
+        commit('postFeedSuccess', postFeed.timeline);
+      } else {
+        const message = 'Your Home Timeline is empty. Please follow some users.';
+        commit('postFeedEmpty', message);
+      }
+    } catch (error) {
+      commit('postFeedFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -96,23 +79,21 @@ const mutations = {
   likePostFailure(state, error) {
     state.error = error;
   },
-  UserTimelineRequest(state) {
+  postFeedRequest(state) {
     state.status = { laoding: true };
   },
-  UserTimelineSuccess(state, userTimeline) {
-    state.timeline = userTimeline;
+  postFeedSuccess(state, timeline) {
+    state.timeline = timeline;
     state.status = { isLoaded: true };
-    state.post = null;
-    state.error = null;
   },
-  UserTimelineEmpty(state, message) {
+  postFeedEmpty(state, message) {
     state.message = message;
     state.post = null;
     state.status = { empty: true };
     state.error = null;
     state.timeline = null;
   },
-  UserTimelineFailure(state, error) {
+  postFeedFailure(state, error) {
     state.timeline = null;
     state.error = error;
     state.status = { error: true };

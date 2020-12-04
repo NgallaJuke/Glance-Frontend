@@ -47,6 +47,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 export default {
+  props: { timeline: String },
   data: () => ({ url: process.env.VUE_APP_API_URI }),
   computed: {
     ...mapState({
@@ -54,13 +55,13 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['posts/getUserTimeline', 'posts/likePost']),
+    ...mapActions(['posts/getPostFeed', 'posts/likePost']),
     likePost(postID) {
       this['posts/likePost'](postID);
     },
   },
   created() {
-    this['posts/getUserTimeline']();
+    this['posts/getPostFeed'](this.timeline);
   },
 };
 </script>
