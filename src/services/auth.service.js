@@ -12,7 +12,9 @@ function register(user) {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/register`, requestOptions)
     .then(handleRequest)
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      throw error;
+    });
 }
 
 function login(credentials) {

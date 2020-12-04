@@ -8,8 +8,9 @@ const getters = {};
 const actions = {
   register({ dispatch, commit }, user) {
     commit('registerRequest', user);
-    authServices.register(user).then(
-      (user) => {
+    authServices
+      .register(user)
+      .then((user) => {
         commit('registerSuccess', user);
         router.push('/login');
         setTimeout(() => {
@@ -18,12 +19,11 @@ const actions = {
             root: true,
           });
         });
-      },
-      (error) => {
+      })
+      .catch((error) => {
         commit('registerFailure', error);
         dispatch('alert/error', error, { root: true });
-      }
-    );
+      });
   },
   login({ dispatch, commit }, credentials) {
     commit('loginRequest', credentials);

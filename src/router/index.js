@@ -31,8 +31,8 @@ const routes = [
     component: Home,
   },
   {
-    path: '/account/:userName',
-    name: 'account',
+    path: '/:userName',
+    name: 'profil',
     component: Profil,
   },
   {
@@ -49,12 +49,13 @@ const router = new VueRouter({
   routes,
 });
 
+// redirect to login page if not logged in or trying to access a restricted page
 router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
   const publicPagesRoute = ['/login', '/register', '/register-success'];
   const authIsRequired = !publicPagesRoute.includes(to.path);
   const loggedIn = localStorage.getItem('user_token');
   if (authIsRequired && !loggedIn) return next('/login');
   next();
 });
+
 export default router;

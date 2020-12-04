@@ -21,6 +21,24 @@ const actions = {
       }
     );
   },
+  likePost({ dispatch, commit }, postID) {
+    commit('likePostRequest');
+    postServices.likePost(postID).then(
+      (data) => {
+        if (data.success !== undefined) {
+          commit('likePostSuccess');
+          dispatch('alert/success', 'Post liked successfully.', { root: true });
+        } else {
+          commit('likePostFailure', 'Error: Error Like Post');
+          dispatch('alert/error', 'error', { root: true });
+        }
+      },
+      (error) => {
+        commit('likePostFailure', error);
+        dispatch('alert/error', error, { root: true });
+      }
+    );
+  },
   async getUserTimeline({ dispatch, commit }) {
     commit('UserTimelineRequest');
     try {
@@ -68,6 +86,15 @@ const mutations = {
     state.post = null;
     state.status = null;
     state.timeline = null;
+  },
+  likePostRequest(state) {
+    state.status = { likingPost: true };
+  },
+  likePostSuccess(state) {
+    state.status = { postLiked: true };
+  },
+  likePostFailure(state, error) {
+    state.error = error;
   },
   UserTimelineRequest(state) {
     state.status = { laoding: true };

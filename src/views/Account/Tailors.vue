@@ -2,10 +2,8 @@
   <div>
     <AppBar></AppBar>
     <h1>Tailors view</h1>
-    <v-container v-if="!users.allUsers"
-      ><img
-        class="mx-3"
-        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+    <v-container v-if="!users.allUsers">
+      <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"
     /></v-container>
     <v-container>
       <slot name="alert"></slot>
@@ -50,7 +48,7 @@
           </v-row>
         </v-col>
         <v-col depressed cols="12" xs="12" sm="8" md="8" lg="9" outlined>
-          <v-sheet depressed class="mx-auto grey  lighten-3" elevation="8" max-width="800">
+          <v-sheet depressed class="mx-auto grey lighten-3" elevation="8" max-width="800">
             <v-slide-group depressed center-active show-arrows>
               <v-slide-item depressed v-for="n in 5" :key="n" v-slot:default="{ active, toggle }">
                 <v-card

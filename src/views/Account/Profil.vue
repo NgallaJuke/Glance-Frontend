@@ -67,7 +67,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import AppBar from '../../components/AppBar';
-import UpdateAvatar from '../../components/UpdateAvatar';
+import UpdateAvatar from '../../components/Popups/UpdateAvatar';
 
 export default {
   data: () => {
