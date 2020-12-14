@@ -17,13 +17,23 @@
               <v-card class="mx-auto" max-width="325">
                 <v-img :src="`${url}posts_pic/${post.picture[0]}`" alt="postImage" height="370" width="325"></v-img>
                 <v-toolbar max-width="325">
-                  <router-link :to="{ name: 'profil', params: { userName: post.postOwner.userName } }">
+                  <!-- <router-link :to="{ name: 'profil', params: { userName: post.postOwner.userName } }">
                     <v-btn icon v-bind="attrs" v-on="on">
                       <v-avatar small>
                         <img :src="`${url}avatars/${post.postOwner.avatar.substring(62)}`" />
                       </v-avatar>
                     </v-btn>
+                  </router-link> -->
+
+                  <router-link :to="{ name: 'profil', params: { userName: post.postOwner.userName } }">
+                    <v-btn icon>
+                      <v-avatar v-if="post.postOwner.avatar">
+                        <img :src="`${url}avatars/${post.postOwner.avatar.substring(62)}`" />
+                      </v-avatar>
+                      <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
+                    </v-btn>
                   </router-link>
+
                   <h3>{{ post.postOwner.userName }}</h3>
                   <v-spacer></v-spacer>
                   <v-btn icon small>
