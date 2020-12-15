@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="posts.status.laoding">
+    <div v-if="posts.status.loading">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
     <div v-else-if="posts.status.empty">
@@ -51,6 +51,9 @@
         </v-row>
       </v-container>
     </div>
+    <div v-else-if="!posts.timeline">
+      <h4 style="color: red">your timmeline is Empty</h4>
+    </div>
   </div>
 </template>
 
@@ -71,7 +74,18 @@ export default {
     },
   },
   created() {
-    this['posts/getPostFeed'](this.timeline);
+    if (this.timeline === 'timeline') {
+      const payload = {
+        timeline: this.timeline,
+      };
+      this['posts/getPostFeed'](payload);
+    } else {
+      const payload = {
+        timeline: this.timeline,
+        userName: this.$route.params.userName,
+      };
+      this['posts/getPostFeed'](payload);
+    }
   },
 };
 </script>

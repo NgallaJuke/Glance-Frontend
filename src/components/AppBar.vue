@@ -15,8 +15,8 @@
         <template v-slot:activator="{ on, attrs }">
           <router-link :to="{ name: 'profil', params: { userName: account.user.userName } }">
             <v-btn icon v-bind="attrs" v-on="on">
-              <v-avatar v-if="!account.status.loggingOut && avatar !== ''">
-                <img :src="`${url}avatars/${avatar}`" />
+              <v-avatar v-if="account.user.avatar">
+                <img :src="`${url}avatars/${account.user.avatar.substring(62)}`" />
               </v-avatar>
               <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
             </v-btn>
@@ -41,10 +41,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import UploadPost from './Popups/Uploadpost';
 
 export default {
+  props: { account: Object },
   data: () => {
     return {
       url: process.env.VUE_APP_API_URI,
@@ -53,13 +54,9 @@ export default {
       dialog: false,
     };
   },
-  computed: {
-    ...mapState({
-      account: (state) => state.account,
-    }),
-  },
+
   methods: {
-    ...mapActions(['account/getCurrentUser', 'account/logout']),
+    ...mapActions(['account/logout']),
     Logout() {
       this['account/logout']();
     },
@@ -70,11 +67,11 @@ export default {
       if (!this.dialog) this.dialog = true;
     },
   },
-  created() {
-    this['account/getCurrentUser']().then(() => {
-      const avatar = this.account.user.avatar;
-      this.avatar = avatar.substring(62);
-    });
-  },
+  // created() {
+  //   this['account/getCurrentUser']().then(() => {
+  //     const avatar = this.account.user.avatar;
+  //     this.avatar = avatar.substring(62);
+  //   });
+  // },
 };
 </script>

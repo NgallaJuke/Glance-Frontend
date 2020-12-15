@@ -1,6 +1,6 @@
 import { authHeader } from '../helpers';
 
-import { handleRequest } from '../helpers/index';
+import { handleRequest, handleRequestPostFeed } from '../helpers/index';
 export const postServices = { createPost, likePost, getPostFeed };
 
 async function createPost(post) {
@@ -33,13 +33,23 @@ async function likePost(postID) {
     });
 }
 
-async function getPostFeed(timeline) {
+async function getPostFeed(timeline, userName) {
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
   };
-  const response = await fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${timeline}`, requestOptions);
-  if (!response || !response.ok) return;
-  const data = await handleRequest(response);
-  return data;
+
+  if (timeline === 'timeline') {
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${timeline}`, requestOptions)
+      .then(handleRequestPostFeed)
+      .catch((error) => {
+        throw error;
+      });
+  } else {
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${userName}/${timeline}`, requestOptions)
+      .then(handleRequestPostFeed)
+      .catch((error) => {
+        throw error;
+      });
+  }
 }

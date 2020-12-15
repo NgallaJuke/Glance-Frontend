@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppBar></AppBar>
+    <AppBar v-if="account" :account="account"></AppBar>
     <slot name="alert"></slot>
     <h1>Profil Component</h1>
     <div v-if="users.user" class="container" align="center">
@@ -35,7 +35,7 @@
     </div>
     <v-divider></v-divider>
 
-    <div v-if="posts.status.laoding">
+    <div v-if="posts.status.loading">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
 
@@ -63,22 +63,28 @@ export default {
   computed: {
     ...mapState({
       users: (state) => state.users,
+      account: (state) => state.account,
       posts: (state) => state.posts,
     }),
   },
   methods: {
-    ...mapActions(['users/getSingleUser', 'posts/getPostFeed']),
+    ...mapActions(['account/getCurrentUser', 'users/getSingleUser', 'posts/getPostFeed']),
     ShowDialog() {
       if (!this.avatarDialog) this.avatarDialog = true;
     },
   },
   created() {
+    this['account/getCurrentUser']();
     this['users/getSingleUser'](this.$route.params.userName).then(() => {
       const avatar = this.users.user.avatar;
       const lastIndex = avatar.lastIndexOf('avatars');
       this.avatar = this.users.user.avatar.substring(lastIndex + 8);
     });
-    this['posts/getPostFeed'](this.timeline);
+    const payload = {
+      timeline: this.timeline,
+      userName: this.$route.params.userName,
+    };
+    this['posts/getPostFeed'](payload);
   },
 };
 </script>

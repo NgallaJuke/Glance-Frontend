@@ -1,6 +1,6 @@
 import { postServices } from '../services';
 // import router from '../router/index';
-const state = { post: null, status: null, timeline: null, error: null, message: null };
+const state = { post: null, status: null, timeline: [], error: null, message: null };
 const getters = {};
 const actions = {
   async createpost({ dispatch, commit }, post) {
@@ -37,14 +37,27 @@ const actions = {
     }
   },
 
-  async getPostFeed({ dispatch, commit }, timeline) {
+  async getPostFeed({ dispatch, commit }, paylaod) {
     commit('postFeedRequest');
     try {
-      const postFeed = await postServices.getPostFeed(timeline);
+      let postFeed = {};
+      if (paylaod.userName) {
+        postFeed = await postServices.getPostFeed(paylaod.timeline, paylaod.userName);
+      } else {
+        postFeed = await postServices.getPostFeed(paylaod.timeline);
+      }
+
+      console.log('POSTFEED MODULE', postFeed);
+
+      if (!postFeed) {
+        const message = 'Your Timeline is empty.';
+        commit('postFeedEmpty', message);
+        return;
+      }
       if (postFeed.success) {
         commit('postFeedSuccess', postFeed.timeline);
       } else {
-        const message = 'Your Home Timeline is empty. Please follow some users.';
+        const message = 'Your Home Timeline is empty.';
         commit('postFeedEmpty', message);
       }
     } catch (error) {
@@ -68,7 +81,6 @@ const mutations = {
     state.error = error;
     state.post = null;
     state.status = null;
-    state.timeline = null;
   },
   likePostRequest(state) {
     state.status = { likingPost: true };
@@ -80,7 +92,7 @@ const mutations = {
     state.error = error;
   },
   postFeedRequest(state) {
-    state.status = { laoding: true };
+    state.status = { loading: true };
   },
   postFeedSuccess(state, timeline) {
     state.timeline = timeline;
@@ -91,7 +103,6 @@ const mutations = {
     state.post = null;
     state.status = { empty: true };
     state.error = null;
-    state.timeline = null;
   },
   postFeedFailure(state, error) {
     state.timeline = null;
@@ -99,7 +110,7 @@ const mutations = {
     state.status = { error: true };
   },
   UserHomeTimelineRequest(state) {
-    state.status = { laoding: true };
+    state.status = { loading: true };
   },
   UserHomeTimelineSuccess(state, userTimeline) {
     state.hometimeline = userTimeline;
