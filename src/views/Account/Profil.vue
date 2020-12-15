@@ -79,19 +79,27 @@ export default {
     ShowDialog() {
       if (!this.avatarDialog) this.avatarDialog = true;
     },
+    StoreStateCall() {
+      this['account/getCurrentUser']();
+      this['users/getSingleUser'](this.$route.params.userName).then(() => {
+        const avatar = this.users.user.avatar;
+        const lastIndex = avatar.lastIndexOf('avatars');
+        this.avatar = this.users.user.avatar.substring(lastIndex + 8);
+      });
+      const payload = {
+        timeline: this.timeline,
+        userName: this.$route.params.userName,
+      };
+      this['posts/getPostFeed'](payload);
+    },
   },
   created() {
-    this['account/getCurrentUser']();
-    this['users/getSingleUser'](this.$route.params.userName).then(() => {
-      const avatar = this.users.user.avatar;
-      const lastIndex = avatar.lastIndexOf('avatars');
-      this.avatar = this.users.user.avatar.substring(lastIndex + 8);
-    });
-    const payload = {
-      timeline: this.timeline,
-      userName: this.$route.params.userName,
-    };
-    this['posts/getPostFeed'](payload);
+    this.StoreStateCall();
+  },
+  watch: {
+    $route(to, from) {
+      if (from.name === to.name) this.StoreStateCall();
+    },
   },
 };
 </script>

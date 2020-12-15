@@ -47,8 +47,6 @@ const actions = {
         postFeed = await postServices.getPostFeed(paylaod.timeline);
       }
 
-      console.log('POSTFEED MODULE', postFeed);
-
       if (!postFeed) {
         const message = 'Your Timeline is empty.';
         commit('postFeedEmpty', message);
