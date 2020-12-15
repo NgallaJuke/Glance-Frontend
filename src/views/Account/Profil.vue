@@ -2,7 +2,6 @@
   <div>
     <AppBar v-if="account" :account="account"></AppBar>
     <slot name="alert"></slot>
-    <h1>Profil Component</h1>
     <div v-if="users.user" class="container" align="center">
       <v-row justify="center">
         <v-col cols="3" sm="6" md="4">
@@ -11,7 +10,15 @@
           </v-avatar>
           <div>
             <h3 class="my-1">{{ users.user.userName }}</h3>
-            <v-btn class="my-1" outlined color="primary" dark @click="ShowDialog()">Edit Profil</v-btn>
+            <v-btn
+              v-if="account.user._id === users.user._id"
+              class="my-1"
+              outlined
+              color="primary"
+              dark
+              @click="ShowDialog()"
+              >Edit Profil</v-btn
+            >
             <div
               v-if="avatarDialog"
               :is="avartarComp"
