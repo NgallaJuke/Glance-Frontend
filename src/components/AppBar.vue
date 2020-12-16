@@ -3,7 +3,9 @@
     <v-app-bar color="primary accent-4" dense dark>
       <v-toolbar-title>
         <router-link :to="{ name: 'home' }">
-          <v-btn icon><v-icon>mdi-home-variant</v-icon> </v-btn>
+          <v-btn icon
+            ><img src="https://s.svgbox.net/hero-outline.svg?ic=home&fill=fff" width="40" height="40" />
+          </v-btn>
         </router-link>
       </v-toolbar-title>
       <router-link class="ml-5" :to="{ name: 'tailors' }">

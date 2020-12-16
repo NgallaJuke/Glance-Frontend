@@ -36,6 +36,22 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+  async disLikePost({ dispatch, commit }, postID) {
+    commit('disLikePostRequest');
+    try {
+      const data = await postServices.disLikePost(postID);
+      if (data.success) {
+        commit('disLikePostSuccess');
+        dispatch('alert/success', 'Post disLiked successfully.', { root: true });
+      } else {
+        commit('disLikePostFailure', 'Error: Error Like Post');
+        dispatch('alert/error', 'error', { root: true });
+      }
+    } catch (error) {
+      commit('disLikePostFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
 
   async getPostFeed({ dispatch, commit }, paylaod) {
     commit('postFeedRequest');
@@ -87,6 +103,15 @@ const mutations = {
     state.status = { postLiked: true };
   },
   likePostFailure(state, error) {
+    state.error = error;
+  },
+  disLikePostRequest(state) {
+    state.status = { disLikingPost: true };
+  },
+  disLikePostSuccess(state) {
+    state.status = { postDisLiked: true };
+  },
+  disLikePostFailure(state, error) {
     state.error = error;
   },
   postFeedRequest(state) {

@@ -10,9 +10,14 @@
         <v-col cols="12" xs="12" sm="4" md="4" lg="3" outlined>
           <v-row no-gutters justify="center">
             <v-col xs="5" sm="5" md="5" lg="5" align="center">
-              <v-avatar size="70">
-                <img :src="`${url}avatars/${user.avatar.substring(62)}`" alt="avatar" />
-              </v-avatar>
+              <router-link :to="{ name: 'profil', params: { userName: user.userName } }">
+                <v-btn icon>
+                  <v-avatar size="70" v-if="user.avatar">
+                    <img :src="`${url}avatars/${user.avatar.substring(62)}`" alt="avatar" />
+                  </v-avatar>
+                  <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
+                </v-btn>
+              </router-link>
             </v-col>
             <v-col v-show="account.user && user" xs="7" sm="7" md="7" lg="7" align="center">
               <v-row
