@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-main class=" grey lighten-3">
+    <v-main class="grey lighten-3">
+      <AppBar v-if="account.status.loggedIn" :account="account"></AppBar>
       <router-view>
         <transition name="slide-fade" cols="6" sm="4" slot="alert">
           <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
@@ -17,11 +18,13 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
+import AppBar from './components/AppBar';
 export default {
   name: 'App',
   data() {
     return { show: true };
   },
+  components: { AppBar },
   computed: {
     ...mapState({
       alert: (state) => state.alert,
@@ -32,8 +35,11 @@ export default {
     ...mapActions({
       clearAlert: 'alert/clear',
       fadeAlert: 'alert/fade',
-      getCurrentuser: 'account/getCurrentuser',
+      getCurrentUser: 'account/getCurrentUser',
     }),
+  },
+  created() {
+    this.getCurrentUser();
   },
   updated() {
     setTimeout(() => {
@@ -48,7 +54,7 @@ export default {
         this.clearAlert();
       }
     },
-    /* eslint-enable no-unused-vars */
+    /* eslint-disable no-unused-vars */
   },
 };
 </script>

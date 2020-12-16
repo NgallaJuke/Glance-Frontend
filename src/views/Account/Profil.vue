@@ -1,6 +1,5 @@
 <template>
   <div>
-    <AppBar v-if="account" :account="account"></AppBar>
     <slot name="alert"></slot>
     <div v-if="users.user" class="container" align="center">
       <v-row justify="center">
@@ -41,18 +40,15 @@
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
     <v-divider></v-divider>
-
     <div v-if="posts.status.loading">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
-
     <TimeLine :timeline="timeline"></TimeLine>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import AppBar from '../../components/AppBar';
 import TimeLine from '../../components/TimeLine';
 import UpdateAvatar from '../../components/Popups/UpdateAvatar';
 
@@ -66,21 +62,20 @@ export default {
       timeline: 'home-timeline',
     };
   },
-  components: { AppBar, TimeLine },
+  components: { TimeLine },
   computed: {
     ...mapState({
-      users: (state) => state.users,
       account: (state) => state.account,
+      users: (state) => state.users,
       posts: (state) => state.posts,
     }),
   },
   methods: {
-    ...mapActions(['account/getCurrentUser', 'users/getSingleUser', 'posts/getPostFeed']),
+    ...mapActions(['users/getSingleUser', 'posts/getPostFeed']),
     ShowDialog() {
       if (!this.avatarDialog) this.avatarDialog = true;
     },
     StoreStateCall() {
-      this['account/getCurrentUser']();
       this['users/getSingleUser'](this.$route.params.userName).then(() => {
         const avatar = this.users.user.avatar;
         const lastIndex = avatar.lastIndexOf('avatars');

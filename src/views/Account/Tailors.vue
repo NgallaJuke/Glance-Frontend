@@ -1,7 +1,5 @@
 <template>
   <div>
-    <AppBar></AppBar>
-    <h1>Tailors view</h1>
     <v-container v-if="!users.allUsers">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"
     /></v-container>
@@ -75,19 +73,12 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import AppBar from '../../components/AppBar';
-// import UpdateAvatar from '../../components/UpdateAvatar';
-
 export default {
   data: () => {
     return {
       url: process.env.VUE_APP_API_URI,
-      // avatar: '',
-      // avartarComp: UpdateAvatar,
-      // avatarDialog: false,
     };
   },
-  components: { AppBar },
   computed: {
     ...mapState({
       users: (state) => state.users,
