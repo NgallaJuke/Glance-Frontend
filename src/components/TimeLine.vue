@@ -15,8 +15,15 @@
           <v-col v-for="post in posts.timeline.slice().reverse()" :key="post.id" cols="6" md="4" sm="6">
             <v-col>
               <v-card class="mx-auto" max-width="325" style="border-radius: 15px 15px 0 0">
-                <v-img :src="`${url}posts_pic/${post.picture[0]}`" alt="postImage" height="370" width="325"></v-img>
-                <v-toolbar max-width="325">
+                <v-img
+                  class="card_img"
+                  :src="`${url}posts_pic/${post.picture[0]}`"
+                  @click="ShowDialog(post)"
+                  alt="postImage"
+                  height="370"
+                  width="325"
+                ></v-img>
+                <v-toolbar class="grey lighten-4" flat max-width="325">
                   <router-link :to="{ name: 'profil', params: { userName: post.postOwner.userName } }">
                     <v-btn icon>
                       <v-avatar size="40" v-if="post.postOwner.avatar">
@@ -65,14 +72,23 @@
     <div v-else-if="!posts.timeline">
       <h4 style="color: red">your timmeline is Empty</h4>
     </div>
+    <div
+      v-if="dialog"
+      :closedialog="dialog"
+      :dialog="dialog"
+      :post="post"
+      @update:closedialog="dialog = $event"
+      :is="dialogComp"
+    ></div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import PostCard from './Popups/PostCard';
 export default {
   props: { timeline: String },
-  data: () => ({ url: process.env.VUE_APP_API_URI }),
+  data: () => ({ url: process.env.VUE_APP_API_URI, dialogComp: PostCard, dialog: false, post: { type: Object } }),
   computed: {
     ...mapState({
       posts: (state) => state.posts,
@@ -90,6 +106,10 @@ export default {
       this['posts/disLikePost'](post._id);
       post.likes.count--;
       post.likes.liker.splice(post.likes.liker.indexOf(this.account.user._id), 1);
+    },
+    ShowDialog(post) {
+      this.post = post;
+      if (!this.dialog) this.dialog = true;
     },
   },
   created() {
@@ -121,5 +141,8 @@ export default {
     rgba(0, 0, 255, 0.25) 5px,
     rgba(0, 0, 255, 0.25) 10px
   );
+}
+.card_img:hover {
+  cursor: pointer;
 }
 </style>
