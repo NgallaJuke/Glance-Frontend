@@ -42,7 +42,7 @@
                   outlined
                   @click="
                     UnFollowUser(user._id);
-                    user.follower.pop(account.user._id);
+                    user.follower.splice(user.follower.indexOf(account.user._id), 1);
                   "
                   >UnFollow</v-btn
                 >
@@ -86,7 +86,6 @@ export default {
   },
   computed: {
     ...mapState({
-      users: (state) => state.users,
       posts: (state) => state.posts,
       account: (state) => state.account,
     }),
