@@ -36,6 +36,7 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async disLikePost({ dispatch, commit }, postID) {
     commit('disLikePostRequest');
     try {
@@ -80,6 +81,7 @@ const actions = {
     }
   },
 };
+
 const mutations = {
   createPostRequest(state, post) {
     state.status = { postCreating: true };

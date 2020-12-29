@@ -81,11 +81,11 @@
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-container>
                 <v-row>
-                  <v-col cols="12" md="4">
-                    <v-text-field v-model="comment" :rules="commentRules" label="Comment" required></v-text-field>
+                  <v-col cols="12" md="2">
+                    <v-btn :disabled="!valid" color="primary" @click="makeComment(recevidPost._id)"> Publish </v-btn>
                   </v-col>
-                  <v-col cols="12" md="4">
-                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate"> Validate </v-btn>
+                  <v-col cols="12" md="10">
+                    <v-text-field v-model="comment" :rules="commentRules" label="Comment" required></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -120,13 +120,24 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['posts/likePost', 'posts/disLikePost', 'users/followUser', 'users/unfollowUser']),
+    ...mapActions([
+      'posts/likePost',
+      'posts/disLikePost',
+      'comments/makeComment',
+      'users/followUser',
+      'users/unfollowUser',
+    ]),
     CloseDialog() {
       this.dialoge = false;
       this.$emit('update:closedialog', false);
     },
-    validate() {
+    makeComment(postID) {
       this.$refs.form.validate();
+      const payload = {
+        comment: this.comment,
+        postID,
+      };
+      this['comments/makeComment'](payload);
     },
     FollowUser(userID) {
       this['users/followUser'](userID);

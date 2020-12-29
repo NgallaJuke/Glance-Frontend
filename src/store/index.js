@@ -4,12 +4,13 @@ import Vuex from 'vuex';
 import { account } from './account.module';
 import { users } from './users.module';
 import { posts } from './posts.module';
+import { comments } from './comments.module';
 import { alert } from './alert.module';
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-  modules: { account, users, posts, alert },
+  modules: { account, users, posts, comments, alert },
   strict: process.env.NODE_ENV !== 'production',
 });
 
