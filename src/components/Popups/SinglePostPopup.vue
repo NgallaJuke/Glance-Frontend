@@ -117,6 +117,7 @@ export default {
   computed: {
     ...mapState({
       account: (state) => state.account,
+      comments: (state) => state.comments,
     }),
   },
   methods: {
@@ -131,13 +132,16 @@ export default {
       this.dialoge = false;
       this.$emit('update:closedialog', false);
     },
-    makeComment(postID) {
+    async makeComment(postID) {
       this.$refs.form.validate();
       const payload = {
         comment: this.comment,
         postID,
       };
-      this['comments/makeComment'](payload);
+      await this['comments/makeComment'](payload);
+      this.recevidPost.comments.comment.push(this.comments.comment[this.comments.comment.length - 1]);
+      this.$emit('commentpost', this.comments.comment[this.comments.comment.length - 1]._id);
+      this.$refs.form.reset();
     },
     FollowUser(userID) {
       this['users/followUser'](userID);

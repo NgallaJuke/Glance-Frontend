@@ -29,7 +29,7 @@
             style="margin: 0 10px"
           />
         </v-btn>
-        <h5 style="margin-right: 10px">00</h5>
+        <h5 style="margin-right: 10px">{{ recevidPost.comments.count }}</h5>
         <v-btn icon small>
           <img
             v-if="isLiked"
@@ -58,6 +58,7 @@
       @update:closedialog="dialog = $event"
       @likepost="likePostEmited($event)"
       @dislikepost="dislikePostEmited($event)"
+      @commentpost="commentPostEmited($event)"
       :is="dialogComp"
     ></div>
   </div>
@@ -104,6 +105,10 @@ export default {
       this.isLiked = $event;
       this.recevidPost.likes.count--;
       this.recevidPost.likes.liker.splice(this.recevidPost.likes.liker.indexOf(this.account.user._id), 1);
+    },
+    commentPostEmited($event) {
+      this.recevidPost.comments.comment.push($event);
+      this.recevidPost.comments.count++;
     },
     ShowDialog(post) {
       this.post = post;

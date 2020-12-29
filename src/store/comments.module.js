@@ -1,5 +1,5 @@
 import { commentServices } from '../services';
-const state = { comment: null, status: null, error: null };
+const state = { comment: [], post: null, status: null, error: null };
 const getters = {};
 const actions = {
   async makeComment({ dispatch, commit }, payload) {
@@ -7,7 +7,7 @@ const actions = {
     try {
       const data = await commentServices.makeComment(payload);
       if (data.success) {
-        commit('makeCommentSuccess', data);
+        commit('makeCommentSuccess', { comment: data.comment, postID: payload.postID });
         dispatch('alert/success', 'Post commented successfully', { root: true });
       } else {
         commit('makeCommentFailure', 'Error: Error comment Post');
@@ -24,9 +24,10 @@ const mutations = {
   makeCommentRequest(state) {
     state.status = { commentingPost: true };
   },
-  makeCommentSuccess(state, comment) {
-    state.status = { postCommente: true };
-    state.comment = comment;
+  makeCommentSuccess(state, { comment, postID }) {
+    state.status = { postCommented: true };
+    state.comment.push(comment);
+    state.post = postID;
     state.error = null;
   },
   makeCommentFailure(state, error) {
