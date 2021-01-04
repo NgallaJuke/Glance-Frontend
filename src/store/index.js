@@ -16,15 +16,17 @@ export const store = new Vuex.Store({
 
 if (module.hot) {
   // accept actions and mutations as hot modules
-  module.hot.accept(['./posts.module'], () => {
+  module.hot.accept(['./posts.module.js', './comments.module.js'], () => {
     // require the updated modules
     // have to add .default here due to babel 6 module output
 
-    const newPosts = require('./posts.module').default;
+    const newPosts = require('./posts.module.js').default;
+    const newComments = require('./posts.module.js').default;
     // swap in the new modules and mutations
     store.hotUpdate({
       modules: {
         posts: newPosts,
+        comments: newComments,
       },
     });
   });
