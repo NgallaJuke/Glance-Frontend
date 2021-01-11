@@ -69,11 +69,5 @@ export default {
       if (!this.dialog) this.dialog = true;
     },
   },
-  // created() {
-  //   this['account/getCurrentUser']().then(() => {
-  //     const avatar = this.account.user.avatar;
-  //     this.avatar = avatar.substring(62);
-  //   });
-  // },
 };
 </script>

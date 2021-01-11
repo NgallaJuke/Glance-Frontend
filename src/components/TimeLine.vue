@@ -12,7 +12,7 @@
     <div v-else-if="posts.timeline">
       <v-container fluid>
         <v-row>
-          <v-col v-for="(post, index) in posts.timeline.slice().reverse()" :key="index" cols="6" md="4" sm="6">
+          <v-col v-for="post in posts.timeline.slice().reverse()" :key="post._id" cols="6" md="4" sm="6">
             <PostCard :post="post"></PostCard>
           </v-col>
         </v-row>
