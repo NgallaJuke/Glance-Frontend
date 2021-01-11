@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mx-auto" max-width="325" style="border-radius: 15px 15px 0 0">
+    <v-card class="mx-auto" max-width="325" style="border-radius: 10px">
       <v-img
         class="card_img"
         :src="`${url}posts_pic/${recevidPost.picture[0]}`"
@@ -11,8 +11,8 @@
       ></v-img>
       <v-toolbar class="grey lighten-4" flat max-width="325">
         <router-link :to="{ name: 'profil', params: { userName: recevidPost.postOwner.userName } }">
-          <v-btn icon>
-            <v-avatar size="40" v-if="recevidPost.postOwner.avatar">
+          <v-btn icon class="mr-1">
+            <v-avatar size="45" v-if="recevidPost.postOwner.avatar">
               <img :src="`${url}avatars/${recevidPost.postOwner.avatar.substring(62)}`" />
             </v-avatar>
             <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
