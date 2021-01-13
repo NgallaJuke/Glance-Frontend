@@ -1,7 +1,8 @@
 <template>
   <div>
     <slot name="alert"></slot>
-    <div class="container">
+    <div class="spacer"></div>
+    <div class="container--fluid" style="display: flex; justify-content: center">
       <TimeLine :timeline="timeline"></TimeLine>
     </div>
   </div>
@@ -18,3 +19,9 @@ export default {
   components: { TimeLine },
 };
 </script>
+
+<style  scoped>
+.spacer {
+  height: calc(2vh + 2vw);
+}
+</style>

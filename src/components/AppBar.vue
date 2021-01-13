@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="primary accent-4" dense dark>
+    <v-app-bar color="primary accent-4" dark>
       <v-toolbar-title>
         <router-link :to="{ name: 'home' }">
           <v-btn icon

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 90%">
     <div v-if="posts.status.loading">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
