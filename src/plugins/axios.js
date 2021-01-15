@@ -4,7 +4,7 @@ import Vue from 'vue';
 import axios from 'axios';
 
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || 'http://192.168.1.4:5000/api/v1/';
+axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || 'http://localhost:5000/api/v1/';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

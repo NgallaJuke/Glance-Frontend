@@ -31,7 +31,7 @@
               <h5 id="like_count">{{ comment.likes.count }}</h5>
             </li>
             <li class="btn" v-if="comment.user._id === account.user._id">
-              <v-btn small icon>
+              <v-btn small icon @click="DeleteComment()">
                 <img src="https://s.svgbox.net/materialui.svg?ic=delete_outline&fill=red" width="22" height="22" />
               </v-btn>
             </li>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   props: {
     comment: { type: Object, required: true },
@@ -59,6 +59,17 @@ export default {
     ...mapState({
       account: (state) => state.account,
     }),
+  },
+  methods: {
+    ...mapActions(['comments/deleteComment']),
+    DeleteComment() {
+      const payload = {
+        postID: this.comment.post,
+        commentID: this.comment._id,
+      };
+      this['comments/deleteComment'](payload);
+      this.$emit('deleteComment', this.comment._id);
+    },
   },
   created() {
     if (this.comment.likes.liker.includes(this.account.user._id)) {

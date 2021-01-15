@@ -84,8 +84,8 @@
             <h3 style="color: red">Error fetching comment</h3>
           </div>
           <div class="comments" v-else>
-            <div v-for="(comment, index) in orderedComments" :key="index" class="comment-list">
-              <Comment :comment="comment"></Comment>
+            <div v-for="comment in orderedComments" :key="comment._id" class="comment-list">
+              <Comment :comment="comment" @deleteComment="deleteComment($emit)"></Comment>
             </div>
           </div>
           <div class="make_comment">
@@ -173,6 +173,10 @@ export default {
       this.receivedPost.likes.liker.splice(this.receivedPost.likes.liker.indexOf(this.account.user._id), 1);
       this.isLiked = false;
       this.$emit('dislikepost', false);
+    },
+    deleteComment(commentID) {
+      const index = this.orderedComments.findIndex((f) => f.commentID === commentID);
+      this.orderedComments.splice(index, 1);
     },
   },
   created() {

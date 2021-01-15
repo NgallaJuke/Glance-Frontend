@@ -25,6 +25,7 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async getAllPostComments({ dispatch, commit }, postID) {
     commit('getAllPostCommentsRequest');
     try {
@@ -37,6 +38,23 @@ const actions = {
       }
     } catch (error) {
       commit('getAllPostCommentsFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async deleteComment({ dispatch, commit }, payload) {
+    commit('deleteCommentRequest');
+    try {
+      let data = await commentServices.deleteComment(payload);
+      if (data.success) {
+        commit('deleteCommentSuccess');
+        dispatch('alert/success', 'Comment deleted successfully', { root: true });
+      } else {
+        commit('deleteCommentFailure', 'Error: Error comment Post');
+        dispatch('alert/error', 'error', { root: true });
+      }
+    } catch (error) {
+      commit('deleteCommentFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -54,6 +72,19 @@ const mutations = {
     state.error = null;
   },
   makeCommentFailure(state, error) {
+    state.error = error;
+    state.comment = null;
+    state.status = { CommentFailed: true };
+  },
+  deleteCommentRequest(state) {
+    state.status = { deletingPost: true };
+  },
+  deleteCommentSuccess(state) {
+    state.status = { commentDeleted: true };
+    state.post = null;
+    state.error = null;
+  },
+  deleteCommentFailure(state, error) {
     state.error = error;
     state.comment = null;
     state.status = { CommentFailed: true };
