@@ -33,7 +33,7 @@
         <v-btn icon small>
           <img
             v-if="isLiked"
-            @click="disLikePost(recevidPost)"
+            @click="DisLikePost(recevidPost)"
             @update:likepost="isLiked = $event"
             src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
             width="25"
@@ -41,7 +41,7 @@
           />
           <img
             v-else
-            @click="likePost(recevidPost)"
+            @click="LikePost(recevidPost)"
             src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
             width="25"
             height="25"
@@ -56,9 +56,10 @@
       :dialog="dialog"
       :post="recevidPost"
       @update:closedialog="dialog = $event"
-      @likepost="likePostEmited($event)"
-      @dislikepost="dislikePostEmited($event)"
-      @commentpost="commentPostEmited($event)"
+      @likepost="LikePostEmited($event)"
+      @dislikepost="DislikePostEmited($event)"
+      @commentpost="CommentPostEmited($event)"
+      @deletecomment="DeleteComment()"
       :is="dialogComp"
     ></div>
   </div>
@@ -84,31 +85,34 @@ export default {
   },
   methods: {
     ...mapActions(['posts/likePost', 'posts/disLikePost']),
-    likePost(recevidPost) {
+    LikePost(recevidPost) {
       this['posts/likePost'](recevidPost._id);
       this.isLiked = true;
       this.recevidPost.likes.count++;
       this.recevidPost.likes.liker.push(this.account.user._id);
     },
-    disLikePost(recevidPost) {
+    DisLikePost(recevidPost) {
       this['posts/disLikePost'](recevidPost._id);
       this.isLiked = false;
       this.recevidPost.likes.count--;
       this.recevidPost.likes.liker.splice(this.recevidPost.likes.liker.indexOf(this.account.user._id), 1);
     },
-    likePostEmited($event) {
+    LikePostEmited($event) {
       this.isLiked = $event;
       this.recevidPost.likes.count++;
       this.recevidPost.likes.liker.push(this.account.user._id);
     },
-    dislikePostEmited($event) {
+    DislikePostEmited($event) {
       this.isLiked = $event;
       this.recevidPost.likes.count--;
       this.recevidPost.likes.liker.splice(this.recevidPost.likes.liker.indexOf(this.account.user._id), 1);
     },
-    commentPostEmited($event) {
+    CommentPostEmited($event) {
       this.recevidPost.comments.comment.push($event);
       this.recevidPost.comments.count++;
+    },
+    DeleteComment() {
+      this.recevidPost.comments.count--;
     },
     ShowDialog(post) {
       this.post = post;

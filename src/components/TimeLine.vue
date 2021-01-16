@@ -4,7 +4,7 @@
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
     <div v-else-if="posts.status.empty">
-      <img src="https://s.svgbox.net/hero-solid.svg?ic=eye-off&fill=000" width="50" height="50" />
+      <img src="https://s.svgbox.net/hero-solid.svg?ic=eye-off&fill=000" width="32" height="32" />
       <h2>
         {{ posts.message }}
       </h2>
@@ -50,6 +50,7 @@ export default {
       const payload = {
         timeline: this.timeline,
         userName: this.$route.params.userName,
+        limit: 'all', //limit of postfeed can be a number or 'all'
       };
       this['posts/getPostFeed'](payload);
     }

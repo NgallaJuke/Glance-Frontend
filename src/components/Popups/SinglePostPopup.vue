@@ -177,6 +177,7 @@ export default {
     deleteComment(commentID) {
       const index = this.orderedComments.findIndex((f) => f.commentID === commentID);
       this.orderedComments.splice(index, 1);
+      this.$emit('deletecomment');
     },
   },
   created() {

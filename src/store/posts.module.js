@@ -58,7 +58,9 @@ const actions = {
     commit('postFeedRequest');
     try {
       let postFeed = {};
-      if (paylaod.userName) {
+      if (paylaod.userName && paylaod.limit) {
+        postFeed = await postServices.getPostFeed(paylaod.timeline, paylaod.userName, paylaod.limit);
+      } else if (paylaod.userName) {
         postFeed = await postServices.getPostFeed(paylaod.timeline, paylaod.userName);
       } else {
         postFeed = await postServices.getPostFeed(paylaod.timeline);

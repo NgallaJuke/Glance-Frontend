@@ -40,10 +40,12 @@
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
     <v-divider></v-divider>
-    <div v-if="posts.status.loading">
-      <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
+
+    <div class="container--fluid" style="display: flex; justify-content: center; margin-top: 50px">
+      <!-- :key="$route.fullPath" will recreate this component when ever the route fullPath changes 
+      Ex -> http://localhost:8080/profil/user1 to http://localhost:8080/profil/user2   -->
+      <TimeLine :timeline="timeline" :key="$route.fullPath"></TimeLine>
     </div>
-    <TimeLine :timeline="timeline"></TimeLine>
   </div>
 </template>
 
@@ -75,25 +77,21 @@ export default {
     ShowDialog() {
       if (!this.avatarDialog) this.avatarDialog = true;
     },
-    StoreStateCall() {
-      this['users/getSingleUser'](this.$route.params.userName).then(() => {
+  },
+  created() {
+    this['users/getSingleUser'](this.$route.params.userName).then(() => {
+      const avatar = this.users.user.avatar;
+      const lastIndex = avatar.lastIndexOf('avatars');
+      this.avatar = this.users.user.avatar.substring(lastIndex + 8);
+    });
+  },
+  watch: {
+    '$route.params.userName': function (userName) {
+      this['users/getSingleUser'](userName).then(() => {
         const avatar = this.users.user.avatar;
         const lastIndex = avatar.lastIndexOf('avatars');
         this.avatar = this.users.user.avatar.substring(lastIndex + 8);
       });
-      const payload = {
-        timeline: this.timeline,
-        userName: this.$route.params.userName,
-      };
-      this['posts/getPostFeed'](payload);
-    },
-  },
-  created() {
-    this.StoreStateCall();
-  },
-  watch: {
-    $route(to, from) {
-      if (from.name === to.name) this.StoreStateCall();
     },
   },
 };

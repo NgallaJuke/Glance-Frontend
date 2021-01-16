@@ -45,7 +45,7 @@ async function disLikePost(postID) {
     });
 }
 
-async function getPostFeed(timeline, userName) {
+async function getPostFeed(timeline, userName, limit) {
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
@@ -57,8 +57,14 @@ async function getPostFeed(timeline, userName) {
       .catch((error) => {
         throw error;
       });
+  } else if (userName && limit) {
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${userName}/${timeline}?limit=${limit}`, requestOptions)
+      .then(handleRequestPostFeed)
+      .catch((error) => {
+        throw error;
+      });
   } else {
-    return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${userName}/${timeline}`, requestOptions)
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${userName}/${timeline}?limit=all`, requestOptions)
       .then(handleRequestPostFeed)
       .catch((error) => {
         throw error;
