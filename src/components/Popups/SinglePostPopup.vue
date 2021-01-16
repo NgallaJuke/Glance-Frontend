@@ -54,14 +54,14 @@
             <v-btn color="primary" outlined icon id="like_btn">
               <img
                 v-if="isLiked"
-                @click="disLikePost(receivedPost._id)"
+                @click="DisLikePost(receivedPost._id)"
                 src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
                 width="25"
                 height="25"
               />
               <img
                 v-else
-                @click="likePost(receivedPost._id)"
+                @click="LikePost(receivedPost._id)"
                 src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
                 width="25"
                 height="25"
@@ -85,14 +85,14 @@
           </div>
           <div class="comments" v-else>
             <div v-for="comment in orderedComments" :key="comment._id" class="comment-list">
-              <Comment :comment="comment" @deleteComment="deleteComment($emit)"></Comment>
+              <Comment :comment="comment" @deleteComment="DeleteComment($emit)"></Comment>
             </div>
           </div>
           <div class="make_comment">
             <v-form ref="form" v-model="valid" lazy-validation>
               <div class="form">
                 <div class="btn_comment">
-                  <v-btn :disabled="!valid" color="primary" @click.stop="makeComment(receivedPost._id)">Publish</v-btn>
+                  <v-btn :disabled="!valid" color="primary" @click.stop="MakeComment(receivedPost._id)">Publish</v-btn>
                 </div>
                 <div class="input_comment">
                   <v-text-field v-model="comment" :rules="commentRules" label="Comment" required></v-text-field>
@@ -144,7 +144,7 @@ export default {
       this.dialoge = false;
       this.$emit('update:closedialog', false);
     },
-    async makeComment(postID) {
+    async MakeComment(postID) {
       this.$refs.form.validate();
       const payload = {
         comment: this.comment,
@@ -162,19 +162,19 @@ export default {
     UnFollowUser(userID) {
       this['users/unfollowUser'](userID);
     },
-    likePost(postID) {
+    LikePost(postID) {
       this['posts/likePost'](postID);
       this.receivedPost.likes.liker.push(this.account.user._id);
       this.isLiked = true;
       this.$emit('likepost', true);
     },
-    disLikePost(postID) {
+    DisLikePost(postID) {
       this['posts/disLikePost'](postID);
       this.receivedPost.likes.liker.splice(this.receivedPost.likes.liker.indexOf(this.account.user._id), 1);
       this.isLiked = false;
       this.$emit('dislikepost', false);
     },
-    deleteComment(commentID) {
+    DeleteComment(commentID) {
       const index = this.orderedComments.findIndex((f) => f.commentID === commentID);
       this.orderedComments.splice(index, 1);
       this.$emit('deletecomment');

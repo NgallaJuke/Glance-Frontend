@@ -1,7 +1,19 @@
 import { authHeader } from '../helpers';
 import { handleRequest } from '../helpers/index';
 
-export const commentServices = { makeComment, deleteComment, getAllPostComments };
+export const commentServices = { getAllPostComments, makeComment, deleteComment, likeComment, dislikeComment };
+
+async function getAllPostComments(postID) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/comments/${postID}/comment/all`, requestOptions)
+    .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
 
 async function makeComment(post) {
   const requestOptions = {
@@ -15,6 +27,7 @@ async function makeComment(post) {
       throw error;
     });
 }
+
 async function deleteComment(payload) {
   const requestOptions = {
     method: 'DELETE',
@@ -30,12 +43,30 @@ async function deleteComment(payload) {
     });
 }
 
-async function getAllPostComments(postID) {
+async function likeComment(payload) {
   const requestOptions = {
-    method: 'GET',
+    method: 'POST',
     headers: authHeader(),
   };
-  return fetch(`${process.env.VUE_APP_API_URI}api/v1/comments/${postID}/comment/all`, requestOptions)
+  return fetch(
+    `${process.env.VUE_APP_API_URI}api/v1/comments/${payload.postID}/like/${payload.commentID}`,
+    requestOptions
+  )
+    .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+async function dislikeComment(payload) {
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+  };
+  return fetch(
+    `${process.env.VUE_APP_API_URI}api/v1/comments/${payload.postID}/dislike/${payload.commentID}`,
+    requestOptions
+  )
     .then(handleRequest)
     .catch((error) => {
       throw error;

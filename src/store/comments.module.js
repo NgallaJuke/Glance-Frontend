@@ -8,6 +8,22 @@ const getters = {
 };
 
 const actions = {
+  async getAllPostComments({ dispatch, commit }, postID) {
+    commit('getAllPostCommentsRequest');
+    try {
+      const data = await commentServices.getAllPostComments(postID);
+      if (data.success) {
+        commit('getAllPostCommentsSuccess', { comments: data.comments, postID });
+      } else {
+        commit('getAllPostCommentsFailure', 'Error: Error comment Post');
+        dispatch('alert/error', 'error', { root: true });
+      }
+    } catch (error) {
+      commit('getAllPostCommentsFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
   async makeComment({ dispatch, commit }, payload) {
     commit('makeCommentRequest');
     try {
@@ -26,22 +42,6 @@ const actions = {
     }
   },
 
-  async getAllPostComments({ dispatch, commit }, postID) {
-    commit('getAllPostCommentsRequest');
-    try {
-      const data = await commentServices.getAllPostComments(postID);
-      if (data.success) {
-        commit('getAllPostCommentsSuccess', { comments: data.comments, postID });
-      } else {
-        commit('getAllPostCommentsFailure', 'Error: Error comment Post');
-        dispatch('alert/error', 'error', { root: true });
-      }
-    } catch (error) {
-      commit('getAllPostCommentsFailure', error);
-      dispatch('alert/error', error, { root: true });
-    }
-  },
-
   async deleteComment({ dispatch, commit }, payload) {
     commit('deleteCommentRequest');
     try {
@@ -55,6 +55,40 @@ const actions = {
       }
     } catch (error) {
       commit('deleteCommentFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async likeCommnet({ dispatch, commit }, payload) {
+    commit('likeCommentRequest');
+    try {
+      let data = await commentServices.likeComment(payload);
+      if (data.success) {
+        commit('likeCommentSuccess');
+        dispatch('alert/success', 'Comment liked successfully', { root: true });
+      } else {
+        commit('likeCommentFailure', 'Error: Error liking Post');
+        dispatch('alert/error', 'error', { root: true });
+      }
+    } catch (error) {
+      commit('likeCommentFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async dislikeCommnet({ dispatch, commit }, payload) {
+    commit('dislikeCommentRequest');
+    try {
+      let data = await commentServices.dislikeComment(payload);
+      if (data.success) {
+        commit('dislikeCommentSuccess');
+        dispatch('alert/success', 'Comment disliked successfully', { root: true });
+      } else {
+        commit('dislikeCommentFailure', 'Error: Error disling Post');
+        dispatch('alert/error', 'error', { root: true });
+      }
+    } catch (error) {
+      commit('dislikeCommentFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -102,6 +136,28 @@ const mutations = {
     state.error = error;
     state.comment = null;
     state.status = { CommentFailed: true };
+  },
+  likeCommentRequest(state) {
+    state.status = { likingComment: true };
+  },
+  likeCommentSuccess(state) {
+    state.status = { commentLiked: true };
+  },
+  likeCommentFailure(state, error) {
+    state.error = error;
+    state.comment = null;
+    state.status = { likeCommentFailed: true };
+  },
+  dislikeCommentRequest(state) {
+    state.status = { dislikingComment: true };
+  },
+  dislikeCommentSuccess(state) {
+    state.status = { commentDisliked: true };
+  },
+  dislikeCommentFailure(state, error) {
+    state.error = error;
+    state.comment = null;
+    state.status = { dislikeCommentFailed: true };
   },
 };
 
