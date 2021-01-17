@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 90%">
+  <div style="width: 90%; margin: 25px">
     <v-row style="width: 100%">
       <v-col align-self="center" style="width: 10%">
         <v-row justify="center" align-content="center">
@@ -32,31 +32,14 @@
         </v-row>
       </v-col>
       <v-col depressed style="width: 90%">
-        <v-sheet depressed class="mx-auto grey lighten-3" max-width="1200">
-          <v-slide-group depressed center-active show-arrows>
-            <v-slide-item depressed v-for="n in 10" :key="n" v-slot:default="{ active, toggle }">
-              <v-card
-                :color="active ? 'primary' : 'grey lighten-1'"
-                class="ma-3"
-                height="227.7"
-                width="200"
-                @click="toggle"
-              >
-                <v-row class="fill-height" align="center" justify="center">
-                  <v-scale-transition>
-                    <v-icon v-if="active" color="white" size="48" v-text="'mdi-close-circle-outline'"></v-icon>
-                  </v-scale-transition>
-                </v-row>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-sheet>
+        <TailorsPostCard :user-name="receivedUser.userName"></TailorsPostCard>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
+import TailorsPostCard from './TailorsPostCard';
 export default {
   props: {
     user: { type: Object, required: true },
@@ -64,8 +47,9 @@ export default {
   data: () => ({
     url: process.env.VUE_APP_API_URI,
     receivedUser: { type: Object },
+    userOwnPost: Array,
   }),
-
+  components: { TailorsPostCard },
   computed: {
     ...mapState({
       account: (state) => state.account,

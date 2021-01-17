@@ -5,7 +5,7 @@
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"
     /></v-container>
     <v-container fluid>
-      <v-row v-for="user in users.allUsers" :key="user._id" no-gutters justify="center" align="center" class="pb-5">
+      <v-row v-for="user in users.allUsers" :key="user._id" justify="center" align="center" class="pb-5">
         <TailorsList :user="user"></TailorsList>
       </v-row>
     </v-container>

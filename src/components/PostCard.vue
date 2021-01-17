@@ -85,6 +85,7 @@ export default {
   },
   methods: {
     ...mapActions(['posts/likePost', 'posts/disLikePost']),
+
     LikePost(recevidPost) {
       this['posts/likePost'](recevidPost._id);
       this.isLiked = true;
