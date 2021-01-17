@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 90%; margin: 25px">
+  <div style="margin: 25px; justify-content: flex-start">
     <v-row style="width: 100%">
       <v-col align-self="center" style="width: 10%">
         <v-row justify="center" align-content="center">

@@ -4,8 +4,8 @@
     <v-container v-if="!users.allUsers">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"
     /></v-container>
-    <v-container fluid>
-      <v-row v-for="user in users.allUsers" :key="user._id" justify="center" align="center" class="pb-5">
+    <v-container fluid style="width: 90%">
+      <v-row v-for="user in users.allUsers" :key="user._id" justify="flex-start" align="center" class="pb-5">
         <TailorsList :user="user"></TailorsList>
       </v-row>
     </v-container>
