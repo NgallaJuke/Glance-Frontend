@@ -158,9 +158,11 @@ export default {
     },
     FollowUser(userID) {
       this['users/followUser'](userID);
+      this.$parent.$emit('follow', true);
     },
     UnFollowUser(userID) {
       this['users/unfollowUser'](userID);
+      this.$parent.$emit('unfollow', false);
     },
     LikePost(postID) {
       this['posts/likePost'](postID);

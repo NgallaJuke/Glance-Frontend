@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 25px; justify-content: flex-start">
+  <div style="margin: 25px">
     <v-row style="width: 100%">
       <v-col align-self="center" style="width: 10%">
         <v-row justify="center" align-content="center">
@@ -17,12 +17,7 @@
             <v-row justify="center" align-content="center" style="margin: 5px 0">
               <h3>{{ receivedUser.userName }}</h3>
             </v-row>
-            <v-row
-              v-if="!receivedUser.follower.includes(account.user._id)"
-              justify="center"
-              align-content="center"
-              style="margin: 5px 0"
-            >
+            <v-row v-if="!isFollowed" justify="center" align-content="center" style="margin: 5px 0">
               <v-btn small color="primary" outlined @click="FollowUser(receivedUser._id)">Follow</v-btn>
             </v-row>
             <v-row v-else justify="center" align-content="center" style="margin: 5px 0">
@@ -32,7 +27,11 @@
         </v-row>
       </v-col>
       <v-col depressed style="width: 90%">
-        <TailorsPostCard :user-name="receivedUser.userName"></TailorsPostCard>
+        <TailorsPostCard
+          :user-name="receivedUser.userName"
+          @follow="Followed($event)"
+          @unfollow="Unfollowed($event)"
+        ></TailorsPostCard>
       </v-col>
     </v-row>
   </div>
@@ -48,6 +47,7 @@ export default {
     url: process.env.VUE_APP_API_URI,
     receivedUser: { type: Object },
     userOwnPost: Array,
+    isFollowed: Boolean,
   }),
   components: { TailorsPostCard },
   computed: {
@@ -61,14 +61,23 @@ export default {
     FollowUser(userID) {
       this['users/followUser'](userID);
       this.receivedUser.follower.push(this.account.user._id);
+      this.isFollowed = true;
     },
     UnFollowUser(userID) {
       this['users/unfollowUser'](userID);
       this.receivedUser.follower.splice(this.receivedUser.follower.indexOf(this.account.user._id), 1);
+      this.isFollowed = false;
+    },
+    Followed(event) {
+      this.isFollowed = event;
+    },
+    Unfollowed(event) {
+      this.isFollowed = event;
     },
   },
   created() {
     this.receivedUser = JSON.parse(JSON.stringify(this.user));
+    this.isFollowed = this.receivedUser.follower.includes(this.account.user._id) ? true : false;
   },
 };
 </script>

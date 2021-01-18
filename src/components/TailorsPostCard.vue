@@ -2,7 +2,7 @@
   <div>
     <v-sheet depressed class="mx-auto grey lighten-3" max-width="1200">
       <v-slide-group depressed center-active show-arrows>
-        <v-slide-item depressed v-for="post in timelineLimited.slice().reverse()" :key="post._id">
+        <v-slide-item depressed v-for="post in timelineLimited" :key="post._id">
           <v-card class="ma-3 card_img" max-width="200" style="border-radius: 10px">
             <v-img
               :src="`${url}posts_pic/${post.picture[0]}`"
@@ -59,7 +59,8 @@ export default {
       limit: 10, //limit of postfeed can be a number or 'all'
     };
     await this['posts/getPostFeed'](payload);
-    this.timelineLimited = this.posts.timeline;
+
+    this.timelineLimited = JSON.parse(JSON.stringify(this.posts.timeline));
   },
 };
 </script>
