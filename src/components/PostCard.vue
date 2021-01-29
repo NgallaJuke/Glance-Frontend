@@ -50,7 +50,7 @@
         <h5>{{ recevidPost.likes.count }}</h5>
       </v-toolbar>
     </v-card>
-    <div
+    <SinglePostPopup
       v-if="dialog"
       :closedialog="dialog"
       :dialog="dialog"
@@ -60,8 +60,7 @@
       @dislikepost="DislikePostEmited($event)"
       @commentpost="CommentPostEmited($event)"
       @deletecomment="DeleteComment()"
-      :is="dialogComp"
-    ></div>
+    ></SinglePostPopup>
   </div>
 </template>
 
@@ -72,11 +71,11 @@ export default {
   props: { post: { type: Object, required: true } },
   data: () => ({
     url: process.env.VUE_APP_API_URI,
-    dialogComp: SinglePostPopup,
     dialog: false,
     isLiked: Boolean,
     recevidPost: Object,
   }),
+  components: { SinglePostPopup },
   computed: {
     ...mapState({
       posts: (state) => state.posts,

@@ -79,7 +79,6 @@
           <div v-if="comments.status.gettingPostComments">
             <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
           </div>
-
           <div v-else-if="comments.status.CommentFailed">
             <h3 style="color: red">Error fetching comment</h3>
           </div>
@@ -158,11 +157,11 @@ export default {
     },
     FollowUser(userID) {
       this['users/followUser'](userID);
-      this.$parent.$emit('follow', true);
+      this.$parent.$emit('follow', true); //emit to the grand Parent
     },
     UnFollowUser(userID) {
       this['users/unfollowUser'](userID);
-      this.$parent.$emit('unfollow', false);
+      this.$parent.$emit('unfollow', false); //emit to the grand Parent
     },
     LikePost(postID) {
       this['posts/likePost'](postID);

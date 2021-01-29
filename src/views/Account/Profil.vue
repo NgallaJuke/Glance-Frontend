@@ -15,28 +15,65 @@
               outlined
               color="primary"
               dark
-              @click="ShowDialog()"
+              @click="ShowDialogUpdateAvatar()"
               >Edit Profil</v-btn
             >
-            <div
+            <UpdateAvatar
               v-if="avatarDialog"
-              :is="avartarComp"
               :avatarDialog="avatarDialog"
               @update:closedialog="avatarDialog = $event"
-            ></div>
+            ></UpdateAvatar>
             <div class="my-1">
-              <span><b>Post </b> 0 </span>
+              <span>
+                <b> Post </b>
+                {{ posts.timeline.length }}
+              </span>
               <span> - </span>
-              <span> <b>Followers </b>{{ users.user.follower.length }} </span>
+              <b>
+                <v-dialog transition="dialog-top-transition" max-width="600">
+                  <template v-slot:activator="{ on, attrs }">
+                    <span color="primary" v-bind="attrs" v-on="on">Followers</span>
+                  </template>
+                  <template>
+                    <v-card
+                      v-for="(follower, index) in users.user.follower"
+                      :key="index"
+                      class="pa-5"
+                      max-height="50vh"
+                      style="overflow: hidden; overflow-y: auto"
+                    >
+                      <UserSingle :userid="follower" :key="index" class="py-5"></UserSingle>
+                    </v-card>
+                  </template>
+                </v-dialog>
+              </b>
+              {{ users.user.follower.length }}
               <span> - </span>
-              <span><b>Following </b>{{ users.user.following.length }}</span>
+              <b>
+                <v-dialog transition="dialog-top-transition" max-width="600">
+                  <template v-slot:activator="{ on, attrs }">
+                    <span color="primary" v-bind="attrs" v-on="on">Followed</span>
+                  </template>
+                  <template>
+                    <v-card
+                      class="pa-5"
+                      max-height="50vh"
+                      v-for="(following, index) in users.user.following"
+                      :key="index"
+                      style="overflow: hidden; overflow-y: auto"
+                    >
+                      <UserSingle :userid="following" :key="index" class="py-3"></UserSingle>
+                    </v-card>
+                  </template>
+                </v-dialog>
+              </b>
+              {{ users.user.following.length }}
             </div>
           </div>
         </v-col>
       </v-row>
     </div>
     <div v-else>
-      Loading user
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
     </div>
     <v-divider></v-divider>
@@ -53,18 +90,19 @@
 import { mapState, mapActions } from 'vuex';
 import TimeLine from '../../components/TimeLine';
 import UpdateAvatar from '../../components/Popups/UpdateAvatar';
+import UserSingle from '../../components/UserSingle';
 
 export default {
   data: () => {
     return {
       url: process.env.VUE_APP_API_URI,
       avatar: '',
-      avartarComp: UpdateAvatar,
+
       avatarDialog: false,
       timeline: 'home-timeline',
     };
   },
-  components: { TimeLine },
+  components: { TimeLine, UpdateAvatar, UserSingle },
   computed: {
     ...mapState({
       account: (state) => state.account,
@@ -73,13 +111,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['users/getSingleUser', 'posts/getPostFeed']),
-    ShowDialog() {
+    ...mapActions(['users/getSingleUser']),
+    ShowDialogUpdateAvatar() {
       if (!this.avatarDialog) this.avatarDialog = true;
     },
   },
   created() {
-    this['users/getSingleUser'](this.$route.params.userName).then(() => {
+    const payload = { userName: this.$route.params.userName };
+    this['users/getSingleUser'](payload).then(() => {
       const avatar = this.users.user.avatar;
       const lastIndex = avatar.lastIndexOf('avatars');
       this.avatar = this.users.user.avatar.substring(lastIndex + 8);
@@ -87,7 +126,8 @@ export default {
   },
   watch: {
     '$route.params.userName': function (userName) {
-      this['users/getSingleUser'](userName).then(() => {
+      const payload = { userName: userName };
+      this['users/getSingleUser'](payload).then(() => {
         const avatar = this.users.user.avatar;
         const lastIndex = avatar.lastIndexOf('avatars');
         this.avatar = this.users.user.avatar.substring(lastIndex + 8);

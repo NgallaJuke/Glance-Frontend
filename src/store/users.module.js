@@ -2,6 +2,7 @@ import { userServices } from '../services';
 // import router from '../router/index';
 const state = {
   user: null,
+  listUsers: [],
   allUsers: null,
   status: null,
   follow: Boolean,
@@ -28,12 +29,14 @@ const actions = {
       }
     );
   },
-  async getSingleUser({ dispatch, commit }, userName) {
+  async getSingleUser({ dispatch, commit }, payload) {
     commit('UserProfilRequest');
     try {
-      const UserProfil = await userServices.getSingleUser(userName);
-      if (UserProfil) {
+      const UserProfil = await userServices.getSingleUser(payload);
+      if (UserProfil && payload.userName) {
         commit('UserProfilSuccess', UserProfil);
+      } else {
+        commit('UserProfilListSuccess', UserProfil);
       }
     } catch (error) {
       commit('UserProfilFailure', error);
@@ -95,6 +98,12 @@ const mutations = {
   UserProfilSuccess(state, userProfil) {
     state.user = userProfil;
     state.status = { loggedIn: true };
+  },
+  UserProfilListSuccess(state, userProfil) {
+    state.listUsers.push(userProfil);
+  },
+  ClearUserProfilList(state) {
+    state.listUsers = [];
   },
   UserProfilFailure(state, error) {
     state.user = null;

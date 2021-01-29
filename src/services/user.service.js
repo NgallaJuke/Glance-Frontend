@@ -25,19 +25,31 @@ async function getCurrentUser() {
       throw error;
     });
 }
-async function getSingleUser(userName) {
+async function getSingleUser(payload) {
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
   };
-  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${userName}`, requestOptions)
-    .then(handleRequest)
-    .then((response) => {
-      return response.UserProfil;
-    })
-    .catch((error) => {
-      throw error;
-    });
+  console.log('payload :>> ', payload);
+  if (payload.userName) {
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${payload.userName}`, requestOptions)
+      .then(handleRequest)
+      .then((response) => {
+        return response.UserProfil;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  } else {
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/user/${payload.userID}`, requestOptions)
+      .then(handleRequest)
+      .then((response) => {
+        return response.UserProfil;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
 }
 async function getAllUser() {
   const requestOptions = {
