@@ -3,23 +3,23 @@
     <v-card class="mx-auto" max-width="325" style="border-radius: 10px">
       <v-img
         class="card_img"
-        :src="`${url}posts_pic/${recevidPost.picture[0]}`"
+        :src="`${url}posts_pic/${receivedPost.picture[0]}`"
         @click="ShowDialog(post)"
         alt="postImage"
         height="370"
         width="325"
       ></v-img>
       <v-toolbar class="grey lighten-4" flat max-width="325">
-        <router-link :to="{ name: 'profil', params: { userName: recevidPost.postOwner.userName } }">
+        <router-link :to="{ name: 'profil', params: { userName: receivedPost.postOwner.userName } }">
           <v-btn icon class="mr-1">
-            <v-avatar size="45" v-if="recevidPost.postOwner.avatar">
-              <img :src="`${url}avatars/${recevidPost.postOwner.avatar.substring(62)}`" />
+            <v-avatar size="45" v-if="receivedPost.postOwner.avatar">
+              <img :src="`${url}avatars/${receivedPost.postOwner.avatar.substring(62)}`" />
             </v-avatar>
             <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
           </v-btn>
         </router-link>
 
-        <h4>{{ recevidPost.postOwner.userName }}</h4>
+        <h4>{{ receivedPost.postOwner.userName }}</h4>
         <v-spacer></v-spacer>
         <v-btn icon small>
           <img
@@ -29,11 +29,11 @@
             style="margin: 0 10px"
           />
         </v-btn>
-        <h5 style="margin-right: 10px">{{ recevidPost.comments.count }}</h5>
+        <h5 style="margin-right: 10px">{{ receivedPost.comments.count }}</h5>
         <v-btn icon small>
           <img
             v-if="isLiked"
-            @click="DisLikePost(recevidPost)"
+            @click="DisLikePost(receivedPost)"
             @update:likepost="isLiked = $event"
             src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
             width="25"
@@ -41,20 +41,20 @@
           />
           <img
             v-else
-            @click="LikePost(recevidPost)"
+            @click="LikePost(receivedPost)"
             src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
             width="25"
             height="25"
           />
         </v-btn>
-        <h5>{{ recevidPost.likes.count }}</h5>
+        <h5>{{ receivedPost.likes.count }}</h5>
       </v-toolbar>
     </v-card>
     <SinglePostPopup
       v-if="dialog"
       :closedialog="dialog"
       :dialog="dialog"
-      :post="recevidPost"
+      :post="receivedPost"
       @update:closedialog="dialog = $event"
       @likepost="LikePostEmited($event)"
       @dislikepost="DislikePostEmited($event)"
@@ -73,7 +73,7 @@ export default {
     url: process.env.VUE_APP_API_URI,
     dialog: false,
     isLiked: Boolean,
-    recevidPost: Object,
+    receivedPost: Object,
   }),
   components: { SinglePostPopup },
   computed: {
@@ -85,34 +85,34 @@ export default {
   methods: {
     ...mapActions(['posts/likePost', 'posts/disLikePost']),
 
-    LikePost(recevidPost) {
-      this['posts/likePost'](recevidPost._id);
+    LikePost(receivedPost) {
+      this['posts/likePost'](receivedPost._id);
       this.isLiked = true;
-      this.recevidPost.likes.count++;
-      this.recevidPost.likes.liker.push(this.account.user._id);
+      this.receivedPost.likes.count++;
+      this.receivedPost.likes.liker.push(this.account.user._id);
     },
-    DisLikePost(recevidPost) {
-      this['posts/disLikePost'](recevidPost._id);
+    DisLikePost(receivedPost) {
+      this['posts/disLikePost'](receivedPost._id);
       this.isLiked = false;
-      this.recevidPost.likes.count--;
-      this.recevidPost.likes.liker.splice(this.recevidPost.likes.liker.indexOf(this.account.user._id), 1);
+      this.receivedPost.likes.count--;
+      this.receivedPost.likes.liker.splice(this.receivedPost.likes.liker.indexOf(this.account.user._id), 1);
     },
     LikePostEmited($event) {
       this.isLiked = $event;
-      this.recevidPost.likes.count++;
-      this.recevidPost.likes.liker.push(this.account.user._id);
+      this.receivedPost.likes.count++;
+      this.receivedPost.likes.liker.push(this.account.user._id);
     },
     DislikePostEmited($event) {
       this.isLiked = $event;
-      this.recevidPost.likes.count--;
-      this.recevidPost.likes.liker.splice(this.recevidPost.likes.liker.indexOf(this.account.user._id), 1);
+      this.receivedPost.likes.count--;
+      this.receivedPost.likes.liker.splice(this.receivedPost.likes.liker.indexOf(this.account.user._id), 1);
     },
     CommentPostEmited($event) {
-      this.recevidPost.comments.comment.push($event);
-      this.recevidPost.comments.count++;
+      this.receivedPost.comments.comment.push($event);
+      this.receivedPost.comments.count++;
     },
     DeleteComment() {
-      this.recevidPost.comments.count--;
+      this.receivedPost.comments.count--;
     },
     ShowDialog(post) {
       this.post = post;
@@ -120,14 +120,10 @@ export default {
     },
   },
   created() {
-    this.recevidPost = JSON.parse(JSON.stringify(this.post));
+    this.receivedPost = JSON.parse(JSON.stringify(this.post));
   },
   mounted() {
-    if (this.recevidPost.likes.liker.includes(this.account.user._id)) {
-      this.isLiked = true;
-    } else {
-      this.isLiked = false;
-    }
+    this.isLiked = this.receivedPost.likes.liker.includes(this.account.user._id) ? true : false;
   },
 };
 </script>

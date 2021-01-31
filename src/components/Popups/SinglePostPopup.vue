@@ -69,12 +69,7 @@
             </v-btn>
           </div>
           <div class="post_pic">
-            <img
-              class="card_img"
-              :src="`${url}posts_pic/${receivedPost.picture[0]}`"
-              @click="ShowDialog(post)"
-              alt="postImage"
-            />
+            <img class="card_img" :src="`${url}posts_pic/${receivedPost.picture[0]}`" alt="postImage" />
           </div>
           <div v-if="comments.status.gettingPostComments">
             <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />

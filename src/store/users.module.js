@@ -3,6 +3,8 @@ import { userServices } from '../services';
 const state = {
   user: null,
   listUsers: [],
+  follower: [],
+  following: [],
   allUsers: null,
   status: null,
   follow: Boolean,
@@ -79,6 +81,30 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+  async getAllFollower({ dispatch, commit }, userid) {
+    commit('allFollowerRequest');
+    try {
+      const follower = await userServices.getAllFollower(userid);
+      if (follower) {
+        commit('allFollowerSuccess', follower);
+      }
+    } catch (error) {
+      commit('allFollowerFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+  async getAllFollowing({ dispatch, commit }, userid) {
+    commit('allFollowingRequest');
+    try {
+      const following = await userServices.getAllFollowing(userid);
+      if (following) {
+        commit('allFollowingSuccess', following);
+      }
+    } catch (error) {
+      commit('allFollowingFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
 };
 const mutations = {
   updateAvatarRequest(state) {
@@ -136,6 +162,29 @@ const mutations = {
     state.status = { unfollowSuccess: unfollow };
   },
   unfollowFailure(state, error) {
+    state.error = error;
+  },
+
+  allFollowerRequest(state) {
+    state.status = { allFollowerLaoding: true };
+    state.follower = [];
+  },
+  allFollowerSuccess(state, follower) {
+    state.status = { allFollowerSuccess: true };
+    state.follower = follower;
+  },
+  allFollowerFailure(state, error) {
+    state.error = error;
+  },
+  allFollowingRequest(state) {
+    state.status = { allFollowingLaoding: true };
+    state.following = [];
+  },
+  allFollowingSuccess(state, following) {
+    state.status = { allFollowingSuccess: true };
+    state.following = following;
+  },
+  allFollowingFailure(state, error) {
     state.error = error;
   },
 };

@@ -29,45 +29,25 @@
                 {{ posts.timeline.length }}
               </span>
               <span> - </span>
-              <b>
-                <v-dialog transition="dialog-top-transition" max-width="600">
-                  <template v-slot:activator="{ on, attrs }">
-                    <span color="primary" v-bind="attrs" v-on="on">Followers</span>
-                  </template>
-                  <template>
-                    <v-card
-                      v-for="(follower, index) in users.user.follower"
-                      :key="index"
-                      class="pa-5"
-                      max-height="50vh"
-                      style="overflow: hidden; overflow-y: auto"
-                    >
-                      <UserSingle :userid="follower" :key="index" class="py-5"></UserSingle>
-                    </v-card>
-                  </template>
-                </v-dialog>
-              </b>
+              <span><b style="cursor: pointer" @click="ShowDialogListUserFollowers()"> Followers </b> </span>
               {{ users.user.follower.length }}
+              <FollowListUserPopUp
+                v-if="activefollower"
+                :userid="users.user._id"
+                :activefollower="activefollower"
+                @update:closedialog="activefollower = $event"
+                :closedialog="activefollower"
+              ></FollowListUserPopUp>
               <span> - </span>
-              <b>
-                <v-dialog transition="dialog-top-transition" max-width="600">
-                  <template v-slot:activator="{ on, attrs }">
-                    <span color="primary" v-bind="attrs" v-on="on">Followed</span>
-                  </template>
-                  <template>
-                    <v-card
-                      class="pa-5"
-                      max-height="50vh"
-                      v-for="(following, index) in users.user.following"
-                      :key="index"
-                      style="overflow: hidden; overflow-y: auto"
-                    >
-                      <UserSingle :userid="following" :key="index" class="py-3"></UserSingle>
-                    </v-card>
-                  </template>
-                </v-dialog>
-              </b>
+              <span><b style="cursor: pointer" @click="ShowDialogListUserFollowed()"> Followed </b> </span>
               {{ users.user.following.length }}
+              <FollowListUserPopUp
+                v-if="activefollowed"
+                :userid="users.user._id"
+                :activefollowed="activefollowed"
+                @update:closedialog="activefollowed = $event"
+                :closedialog="activefollowed"
+              ></FollowListUserPopUp>
             </div>
           </div>
         </v-col>
@@ -90,19 +70,21 @@
 import { mapState, mapActions } from 'vuex';
 import TimeLine from '../../components/TimeLine';
 import UpdateAvatar from '../../components/Popups/UpdateAvatar';
-import UserSingle from '../../components/UserSingle';
+import FollowListUserPopUp from '../../components/Popups/FollowListUserPopUp';
 
 export default {
   data: () => {
     return {
       url: process.env.VUE_APP_API_URI,
       avatar: '',
-
+      active: false,
+      activefollower: false,
+      activefollowed: false,
       avatarDialog: false,
       timeline: 'home-timeline',
     };
   },
-  components: { TimeLine, UpdateAvatar, UserSingle },
+  components: { TimeLine, UpdateAvatar, FollowListUserPopUp },
   computed: {
     ...mapState({
       account: (state) => state.account,
@@ -114,6 +96,14 @@ export default {
     ...mapActions(['users/getSingleUser']),
     ShowDialogUpdateAvatar() {
       if (!this.avatarDialog) this.avatarDialog = true;
+    },
+    ShowDialogListUserFollowers() {
+      if (this.users.user.follower.length === 0) return;
+      if (!this.activefollower) this.activefollower = true;
+    },
+    ShowDialogListUserFollowed() {
+      if (this.users.user.following.length === 0) return;
+      if (!this.activefollowed) this.activefollowed = true;
     },
   },
   created() {

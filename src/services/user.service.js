@@ -5,6 +5,8 @@ import { handleRequest } from '../helpers/index';
 export const userServices = {
   getCurrentUser,
   getSingleUser,
+  getAllFollower,
+  getAllFollowing,
   updateAvatar,
   getAllUser,
   followUser,
@@ -30,7 +32,6 @@ async function getSingleUser(payload) {
     method: 'GET',
     headers: authHeader(),
   };
-  console.log('payload :>> ', payload);
   if (payload.userName) {
     return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${payload.userName}`, requestOptions)
       .then(handleRequest)
@@ -65,12 +66,36 @@ async function getAllUser() {
       throw error;
     });
 }
-
+async function getAllFollower(userid) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/all-follower/${userid}`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      return response.follower;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+async function getAllFollowing(userid) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/all-following/${userid}`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      return response.following;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
 async function updateAvatar(avatar) {
-  console.log('AVATAR', avatar);
-
   const formData = new FormData();
-
   avatar.forEach((pic) => {
     formData.append('file', pic);
   });
@@ -86,7 +111,6 @@ async function updateAvatar(avatar) {
       throw error;
     });
 }
-
 async function followUser(userID) {
   const requestOptions = {
     method: 'PUT',
