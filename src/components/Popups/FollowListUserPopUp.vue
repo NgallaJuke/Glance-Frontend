@@ -1,9 +1,14 @@
 <template>
   <div>
-    <v-dialog v-if="activefollower" v-click-outside="onClickOutside" v-model="dialog">
+    <v-dialog
+      v-if="activefollower"
+      max-height="50vh"
+      max-width="580px"
+      v-click-outside="onClickOutside"
+      v-model="dialog"
+    >
       <v-card
         class="pa-5"
-        max-height="50vh"
         v-for="follower in users.follower"
         :key="follower._id"
         style="overflow: hidden; overflow-y: auto"
@@ -11,10 +16,15 @@
         <UserSingle :user="follower" class="py-3"></UserSingle>
       </v-card>
     </v-dialog>
-    <v-dialog v-if="activefollowed" v-click-outside="onClickOutside" v-model="dialog">
+    <v-dialog
+      v-if="activefollowed"
+      max-height="50vh"
+      max-width="580px"
+      v-click-outside="onClickOutside"
+      v-model="dialog"
+    >
       <v-card
         class="pa-5"
-        max-height="50vh"
         v-for="following in users.following"
         :key="following._id"
         style="overflow: hidden; overflow-y: auto"
