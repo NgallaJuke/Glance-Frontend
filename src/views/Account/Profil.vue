@@ -8,7 +8,7 @@
             <img :src="`${url}avatars/${avatar}`" />
           </v-avatar>
           <div>
-            <h3 class="my-1">{{ users.user.userName }}</h3>
+            <h2 class="my-1">{{ users.user.userName }}</h2>
             <v-btn
               v-if="account.user._id === users.user._id"
               class="my-1"

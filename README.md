@@ -1,29 +1,28 @@
-# client
+# Description
+
+This is front-end application of the Tailor app.
+I made this app for beginners who want to learn [vue](https://vuejs.org/), [vue router](https://router.vuejs.org/) and [vuex](https://vuex.vuejs.org/).
+
+On Windows, use the instrutions below to get started.
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
+## .Env Variables
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+For environement varaibles see the [.env.example]() file
