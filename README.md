@@ -1,9 +1,9 @@
 # Description
 
-This is front-end application of the Tailor app.
-I made this app for beginners who want to learn [vue](https://vuejs.org/), [vue router](https://router.vuejs.org/) and [vuex](https://vuex.vuejs.org/).
+This is back-end application of the Tailor app.
+The tailor App is a platform where tailors can share there works. It's highly inspired by [Dribbble](https://dribbble.com/) and [Twitter](https://twitter.com/).
 
-This project is inspired by [Dribbble](https://dribbble.com/) and [Twitter](https://twitter.com/).
+I made this app for beginners who want to learn [vue](https://vuejs.org/), [vue router](https://router.vuejs.org/) and [vuex](https://vuex.vuejs.org/).
 
 <img src="./ScreenShots/home.png" height="350px">
 
