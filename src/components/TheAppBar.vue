@@ -19,10 +19,10 @@
       ></v-text-field>
       <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
       <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
-      <v-btn class="ma-2" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
+      <v-btn class="mx-5" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
       <v-menu offsetY open-on-hover left bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <router-link :to="{ name: 'profil', params: { userName: account.user.userName } }">
+        <template v-slot:activator="{ on, attrs }" style="margin-right: 1em">
+          <router-link class="mr-3" :to="{ name: 'profil', params: { userName: account.user.userName } }">
             <v-btn icon small plain ripple="{none}" v-bind="attrs" v-on="on">
               <v-avatar v-if="account.user.avatar" height="40" width="40">
                 <img :src="`${url}avatars/${account.user.avatar.substring(62)}`" />
