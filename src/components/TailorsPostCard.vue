@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-sheet depressed class="mx-auto grey lighten-3" max-width="1200">
-      <v-slide-group depressed center-active show-arrows>
+    <v-sheet depressed v-if="timelineLimited.length > 0" class="mx-auto grey lighten-3" max-width="1000">
+      <v-slide-group depressed>
         <v-slide-item depressed v-for="post in timelineLimited" :key="post._id">
           <v-card class="ma-3 card_img" max-width="200" style="border-radius: 10px">
             <v-img
@@ -16,7 +16,7 @@
         </v-slide-item>
       </v-slide-group>
     </v-sheet>
-
+    <div style="width: 100px" v-else>Has Not Posted yet</div>
     <div
       v-if="dialog"
       :closedialog="dialog"
@@ -60,7 +60,9 @@ export default {
     };
     await this['posts/getPostFeed'](payload);
 
-    this.timelineLimited = JSON.parse(JSON.stringify(this.posts.timeline));
+    if (this.posts.timeline) {
+      this.timelineLimited = JSON.parse(JSON.stringify(this.posts.timeline));
+    }
   },
 };
 </script>

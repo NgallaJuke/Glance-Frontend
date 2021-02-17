@@ -5,9 +5,9 @@
     </div>
     <div v-else-if="posts.status.empty">
       <img src="https://s.svgbox.net/hero-solid.svg?ic=eye-off&fill=000" width="32" height="32" />
-      <h2>
+      <h1>
         {{ posts.message }}
-      </h2>
+      </h1>
     </div>
     <div v-else-if="posts.timeline">
       <v-container fluid>
@@ -19,7 +19,7 @@
       </v-container>
     </div>
     <div v-else-if="!posts.timeline">
-      <h4 style="color: red">your timmeline is Empty</h4>
+      <h2 style="color: red">Timeline is Empty</h2>
     </div>
   </div>
 </template>

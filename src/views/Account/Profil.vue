@@ -26,11 +26,19 @@
             <div class="my-1">
               <span>
                 <b> Post </b>
-                {{ posts.timeline.length }}
+
+                <span v-if="posts.timeline">
+                  {{ users.user.follower.length }}
+                </span>
+                <span v-else> 0 </span>
               </span>
               <span> - </span>
               <span><b style="cursor: pointer" @click="ShowDialogListUserFollowers()"> Followers </b> </span>
-              {{ users.user.follower.length }}
+              <span v-if="users.user.follower">
+                {{ users.user.follower.length }}
+              </span>
+              <span v-else> 0 </span>
+
               <FollowListUserPopUp
                 v-if="activefollower"
                 :userid="users.user._id"
@@ -40,7 +48,10 @@
               ></FollowListUserPopUp>
               <span> - </span>
               <span><b style="cursor: pointer" @click="ShowDialogListUserFollowed()"> Followed </b> </span>
-              {{ users.user.following.length }}
+              <span v-if="users.user.following">
+                {{ users.user.following.length }}
+              </span>
+              <span v-else> 0 </span>
               <FollowListUserPopUp
                 v-if="activefollowed"
                 :userid="users.user._id"

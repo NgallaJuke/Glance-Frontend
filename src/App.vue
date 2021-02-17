@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-main class="grey lighten-3">
-      <AppBar v-if="account.status.loggedIn" :account="account"></AppBar>
+    <v-main class="grey lighten-5">
+      <TheAppBar v-if="account.status.loggedIn" :account="account" style="margin-bottom: 50px"></TheAppBar>
       <router-view>
         <transition name="slide-fade" cols="6" sm="4" slot="alert">
           <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
@@ -18,13 +18,13 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
-import AppBar from './components/AppBar';
+import TheAppBar from './components/TheAppBar';
 export default {
   name: 'App',
   data() {
     return { show: true };
   },
-  components: { AppBar },
+  components: { TheAppBar },
   computed: {
     ...mapState({
       alert: (state) => state.alert,
@@ -58,7 +58,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style >
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {

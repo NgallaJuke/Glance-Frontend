@@ -26,7 +26,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col depressed style="width: 90%">
+      <v-col depressed style="width: 90%; margin-top: 50px">
         <TailorsPostCard
           :user-name="receivedUser.userName"
           @follow="Followed($event)"
