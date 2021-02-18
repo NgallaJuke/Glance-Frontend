@@ -43,6 +43,9 @@ export default {};
       .link {
         color: #000;
         text-decoration: none;
+        :hover {
+          color: $color_primary;
+        }
       }
     }
     .menu-item:hover {

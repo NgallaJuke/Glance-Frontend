@@ -10,15 +10,21 @@
         width="325"
       ></v-img>
       <v-toolbar class="grey lighten-4" flat max-width="325">
-        <router-link :to="{ name: 'profil', params: { userName: receivedPost.postOwner.userName } }">
+        <!--  <router-link :to="{ name: 'profil', params: { userName: receivedPost.postOwner.userName } }">
           <v-btn icon class="mr-1">
             <v-avatar size="45" v-if="receivedPost.postOwner.avatar">
               <img :src="`${url}avatars/${receivedPost.postOwner.avatar.substring(62)}`" />
             </v-avatar>
             <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
           </v-btn>
-        </router-link>
-
+        </router-link> -->
+        <AvatarLink
+          class="mr-3"
+          name_path="profil"
+          :user_name="receivedPost.postOwner.userName"
+          :size="30"
+          :avatar_uri="receivedPost.postOwner.avatar.substring(62)"
+        ></AvatarLink>
         <h4>{{ receivedPost.postOwner.userName }}</h4>
         <v-spacer></v-spacer>
         <v-btn icon small>
@@ -67,6 +73,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import SinglePostPopup from './Popups/SinglePostPopup';
+import AvatarLink from './Bases/AvatarLink';
 export default {
   props: { post: { type: Object, required: true } },
   data: () => ({
@@ -75,7 +82,7 @@ export default {
     isLiked: Boolean,
     receivedPost: Object,
   }),
-  components: { SinglePostPopup },
+  components: { SinglePostPopup, AvatarLink },
   computed: {
     ...mapState({
       posts: (state) => state.posts,

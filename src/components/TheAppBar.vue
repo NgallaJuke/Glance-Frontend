@@ -1,44 +1,106 @@
 <template>
   <div>
     <v-app-bar class="grey lighten-5" flat fixed height="60px">
-      <TheAppBarLink> </TheAppBarLink>
-      <v-spacer
-        class="v-input expanding-search mt-1 v-input--hide-details v-input--dense theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed v-text-field--placeholder"
-      ></v-spacer>
-      <v-spacer></v-spacer>
-      <v-text-field
-        filled
-        dense
-        clearable
-        placeholder="Search"
-        class="expanding-search pt-6"
-        :class="{ closed: searchClosed }"
-        @focus="searchClosed = false"
-        @blur="searchClosed = true"
-        prepend-inner-icon="mdi-magnify"
-      ></v-text-field>
-      <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
-      <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
-      <v-btn class="mx-5" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
-      <v-menu offsetY open-on-hover left bottom>
-        <template v-slot:activator="{ on, attrs }" style="margin-right: 1em">
-          <router-link class="mr-3" :to="{ name: 'profil', params: { userName: account.user.userName } }">
-            <v-btn icon small plain ripple="{none}" v-bind="attrs" v-on="on">
-              <v-avatar v-if="account.user.avatar" height="40" width="40">
-                <img :src="`${url}avatars/${account.user.avatar.substring(62)}`" />
-              </v-avatar>
-              <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
-            </v-btn>
-          </router-link>
-        </template>
+      <div class="AppBar hidden-md-and-up">
+        <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = true"></v-app-bar-nav-icon>
+        <v-spacer></v-spacer>
+        <v-text-field
+          filled
+          dense
+          clearable
+          placeholder="Search"
+          class="expanding-search pt-6"
+          :class="{ closed: searchClosed }"
+          @focus="searchClosed = false"
+          @blur="searchClosed = true"
+          prepend-inner-icon="mdi-magnify"
+        ></v-text-field>
+        <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
+        <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
+      </div>
 
-        <v-list>
-          <v-list-item @click="Logout">
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <div class="AppBar hidden-sm-and-down">
+        <TheAppBarLink> </TheAppBarLink>
+        <v-spacer></v-spacer>
+
+        <v-text-field
+          filled
+          dense
+          clearable
+          placeholder="Search"
+          class="expanding-search pt-6"
+          :class="{ closed: searchClosed }"
+          @focus="searchClosed = false"
+          @blur="searchClosed = true"
+          prepend-inner-icon="mdi-magnify"
+        ></v-text-field>
+        <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
+        <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
+        <v-btn class="mx-5" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
+        <v-menu offsetY open-on-hover left bottom transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs }" style="margin-right: 1em">
+            <AvatarLink
+              name_path="profil"
+              :user_name="account.user.userName"
+              :size="40"
+              :avatar_uri="account.user.avatar.substring(62)"
+              :on="on"
+              :attrs="attrs"
+            ></AvatarLink>
+          </template>
+          <TheProfilOptions></TheProfilOptions>
+        </v-menu>
+      </div>
     </v-app-bar>
+
+    <v-navigation-drawer class="Drawer" v-model="drawer" temporary fixed>
+      <TheAppBarLink class="AppBarLink_drawer"></TheAppBarLink>
+      <v-btn
+        style="margin-left: 28px; margin-bottom: 10px"
+        depressed
+        rounded
+        color="primary white--text"
+        @click="ShowDialog()"
+        >Upload</v-btn
+      >
+      <v-divider></v-divider>
+
+      <AvatarLink
+        class="Drawer_Avatar"
+        name_path="profil"
+        :user_name="account.user.userName"
+        :size="40"
+        :avatar_uri="account.user.avatar.substring(62)"
+      ></AvatarLink>
+      <div class="UserInfo">
+        <h4>{{ account.user.userName }}</h4>
+        <p>{{ account.user.email }}</p>
+      </div>
+
+      <div class="Drawer_Profil_Options">
+        <v-list>
+          <v-list-item-group>
+            <v-list-item>
+              <v-list-item-title>Profil</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Edit Profil</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>My Saves</v-list-item-title>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item>
+              <v-list-item-title>Account Settings</v-list-item-title>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item @click="Logout">
+              <v-list-item-title style="margin-top: 25px; color: red">Sign Out</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </div>
+    </v-navigation-drawer>
     <div
       v-if="dialog"
       :is="dialogComp"
@@ -53,6 +115,8 @@
 import { mapActions } from 'vuex';
 import UploadPost from './Popups/Uploadpost';
 import TheAppBarLink from './TheAppBarLink';
+import TheProfilOptions from './TheProfilOptions';
+import AvatarLink from './Bases/AvatarLink';
 
 export default {
   props: { account: Object },
@@ -62,10 +126,12 @@ export default {
       avatar: '',
       dialogComp: UploadPost,
       dialog: false,
+      drawer: false,
+      group: null,
       searchClosed: true,
     };
   },
-  components: { TheAppBarLink },
+  components: { TheAppBarLink, TheProfilOptions, AvatarLink },
 
   methods: {
     ...mapActions(['account/logout']),
@@ -110,5 +176,40 @@ export default {
 }
 .v-ripple__container {
   display: none !important;
+}
+
+.AppBar {
+  display: contents;
+}
+
+.AppBarLink_drawer {
+  flex-direction: column;
+  align-items: flex-start !important;
+  .menu-items {
+    flex-direction: column;
+    align-items: flex-start !important;
+    padding: 8px 10px;
+  }
+}
+.Drawer {
+  .Drawer_Avatar {
+    margin: 30px 20px 0 28px;
+    display: inline-block;
+  }
+
+  .UserInfo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    h4 {
+      display: inline;
+    }
+    p {
+      display: inline;
+    }
+  }
+  .Drawer_Profil_Options {
+    margin-left: 12px;
+  }
 }
 </style>
