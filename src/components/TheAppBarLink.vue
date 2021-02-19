@@ -33,6 +33,7 @@ export default {};
 .container {
   display: flex;
   align-items: center;
+  padding: 0;
   .menu-items {
     list-style: none;
     display: flex;
@@ -56,7 +57,7 @@ export default {};
   .logo {
     color: #000;
     text-decoration: none;
-    padding: 0.5em 1em;
+    padding: 0.5em 0px;
     display: inline;
   }
 }

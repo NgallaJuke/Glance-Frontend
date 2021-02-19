@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar class="grey lighten-5" flat fixed height="60px">
+    <v-app-bar class="grey px-5 lighten-5" flat fixed height="60px">
       <div class="AppBar hidden-md-and-up">
         <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = true"></v-app-bar-nav-icon>
         <v-spacer></v-spacer>
