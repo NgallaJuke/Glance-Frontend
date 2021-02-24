@@ -9,40 +9,38 @@
         height="370"
         width="325"
       ></v-img>
-      <v-toolbar class="ma-0 pa-0 PostCard_Toolbar grey lighten-5" flat max-width="325" height="45">
+      <v-toolbar class="grey lighten-5" flat max-width="325" height="45">
         <AvatarLink
-          class="mr-3"
+          class="mr-1"
           name_path="profil"
           :user_name="receivedPost.postOwner.userName"
-          :size="30"
+          :size="25"
           :avatar_uri="receivedPost.postOwner.avatar.substring(62)"
         ></AvatarLink>
         <h4>{{ receivedPost.postOwner.userName }}</h4>
         <v-spacer></v-spacer>
         <v-btn icon small>
-          <img src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=000" width="25" height="25" />
+          <img src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=000" width="20" height="20" />
         </v-btn>
-        <h5 class="comment_count">{{ receivedPost.comments.count }}</h5>
+        <h5 class="mr-2">{{ receivedPost.comments.count }}</h5>
         <v-btn icon small>
           <img
             v-if="isLiked"
             @click="DisLikePost(receivedPost)"
             @update:likepost="isLiked = $event"
             src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
-            width="25"
-            height="25"
-            style="margin: 0 10px"
+            width="20"
+            height="20"
           />
           <img
             v-else
             @click="LikePost(receivedPost)"
             src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
-            width="25"
-            height="25"
-            style="margin: 0 10px"
+            width="20"
+            height="20"
           />
         </v-btn>
-        <h5 class="like_count">{{ receivedPost.likes.count }}</h5>
+        <h5>{{ receivedPost.likes.count }}</h5>
       </v-toolbar>
     </v-card>
     <SinglePostPopup
@@ -133,17 +131,6 @@ export default {
   }
   .card_img:hover {
     cursor: pointer;
-  }
-  .PostCard_Toolbar {
-    .v-toolbar__content {
-      padding: 0px 2px;
-    }
-    .comment_count {
-      margin: 0px 5px;
-    }
-    .like_count {
-      margin-left: 5px;
-    }
   }
 }
 </style>

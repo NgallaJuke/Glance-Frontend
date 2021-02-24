@@ -1,11 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Login from '../views/Auth/Login.vue';
-import Profil from '../views/Account/Profil.vue';
-import Tailors from '../views/Account/Tailors.vue';
-import Register from '../views/Auth/Register.vue';
-import SuccessRegister from '../views/Auth/SuccessRegister.vue';
 import Home from '../views/Home/Home.vue';
+import Login from '../views/Auth/Login.vue';
 
 Vue.use(VueRouter);
 
@@ -18,12 +14,12 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: Register,
+    component: () => import(/* webpackChunckName: "register"*/ '../views/Auth/Register.vue'),
   },
   {
     path: '/register-success',
     name: 'register-success',
-    component: SuccessRegister,
+    component: () => import(/* webpackChunckName: "register-success"*/ '../views/Auth/SuccessRegister.vue'),
   },
   {
     path: '/',
@@ -33,12 +29,17 @@ const routes = [
   {
     path: '/profil/:userName',
     name: 'profil',
-    component: Profil,
+    component: () => import(/* webpackChunckName: "profil"*/ '../views/Account/Profil.vue'),
+  },
+  {
+    path: '/account',
+    name: 'setting',
+    component: () => import(/* webpackChunckName: "setting"*/ '../views/Account/Setting.vue'),
   },
   {
     path: '/tailors',
     name: 'tailors',
-    component: Tailors,
+    component: () => import(/* webpackChunckName: "Tailors"*/ '../views/Account/Tailors.vue'),
   },
   { path: '*', redirect: '/' },
 ];
