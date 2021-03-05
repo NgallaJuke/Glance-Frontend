@@ -3,7 +3,11 @@
     <v-list max-width="200">
       <v-list-item-group max-width="200">
         <v-list-item>
-          <v-list-item-title>Profil</v-list-item-title>
+          <v-list-item-title>
+            <router-link class="link" :to="{ name: 'profil', params: { userName: account.user.userName } }">
+              Profil
+            </router-link>
+          </v-list-item-title>
         </v-list-item>
         <v-list-item>
           <v-list-item-title>Edit Profil</v-list-item-title>
@@ -25,8 +29,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
+  computed: {
+    ...mapState({
+      account: (state) => state.account,
+    }),
+  },
   methods: {
     ...mapActions(['account/logout']),
     Logout() {
@@ -36,5 +45,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.link {
+  text-decoration: none;
+  color: black;
+}
 </style>

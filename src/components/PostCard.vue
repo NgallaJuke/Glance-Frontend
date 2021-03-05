@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mx-auto" max-width="325" style="border-radius: 10px">
+    <v-card class="PostCard mx-auto ma-0 pa-0" max-width="325" elevation="0">
       <v-img
         class="card_img"
         :src="`${url}posts_pic/${receivedPost.picture[0]}`"
@@ -9,48 +9,35 @@
         height="370"
         width="325"
       ></v-img>
-      <v-toolbar class="grey lighten-4" flat max-width="325">
-        <!--  <router-link :to="{ name: 'profil', params: { userName: receivedPost.postOwner.userName } }">
-          <v-btn icon class="mr-1">
-            <v-avatar size="45" v-if="receivedPost.postOwner.avatar">
-              <img :src="`${url}avatars/${receivedPost.postOwner.avatar.substring(62)}`" />
-            </v-avatar>
-            <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
-          </v-btn>
-        </router-link> -->
+      <v-toolbar class="grey lighten-5" flat max-width="325" height="45">
         <AvatarLink
-          class="mr-3"
+          class="mr-1"
           name_path="profil"
           :user_name="receivedPost.postOwner.userName"
-          :size="30"
+          :size="25"
           :avatar_uri="receivedPost.postOwner.avatar.substring(62)"
         ></AvatarLink>
         <h4>{{ receivedPost.postOwner.userName }}</h4>
         <v-spacer></v-spacer>
         <v-btn icon small>
-          <img
-            src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=000"
-            width="25"
-            height="25"
-            style="margin: 0 10px"
-          />
+          <img src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=000" width="20" height="20" />
         </v-btn>
-        <h5 style="margin-right: 10px">{{ receivedPost.comments.count }}</h5>
+        <h5 class="mr-2">{{ receivedPost.comments.count }}</h5>
         <v-btn icon small>
           <img
             v-if="isLiked"
             @click="DisLikePost(receivedPost)"
             @update:likepost="isLiked = $event"
             src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
-            width="25"
-            height="25"
+            width="20"
+            height="20"
           />
           <img
             v-else
             @click="LikePost(receivedPost)"
             src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
-            width="25"
-            height="25"
+            width="20"
+            height="20"
           />
         </v-btn>
         <h5>{{ receivedPost.likes.count }}</h5>
@@ -135,8 +122,15 @@ export default {
 };
 </script>
 
-<style scoped>
-.card_img:hover {
-  cursor: pointer;
+<style lang="scss" scoped>
+@import '@/styles/variables';
+.PostCard {
+  border-radius: $border_radius;
+  .card_img {
+    border-radius: $border_radius;
+  }
+  .card_img:hover {
+    cursor: pointer;
+  }
 }
 </style>
