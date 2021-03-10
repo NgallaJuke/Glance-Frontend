@@ -1,8 +1,6 @@
 <template>
   <div style="width: 90%">
-    <div v-if="posts.status.loading">
-      <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
-    </div>
+    <div v-if="posts.status.loading"><TheDumyTimeline></TheDumyTimeline></div>
     <div v-else-if="posts.status.empty">
       <img src="https://s.svgbox.net/hero-solid.svg?ic=eye-off&fill=000" width="32" height="32" />
       <h1>
@@ -27,10 +25,11 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import PostCard from './PostCard';
+import TheDumyTimeline from './TheDumyTimeline';
 export default {
   props: { timeline: String },
   data: () => ({ url: process.env.VUE_APP_API_URI }),
-  components: { PostCard },
+  components: { PostCard, TheDumyTimeline },
   computed: {
     ...mapState({
       posts: (state) => state.posts,

@@ -1,12 +1,12 @@
 import { userServices } from '../services';
 // import router from '../router/index';
 const state = {
-  user: null,
-  listUsers: [],
-  follower: [],
-  following: [],
-  allUsers: null,
-  status: null,
+  user: Object,
+  listUsers: Array,
+  follower: Array,
+  following: Array,
+  allUsers: Array,
+  status: Boolean,
   follow: Boolean,
   unfollow: Boolean,
 };
@@ -123,7 +123,7 @@ const mutations = {
   },
   UserProfilSuccess(state, userProfil) {
     state.user = userProfil;
-    state.status = { loggedIn: true };
+    state.status = { UserProfilLaoded: true };
   },
   UserProfilListSuccess(state, userProfil) {
     state.listUsers.push(userProfil);

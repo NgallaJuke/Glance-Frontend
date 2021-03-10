@@ -3,20 +3,20 @@
     <slot name="alert"></slot>
     <div class="spacer"></div>
     <div class="container--fluid" style="display: flex; justify-content: center">
-      <TimeLine :timeline="timeline"></TimeLine>
+      <TheTimeLine :timeline="timeline"></TheTimeLine>
     </div>
   </div>
 </template>
 
 <script>
-import TimeLine from '../../components/TimeLine';
+import TheTimeLine from '../../components/TheTimeLine';
 export default {
   data: () => {
     return {
       timeline: 'timeline',
     };
   },
-  components: { TimeLine },
+  components: { TheTimeLine },
 };
 </script>
 

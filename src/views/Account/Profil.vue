@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-10" :key="$route.fullPath">
     <slot name="alert"></slot>
     <!-- <div v-if="users.user" class="container" align="center">
       <v-row justify="start">
@@ -78,6 +78,7 @@
         <h1>{{ users.user.userName }}</h1>
       </div>
       <div class="Profil_User_Bio mb-3">
+        <!-- Change this H2 to user's bio -->
         <h2>Design for awesome experiences and bright brands</h2>
       </div>
       <div v-if="account.user._id === users.user._id" class="Profil_User_Options">
@@ -127,30 +128,71 @@
         ></FollowListUserPopUp>
       </div> -->
     </div>
-    <div class="Container_Tab my-8">
+    <div class="Container_Tab my-8 ml-5">
       <ul class="Container_Tab_Items">
-        <li class="Container_Tab_Item">Posts</li>
-        <li class="Container_Tab_Item">Liked Posts</li>
-        <li class="Container_Tab_Item">Followers</li>
-        <li class="Container_Tab_Item">Following</li>
-        <li class="Container_Tab_Item">About</li>
+        <li class="Container_Tab_Item mx-4">
+          <span
+            class="Tag"
+            @click="currentTabComponent = 'TheTimeLine'"
+            :class="['Tab', { active: currentTabComponent === 'TheTimeLine' }]"
+            >Posts
+          </span>
+          <span class="Count">000</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span class="Tag">Liked Posts </span>
+          <span class="Count">000</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span class="Tag" @click="ShowDialogListUserFollowers()">Followers </span>
+          <span class="Count"> {{ users.user.follower.length }}</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span class="Tag" @click="ShowDialogListUserFollowed()">Following </span>
+          <span class="Count">{{ users.user.following.length }}</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span
+            class="Tag"
+            @click="currentTabComponent = 'TheProfileAbout'"
+            :class="['Tab', { active: currentTabComponent === 'TheProfileAbout' }]"
+            >About
+          </span>
+        </li>
       </ul>
     </div>
+    <FollowListUserPopUp
+      v-if="activefollower"
+      :userid="users.user._id"
+      :activefollower="activefollower"
+      @update:closedialog="activefollower = $event"
+      :closedialog="activefollower"
+    ></FollowListUserPopUp>
+    <FollowListUserPopUp
+      v-if="activefollowed"
+      :userid="users.user._id"
+      :activefollowed="activefollowed"
+      @update:closedialog="activefollowed = $event"
+      :closedialog="activefollowed"
+    ></FollowListUserPopUp>
     <v-divider></v-divider>
-
     <div class="container--fluid" style="display: flex; justify-content: center; margin-top: 50px">
-      <!-- :key="$route.fullPath" will recreate this component when ever the route fullPath changes 
-      Ex -> http://localhost:8080/profil/user1 to http://localhost:8080/profil/user2   -->
-      <TimeLine :timeline="timeline" :key="$route.fullPath"></TimeLine>
+      <!-- :key="$route.fullPath" will recreate this component whenever the route fullPath changes 
+      Ex-> http://localhost:8080/profil/user1 to http://localhost:8080/profil/user2   -->
+      <!-- <TimeLine :timeline="timeline" :key="$route.fullPath"></TimeLine>  -->
+      <keep-alive>
+        <component :is="currentTabComponent" v-bind="currentProperties"></component>
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import TimeLine from '../../components/TimeLine';
+import TheTimeLine from '../../components/TheTimeLine';
+import TheProfileAbout from '../../components/TheProfileAbout';
 // import UpdateAvatar from '../../components/Popups/UpdateAvatar';
-// import FollowListUserPopUp from '../../components/Popups/FollowListUserPopUp';
+import FollowListUserPopUp from '../../components/Popups/FollowListUserPopUp';
 import HireUserPopup from '../../components/Popups/HireUserPopup';
 
 export default {
@@ -163,29 +205,33 @@ export default {
       isFollowed: Boolean,
       activefollower: false,
       activefollowed: false,
-
-      timeline: 'home-timeline',
+      currentTabComponent: 'TheTimeLine',
     };
   },
-  components: { TimeLine, HireUserPopup },
+  components: { TheTimeLine, FollowListUserPopUp, HireUserPopup, TheProfileAbout },
   computed: {
     ...mapState({
       account: (state) => state.account,
       users: (state) => state.users,
       posts: (state) => state.posts,
     }),
+    // eslint-disable-next-line vue/return-in-computed-property
+    currentProperties() {
+      if (this.currentTabComponent === 'TheTimeLine') {
+        return { timeline: 'home-timeline' };
+      }
+    },
   },
   methods: {
     ...mapActions(['users/getSingleUser', 'users/followUser', 'users/unfollowUser']),
-
-    // ShowDialogListUserFollowers() {
-    //   if (this.users.user.follower.length === 0) return;
-    //   if (!this.activefollower) this.activefollower = true;
-    // },
-    // ShowDialogListUserFollowed() {
-    //   if (this.users.user.following.length === 0) return;
-    //   if (!this.activefollowed) this.activefollowed = true;
-    // },
+    ShowDialogListUserFollowers() {
+      if (this.users.user.follower.length === 0) return;
+      if (!this.activefollower) this.activefollower = true;
+    },
+    ShowDialogListUserFollowed() {
+      if (this.users.user.following.length === 0) return;
+      if (!this.activefollowed) this.activefollowed = true;
+    },
     FollowUser(userID) {
       this['users/followUser'](userID);
       this.isFollowed = true;
@@ -246,29 +292,38 @@ export default {
       text-decoration: none;
     }
   }
-
-  .Container_Tab {
+}
+.Container_Tab {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  .Container_Tab_Items {
+    list-style: none;
     display: flex;
     align-items: center;
-    padding: 0;
-    .Container_Tab_Items {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      .Container_Tab_Item {
-        font-size: 1rem;
-
-        color: #000;
-        text-decoration: none;
+    .Container_Tab_Item {
+      font-size: 1rem;
+      text-decoration: none;
+      .Tag {
+        color: rgb(30, 30, 30);
+        font-weight: 600;
         &:hover {
           color: $color_primary;
+          cursor: pointer;
+        }
+        &.active {
+          color: $color_primary;
+          font-size: 1.1em;
         }
       }
+      .Count {
+        color: rgb(114, 114, 114);
+      }
     }
-    .Container_Tab_Item:hover {
-      background-color: $btn_hover_color;
-      border-radius: $border_radius;
-    }
+  }
+  .Container_Tab_Item:hover {
+    background-color: $btn_hover_color;
+    border-radius: $border_radius;
   }
 }
 </style>
