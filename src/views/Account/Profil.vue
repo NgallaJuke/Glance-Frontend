@@ -1,72 +1,6 @@
 <template>
   <div class="pt-10" :key="$route.fullPath">
     <slot name="alert"></slot>
-    <!-- <div v-if="users.user" class="container" align="center">
-      <v-row justify="start">
-        <v-col cols="3" sm="12" md="4">
-          <v-avatar class="my-2" size="100" v-if="!users.status.loggingOut && avatar !== ''">
-            <img :src="`${url}avatars/${avatar}`" />
-          </v-avatar>
-          <div>
-            <h2 class="my-1">{{ users.user.userName }}</h2>
-            <v-btn
-              v-if="account.user._id === users.user._id"
-              class="my-1"
-              outlined
-              color="primary"
-              dark
-              @click="ShowDialogUpdateAvatar()"
-              >Edit Profil</v-btn
-            >
-            <UpdateAvatar
-              v-if="avatarDialog"
-              :avatarDialog="avatarDialog"
-              @update:closedialog="avatarDialog = $event"
-            ></UpdateAvatar>
-            <div class="my-1">
-              <span>
-                <b> Post </b>
-
-                <span v-if="posts.timeline">
-                  {{ users.user.follower.length }}
-                </span>
-                <span v-else> 0 </span>
-              </span>
-              <span> - </span>
-              <span><b style="cursor: pointer" @click="ShowDialogListUserFollowers()"> Followers </b> </span>
-              <span v-if="users.user.follower">
-                {{ users.user.follower.length }}
-              </span>
-              <span v-else> 0 </span>
-
-              <FollowListUserPopUp
-                v-if="activefollower"
-                :userid="users.user._id"
-                :activefollower="activefollower"
-                @update:closedialog="activefollower = $event"
-                :closedialog="activefollower"
-              ></FollowListUserPopUp>
-              <span> - </span>
-              <span><b style="cursor: pointer" @click="ShowDialogListUserFollowed()"> Followed </b> </span>
-              <span v-if="users.user.following">
-                {{ users.user.following.length }}
-              </span>
-              <span v-else> 0 </span>
-              <FollowListUserPopUp
-                v-if="activefollowed"
-                :userid="users.user._id"
-                :activefollowed="activefollowed"
-                @update:closedialog="activefollowed = $event"
-                :closedialog="activefollowed"
-              ></FollowListUserPopUp>
-            </div>
-          </div>
-        </v-col>
-      </v-row>
-    </div>
-    <div v-else>
-      <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
-    </div> -->
 
     <div v-if="users.user" class="Profil_User">
       <div class="Profil_User_Avatar mb-3">
@@ -99,34 +33,6 @@
       </div>
       <HireUserPopup v-if="dialog" :closedialog="dialog" :dialog="dialog" @update:closedialog="dialog = $event">
       </HireUserPopup>
-      <!-- <div class="Profil_User_Follow">
-        <span><b style="cursor: pointer" @click="ShowDialogListUserFollowers()"> Followers </b> </span>
-        <span v-if="users.user.follower">
-          {{ users.user.follower.length }}
-        </span>
-        <span v-else> 0 </span>
-
-        <FollowListUserPopUp
-          v-if="activefollower"
-          :userid="users.user._id"
-          :activefollower="activefollower"
-          @update:closedialog="activefollower = $event"
-          :closedialog="activefollower"
-        ></FollowListUserPopUp>
-        <span> - </span>
-        <span><b style="cursor: pointer" @click="ShowDialogListUserFollowed()"> Followed </b> </span>
-        <span v-if="users.user.following">
-          {{ users.user.following.length }}
-        </span>
-        <span v-else> 0 </span>
-        <FollowListUserPopUp
-          v-if="activefollowed"
-          :userid="users.user._id"
-          :activefollowed="activefollowed"
-          @update:closedialog="activefollowed = $event"
-          :closedialog="activefollowed"
-        ></FollowListUserPopUp>
-      </div> -->
     </div>
     <div class="Container_Tab my-8 ml-5">
       <ul class="Container_Tab_Items">
@@ -137,7 +43,7 @@
             :class="['Tab', { active: currentTabComponent === 'TheTimeLine' }]"
             >Posts
           </span>
-          <span class="Count">000</span>
+          <span class="Count">{{ posts.timeline.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span class="Tag">Liked Posts </span>
@@ -189,11 +95,17 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import TheTimeLine from '../../components/TheTimeLine';
-import TheProfileAbout from '../../components/TheProfileAbout';
-// import UpdateAvatar from '../../components/Popups/UpdateAvatar';
-import FollowListUserPopUp from '../../components/Popups/FollowListUserPopUp';
-import HireUserPopup from '../../components/Popups/HireUserPopup';
+import TheProfileAbout from '@/components/TheProfileAbout';
+import FollowListUserPopUp from '@/components/Popups/FollowListUserPopUp';
+import HireUserPopup from '@/components/Popups/HireUserPopup';
+import TheTimeLineLoading from '@/components/TheTimeLineLoading';
+import TheTimeLineError from '@/components/TheTimeLineError';
+const TheTimeLine = () => ({
+  component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
+  loading: TheTimeLineLoading,
+  error: TheTimeLineError,
+  timeout: 2000,
+});
 
 export default {
   data: () => {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-sheet depressed v-if="timelineLimited.length > 0" class="mx-auto grey lighten-3" max-width="1000">
+    <v-sheet depressed v-if="timelineLimited.length > 0" class="mx-auto grey lighten-5" max-width="1000">
       <v-slide-group depressed>
         <v-slide-item depressed v-for="post in timelineLimited" :key="post._id">
           <v-card class="ma-3 card_img" max-width="200" style="border-radius: 10px">

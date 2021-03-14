@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="pt-10">
     <slot name="alert"></slot>
-    <div class="spacer"></div>
     <div class="container--fluid" style="display: flex; justify-content: center">
       <TheTimeLine :timeline="timeline"></TheTimeLine>
     </div>
@@ -9,7 +8,14 @@
 </template>
 
 <script>
-import TheTimeLine from '../../components/TheTimeLine';
+import TheTimeLineLoading from '@/components/TheTimeLineLoading';
+import TheTimeLineError from '@/components/TheTimeLineError';
+const TheTimeLine = () => ({
+  component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
+  loading: TheTimeLineLoading,
+  error: TheTimeLineError,
+  timeout: 5000,
+});
 export default {
   data: () => {
     return {
@@ -19,9 +25,3 @@ export default {
   components: { TheTimeLine },
 };
 </script>
-
-<style  scoped>
-.spacer {
-  height: calc(2vh + 2vw);
-}
-</style>
