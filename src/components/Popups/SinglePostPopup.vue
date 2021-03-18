@@ -176,9 +176,9 @@ export default {
       this.$emit('deletecomment');
     },
   },
-  created() {
+  async created() {
     this.receivedPost = JSON.parse(JSON.stringify(this.post));
-    this['comments/getAllPostComments'](this.receivedPost._id);
+    await this['comments/getAllPostComments'](this.receivedPost._id);
   },
   mounted() {
     if (this.receivedPost.likes.liker.includes(this.account.user._id)) {

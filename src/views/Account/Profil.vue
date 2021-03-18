@@ -21,12 +21,20 @@
         </router-link>
       </div>
       <div v-else class="Profil_User_Options">
-        <v-btn v-if="isFollowed" @click="UnFollowUser(users.user._id)" class="my-1 pa-2 mr-2" outlined color="primary"
+        <FollowButton
+          :isfollowed="isFollowed"
+          :userid="users.user._id"
+          @follow="FollowUser($event)"
+          @unfollow="UnFollowUser($event)"
+        ></FollowButton>
+        <!--  -->
+        <!-- <v-btn v-if="isFollowed" @click="UnFollowUser(users.user._id)" class="my-1 pa-2 mr-2" outlined color="primary"
           ><v-icon left small> mdi-check </v-icon>Following</v-btn
         >
         <v-btn v-else @click="FollowUser(users.user._id)" class="my-1 pa-2 mr-2" depressed color="grey lighten-4"
           ><v-icon left>mdi-plus </v-icon>Follow</v-btn
-        >
+        > -->
+        <!--  -->
         <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary"
           ><v-icon left small> mdi-email </v-icon>Hire Us</v-btn
         >
@@ -100,11 +108,14 @@ import FollowListUserPopUp from '@/components/Popups/FollowListUserPopUp';
 import HireUserPopup from '@/components/Popups/HireUserPopup';
 import TheTimeLineLoading from '@/components/TheTimeLineLoading';
 import TheTimeLineError from '@/components/TheTimeLineError';
+import FollowButton from '@/components/Bases/FollowButton';
+
+//Dynamic component
 const TheTimeLine = () => ({
   component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
   loading: TheTimeLineLoading,
   error: TheTimeLineError,
-  timeout: 2000,
+  timeout: 500,
 });
 
 export default {
@@ -120,7 +131,7 @@ export default {
       currentTabComponent: 'TheTimeLine',
     };
   },
-  components: { TheTimeLine, FollowListUserPopUp, HireUserPopup, TheProfileAbout },
+  components: { TheTimeLine, FollowListUserPopUp, HireUserPopup, TheProfileAbout, FollowButton },
   computed: {
     ...mapState({
       account: (state) => state.account,
@@ -144,28 +155,25 @@ export default {
       if (this.users.user.following.length === 0) return;
       if (!this.activefollowed) this.activefollowed = true;
     },
-    FollowUser(userID) {
-      this['users/followUser'](userID);
-      this.isFollowed = true;
+    FollowUser(even) {
+      this.isFollowed = even;
     },
-    UnFollowUser(userID) {
-      this['users/unfollowUser'](userID);
-      this.isFollowed = false;
+    UnFollowUser(even) {
+      this.isFollowed = even;
     },
     ShowDialogHireUs() {
       if (!this.dialog) this.dialog = true;
     },
   },
-  created() {
+  async created() {
     const payload = { userName: this.$route.params.userName };
-    this['users/getSingleUser'](payload).then(() => {
-      const avatar = this.users.user.avatar;
-      const lastIndex = avatar.lastIndexOf('avatars');
-      this.avatar = this.users.user.avatar.substring(lastIndex + 8);
-      if (this.account.user.following.includes(this.users.user._id)) this.isFollowed = true;
-      else this.isFollowed = false;
-    });
+    await this['users/getSingleUser'](payload);
+    const avatar = this.users.user.avatar;
+    const lastIndex = avatar.lastIndexOf('avatars');
+    this.avatar = this.users.user.avatar.substring(lastIndex + 8);
+    this.isFollowed = this.account.user.following.includes(this.users.user._id) ? true : false;
   },
+  mounted() {},
   watch: {
     '$route.params.userName': function (userName) {
       const payload = { userName: userName };

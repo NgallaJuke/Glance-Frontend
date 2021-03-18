@@ -4,7 +4,7 @@
       <router-link :to="{ name: name_path, params: { userName: user_name } }">
         <v-btn icon small v-on="on" v-bind="attrs">
           <v-avatar v-if="avatar_uri" :height="`${size}`" :width="`${size}`">
-            <img :src="`${url}avatars/${avatar_uri}`" />
+            <img :src="`${url}${avatar_uri}`" />
           </v-avatar>
           <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
         </v-btn>

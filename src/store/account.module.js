@@ -62,6 +62,7 @@ const actions = {
         commit('UserProfilSuccess', UserProfil);
       }
     } catch (error) {
+      
       commit('UserProfilFailure', error);
       dispatch('alert/error', error, { root: true });
     }
@@ -110,6 +111,7 @@ const mutations = {
   },
   UserProfilFailure(state, error) {
     state.user = null;
+    state.status= {NoUser: true};
     state.error = error;
   },
 };
