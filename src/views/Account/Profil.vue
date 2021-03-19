@@ -106,15 +106,15 @@ import { mapState, mapActions } from 'vuex';
 import TheProfileAbout from '@/components/TheProfileAbout';
 import FollowListUserPopUp from '@/components/Popups/FollowListUserPopUp';
 import HireUserPopup from '@/components/Popups/HireUserPopup';
-import TheTimeLineLoading from '@/components/TheTimeLineLoading';
-import TheTimeLineError from '@/components/TheTimeLineError';
+import TheTimeLineLoading from '@/components/Loaders/TheTimeLineLoading';
+import ErrorFetch from '@/components/Loaders/ErrorFetch';
 import FollowButton from '@/components/Bases/FollowButton';
 
 //Dynamic component
 const TheTimeLine = () => ({
   component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
   loading: TheTimeLineLoading,
-  error: TheTimeLineError,
+  error: ErrorFetch,
   timeout: 500,
 });
 

@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import TheTimeLineLoading from '@/components/TheTimeLineLoading';
-import TheTimeLineError from '@/components/TheTimeLineError';
+import TheTimeLineLoading from '@/components/Loaders/TheTimeLineLoading';
+import ErrorFetch from '@/components/Loaders/ErrorFetch';
 const TheTimeLine = () => ({
   component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
   loading: TheTimeLineLoading,
-  error: TheTimeLineError,
+  error: ErrorFetch,
   timeout: 5000,
 });
 export default {

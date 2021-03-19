@@ -5,17 +5,17 @@
     </router-link>
     <ul class="menu-items">
       <li class="menu-item px-3 py-1">
-        <router-link class="link" :to="{ name: 'tailors' }">
+        <router-link class="link" :to="{ name: 'users' }">
           <h3>Descover</h3>
         </router-link>
       </li>
       <li class="menu-item px-3 py-1">
-        <router-link class="link" :to="{ name: 'tailors' }">
+        <router-link class="link" :to="{ name: 'users' }">
           <h3>Photographers</h3>
         </router-link>
       </li>
       <li class="menu-item px-3 py-1">
-        <router-link class="link" :to="{ name: 'tailors' }">
+        <router-link class="link" :to="{ name: '#' }">
           <h3>Hire</h3>
         </router-link>
       </li>

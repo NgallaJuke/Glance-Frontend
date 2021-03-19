@@ -37,9 +37,9 @@ const routes = [
     component: () => import(/* webpackChunckName: "setting"*/ '../views/Account/Setting.vue'),
   },
   {
-    path: '/tailors',
-    name: 'tailors',
-    component: () => import(/* webpackChunckName: "Tailors"*/ '../views/Account/Tailors.vue'),
+    path: '/users',
+    name: 'users',
+    component: () => import(/* webpackChunckName: "Users"*/ '../views/Account/Users.vue'),
   },
   { path: '*', redirect: '/' },
 ];
