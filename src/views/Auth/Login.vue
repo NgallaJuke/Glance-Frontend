@@ -2,11 +2,21 @@
   <div class="container my-5">
     <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
-      <v-text-field outlined dense label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
+      <v-text-field
+        filled
+        dense
+        flat
+        sololabel="E-mail"
+        v-model="user.email"
+        :rules="emailRules"
+        required
+      ></v-text-field>
 
       <v-text-field
-        outlined
+        filled
         dense
+        flat
+        solo
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"

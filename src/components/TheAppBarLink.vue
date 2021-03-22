@@ -40,7 +40,6 @@ export default {};
     align-items: center;
     .menu-item {
       font-size: 1rem;
-
       .link {
         color: #000;
         text-decoration: none;

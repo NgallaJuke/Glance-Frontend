@@ -1,7 +1,7 @@
 <template>
-  <div class="pt-10">
+  <div class="pt-10 container--fluid">
     <slot name="alert"></slot>
-    <div class="container--fluid" style="display: flex; justify-content: center">
+    <div class="Current_Tab">
       <TheTimeLine :timeline="timeline"></TheTimeLine>
     </div>
   </div>
@@ -25,3 +25,9 @@ export default {
   components: { TheTimeLine },
 };
 </script>
+<style lang="scss" scoped>
+.Current_Tab {
+  display: flex;
+  justify-content: center;
+}
+</style>

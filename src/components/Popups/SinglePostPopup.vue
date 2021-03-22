@@ -22,6 +22,7 @@
                 {{ receivedPost.postOwner.userName }}
               </h4>
               <FollowButton
+                v-if="receivedPost.postOwner.userName !== account.user.userName"
                 class="Post_Info_User_FollowBtn"
                 :isfollowed="isFollowed"
                 :userid="receivedPost.postOwner._id"
@@ -67,7 +68,16 @@
             <v-form ref="form" v-model="valid" lazy-validation>
               <div class="form">
                 <div class="input_comment">
-                  <v-text-field v-model="comment" :rules="commentRules" label="Comment here" required></v-text-field>
+                  <v-text-field
+                    v-model="comment"
+                    :rules="commentRules"
+                    label="Comment here"
+                    clearable
+                    filled
+                    dense
+                    flat
+                    solo
+                  ></v-text-field>
                 </div>
                 <div class="btn_comment">
                   <v-btn :disabled="!valid" outlined color="primary" @click.stop="MakeComment(receivedPost._id)"
@@ -237,12 +247,12 @@ export default {
 .form {
   width: 100%;
   display: flex;
-  align-content: center;
+  align-content: flex-start;
   justify-content: center;
 }
 .btn_comment {
   display: flex;
-  align-self: center;
+
   justify-content: center;
   width: 15%;
   margin-right: 20px;

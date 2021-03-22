@@ -10,7 +10,9 @@
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>Edit Profil</v-list-item-title>
+          <v-list-item-title>
+            <router-link class="link" :to="{ name: 'setting' }">Edit Profil </router-link>
+          </v-list-item-title>
         </v-list-item>
         <v-list-item>
           <v-list-item-title>My Saves</v-list-item-title>
