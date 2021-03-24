@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-10 container--fluid">
+  <div class="py-10 container--fluid">
     <slot name="alert"></slot>
     <div class="Current_Tab">
       <TheTimeLine :timeline="timeline"></TheTimeLine>

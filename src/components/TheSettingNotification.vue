@@ -1,5 +1,8 @@
 <template>
-  <div>Setting Notifications</div>
+  <div>
+    <div>Setting Notifications</div>
+    <div>Under Construction</div>
+  </div>
 </template>
 
 <script>

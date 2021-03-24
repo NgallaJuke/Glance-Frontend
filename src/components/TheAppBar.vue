@@ -35,13 +35,13 @@
         ></v-text-field>
         <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
         <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
-        <v-btn class="mx-5" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
+        <v-btn class="mx-5 px-3" dense depressed color="primary white--text" @click="ShowDialog()">Upload</v-btn>
         <v-menu offsetY open-on-hover left bottom transition="slide-y-transition">
           <template v-slot:activator="{ on, attrs }" style="margin-right: 1em">
             <AvatarLink
               name_path="profil"
               :user_name="account.user.userName"
-              :size="40"
+              :size="35"
               :avatar_uri="account.user.avatar.substring(62)"
               :on="on"
               :attrs="attrs"

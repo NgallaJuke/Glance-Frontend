@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-10" :key="$route.fullPath">
+  <div class="py-10" :key="$route.fullPath">
     <slot name="alert"></slot>
 
     <div v-if="users.user" class="Profil_User">

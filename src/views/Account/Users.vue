@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-10">
+  <div class="py-10">
     <slot name="alert"></slot>
     <v-container v-if="users.status.allUsersLaoding">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"

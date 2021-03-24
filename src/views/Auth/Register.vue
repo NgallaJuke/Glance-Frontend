@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-5">
+  <div class="container py-10">
     <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field

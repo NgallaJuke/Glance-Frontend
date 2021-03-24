@@ -1,7 +1,7 @@
 <template>
-  <div class="Setting pt-10 container--fluid">
+  <div class="Setting py-10 container--fluid">
     <slot name="alert"></slot>
-    <div class="Setting_Header">
+    <div class="Setting_Header mb-10">
       <AvatarLink
         class="Avatar mr-5"
         v-if="account.user.avatar"
@@ -40,7 +40,7 @@
         </ul>
       </div>
       <div class="Setting_Tab_Small hidden-sm-and-up"><p>Setting_Tab SMALL</p></div>
-      <div class="Setting_Current_Tab grey lighten-3"><router-view class="Current_Tab"></router-view></div>
+      <div class="Setting_Current_Tab"><router-view class="Current_Tab"></router-view></div>
     </div>
   </div>
 </template>
@@ -98,7 +98,6 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 20px;
 
     .Tab_Info {
       .User {
@@ -142,13 +141,15 @@ export default {
           }
           .router-link-exact-active {
             color: $color_primary;
-            font-size: 1.2em;
+            font-size: 1.1em;
+            font-weight: 700;
           }
         }
       }
     }
   }
-  // .Setting_Current_Tab {
-  // }
+  .Setting_Current_Tab {
+    width: clamp(50%, 70%, 95%);
+  }
 }
 </style>
