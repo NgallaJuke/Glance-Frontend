@@ -10,6 +10,13 @@
         :avatar_uri="account.user.avatar.substring(62)"
       ></AvatarLink>
       <v-btn class="ml-5 mr-3 pa-1 px-3" depressed color="primary white--text">Upload New Avatar</v-btn>
+      <UpdateAvatar
+        v-if="dialog"
+        :closedialog="dialog"
+        :avatarDialog="dialog"
+        :post="receivedPost"
+        @update:closedialog="dialog = $event"
+      ></UpdateAvatar>
       <v-btn class="mx-1 pa-1 px-3" depressed color=" grey lighten-3">Delete</v-btn>
     </div>
     <div class="Form_List">
@@ -55,9 +62,14 @@
 <script>
 import { mapState } from 'vuex';
 import AvatarLink from '@/components/Bases/AvatarLink';
+import UpdateAvatar from '@/components/Popups/UpdateAvatar';
 
 export default {
-  components: { AvatarLink },
+  data: () => ({
+    dialog: false,
+    url: process.env.VUE_APP_API_URI,
+  }),
+  components: { AvatarLink, UpdateAvatar },
   computed: {
     ...mapState({
       account: (state) => state.account,

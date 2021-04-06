@@ -1,5 +1,5 @@
 <template>
-  <div class="User_PostCard_List py-10">
+  <div v-if="receivedUser._id !== account.user._id" class="User_PostCard_List py-10">
     <div class="User mr-5">
       <AvatarLink
         class="mb-5"

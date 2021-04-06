@@ -2,31 +2,52 @@
   <div class="Edit_Password">
     <div class="Form_List">
       <div>
-        <p class="Label">Twitter</p>
+        <div class="Social mb-2">
+          <p class="Label">Twitter</p>
+          <img class="Icon ml-2" src="@/assets/Icons/twitter.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
       <div>
-        <p class="Label">Facebook</p>
+        <div class="Social mb-2">
+          <p class="Label">Facebook</p>
+          <img class="Icon ml-2" src="@/assets/Icons/facebook.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
       <div>
-        <p class="Label">Instagram</p>
+        <div class="Social mb-2">
+          <p class="Label">Instagram</p>
+          <img class="Icon ml-2" src="@/assets/Icons/instagram.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
       <div>
-        <p class="Label">Github</p>
+        <div class="Social mb-2">
+          <p class="Label">Github</p>
+          <img class="Icon ml-2" src="@/assets/Icons/github.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
       <div>
-        <p class="Label">LinkedIn</p>
+        <div class="Social mb-2">
+          <p class="Label">LinkedIn</p>
+          <img class="Icon ml-2" src="@/assets/Icons/linkedin.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
       <div>
-        <p class="Label">Dribble</p>
+        <div class="Social mb-2">
+          <p class="Label">Dribbble</p>
+          <img class="Icon ml-2" src="@/assets/Icons/dribbble.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
       <div>
-        <p class="Label">Behance</p>
+        <div class="Social mb-2">
+          <p class="Label">Behance</p>
+          <img class="Icon ml-2" src="@/assets/Icons/behance.svg" />
+        </div>
         <v-text-field class="Text_Field" clearable filled dense flat solo></v-text-field>
       </div>
     </div>
@@ -37,7 +58,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => {
+    return {};
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -48,6 +73,17 @@ export default {};
     .Text_Field {
       font-size: 1em;
       font-weight: 400;
+    }
+    .Social {
+      display: flex;
+      align-items: center;
+
+      .Label {
+        margin: 0;
+      }
+      .Icon {
+        width: 2em;
+      }
     }
   }
 }

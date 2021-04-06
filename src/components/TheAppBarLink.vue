@@ -15,7 +15,7 @@
         </router-link>
       </li>
       <li class="menu-item px-3 py-1">
-        <router-link class="link" :to="{ name: '#' }">
+        <router-link class="link" :to="{ name: 'hire' }">
           <h3>Hire</h3>
         </router-link>
       </li>

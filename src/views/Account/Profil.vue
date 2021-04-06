@@ -27,17 +27,10 @@
           @follow="FollowUser($event)"
           @unfollow="UnFollowUser($event)"
         ></FollowButton>
-        <!--  -->
-        <!-- <v-btn v-if="isFollowed" @click="UnFollowUser(users.user._id)" class="my-1 pa-2 mr-2" outlined color="primary"
-          ><v-icon left small> mdi-check </v-icon>Following</v-btn
-        >
-        <v-btn v-else @click="FollowUser(users.user._id)" class="my-1 pa-2 mr-2" depressed color="grey lighten-4"
-          ><v-icon left>mdi-plus </v-icon>Follow</v-btn
-        > -->
-        <!--  -->
-        <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary"
-          ><v-icon left small> mdi-email </v-icon>Hire Us</v-btn
-        >
+        <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary">
+          <v-icon left small> mdi-email </v-icon>
+          Hire Us
+        </v-btn>
       </div>
       <HireUserPopup v-if="dialog" :closedialog="dialog" :dialog="dialog" @update:closedialog="dialog = $event">
       </HireUserPopup>
@@ -173,7 +166,6 @@ export default {
     this.avatar = this.users.user.avatar.substring(lastIndex + 8);
     this.isFollowed = this.account.user.following.includes(this.users.user._id) ? true : false;
   },
-  mounted() {},
   watch: {
     '$route.params.userName': function (userName) {
       const payload = { userName: userName };
