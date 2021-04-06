@@ -5,13 +5,13 @@ Glance is customizable social networking platform.It can be customised for artis
 
 I made this app for beginners who want to learn [vue](https://vuejs.org/), [vue router](https://router.vuejs.org/), [vuex](https://vuex.vuejs.org/) and [vuetify](https://vuetifyjs.com/).
 
-<img src="./ScreenShots/Home.png" height="450px">
+<img src="./ScreenShots/home.png" height="450px">
 
 ```
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Users.png" height="450px">
+<img src="./ScreenShots/users.png" height="450px">
 
 ```
 ----------------------------------
@@ -29,7 +29,7 @@ I made this app for beginners who want to learn [vue](https://vuejs.org/), [vue 
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Profil.png" height="450px">
+<img src="./ScreenShots/profil.png" height="450px">
 
 ```
 ----------------------------------
