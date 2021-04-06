@@ -5,49 +5,43 @@ Glance is customizable social networking platform.It can be customised for artis
 
 I made this app for beginners who want to learn [vue](https://vuejs.org/), [vue router](https://router.vuejs.org/), [vuex](https://vuex.vuejs.org/) and [vuetify](https://vuetifyjs.com/).
 
-<img src="./ScreenShots/Home.png" height="350px">
+<img src="./ScreenShots/Home.png" height="450px">
 
 ```
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Users.png" height="350px">
+<img src="./ScreenShots/Users.png" height="450px">
 
 ```
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Post1.png" height="350px">
+<img src="./ScreenShots/Post1.png" height="450px">
 
 ```
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Post2.png" height="350px">
+<img src="./ScreenShots/Post2.png" height="450px">
+    
+```
+----------------------------------
+```
+
+<img src="./ScreenShots/Profil.png" height="450px">
 
 ```
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Profil.png" height="350px">
+<img src="./ScreenShots/Followers.png" height="450px">
 
 ```
 ----------------------------------
 ```
 
-<img src="./ScreenShots/Profil.png" height="350px">
-
-```
-----------------------------------
-```
-
-<img src="./ScreenShots/Followers.png" height="350px">
-
-```
-----------------------------------
-```
-
-<img src="./ScreenShots/Settings.png" height="350px">
+<img src="./ScreenShots/Settings.png" height="450px">
 
 ```
 ----------------------------------
