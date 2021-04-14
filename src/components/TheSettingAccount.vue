@@ -3,7 +3,17 @@
     <div class="Form_List">
       <div>
         <p class="Label">Email</p>
-        <v-text-field class="Text_Field" label="Change email adress" clearable filled dense flat solo></v-text-field>
+        <v-text-field
+          class="Text_Field"
+          :label="account.user.email"
+          v-model="user.email"
+          :rules="emailRule"
+          clearable
+          filled
+          dense
+          flat
+          solo
+        ></v-text-field>
       </div>
     </div>
     <v-divider></v-divider>
@@ -12,19 +22,30 @@
       <v-btn class="ml-10 pa-1 Delete_Btn" depressed color="error white--text">Delete Account</v-btn>
     </div>
     <div>
-      <v-btn class="mt-10 pa-1 px-3" depressed color="primary white--text">Save Change</v-btn>
+      <v-btn class="mt-10 pa-1 px-3" depressed color="primary white--text" @click="UpdateUserInfo()">Save Change</v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
+  data: () => ({
+    user: { email: '' },
+    emailRule: [(v) => !!v || 'E-mail is required'],
+  }),
   computed: {
     ...mapState({
       account: (state) => state.account,
     }),
+  },
+  methods: {
+    ...mapActions(['users/updateUser']),
+
+    UpdateUserInfo() {
+      this['users/updateUser'](this.user);
+    },
   },
 };
 </script>

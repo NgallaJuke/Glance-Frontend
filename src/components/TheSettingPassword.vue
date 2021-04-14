@@ -28,7 +28,7 @@
           flat
           solo
           v-model="user.newPassword"
-          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="passwordRules"
           :type="show1 ? 'text' : 'password'"
           name="input-10-1"
@@ -41,20 +41,20 @@
       </div>
     </div>
     <div>
-      <v-btn class="mt-10 pa-1 px-2" depressed color="primary white--text">Change</v-btn>
+      <v-btn class="mt-10 pa-1 px-2" depressed color="primary white--text" @click="ChangePassword()">Change</v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data: () => ({
     valid: true,
     user: { oldPassword: '', newPassword: '' },
     show1: false,
-    emailRules: [(v) => !!v || 'E-mail is required'],
+    show2: false,
     passwordRules: [(v) => v.length >= 6 || 'Min 6 characters'],
   }),
 
@@ -63,7 +63,10 @@ export default {
       account: (state) => state.account,
     }),
   },
+
   methods: {
+    ...mapActions(['account/changePassword']),
+
     submit() {
       if (this.$refs.form.validate()) {
         // this.login(this.user);
@@ -71,6 +74,9 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
+    },
+    ChangePassword() {
+      this['account/changePassword'](this.user);
     },
   },
 };

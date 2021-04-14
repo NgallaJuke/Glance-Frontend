@@ -31,6 +31,27 @@ const actions = {
       }
     );
   },
+
+  updateUser({ dispatch, commit }, user) {
+    commit('updateUserRequest', user);
+    userServices
+      .updateUser(user)
+      .then((data) => {
+        if (data !== undefined) {
+          commit('updateUserSuccess', data.user);
+          dispatch('alert/success', 'User Updated Successfully.', { root: true });
+          location.reload(true);
+        } else {
+          commit('updateUserFailure', 'Something went wrong');
+          dispatch('alert/error', 'error', { root: true });
+        }
+      })
+      .catch((error) => {
+        commit('updateUserFailure', error);
+        dispatch('alert/error', error, { root: true });
+      });
+  },
+
   async getSingleUser({ dispatch, commit }, payload) {
     commit('UserProfilRequest');
     try {
@@ -108,13 +129,24 @@ const actions = {
 };
 const mutations = {
   updateAvatarRequest(state) {
-    state.status = { updating: true };
+    state.status = { updatingAvatar: true };
   },
   updateAvatarSuccess(state, user) {
     state.status = { updated: true };
     state.user = user;
   },
   updateAvatarFailure(state) {
+    state.status = {};
+    state.user = null;
+  },
+  updateUserRequest(state) {
+    state.status = { updatingUser: true };
+  },
+  updateUserSuccess(state, user) {
+    state.status = { userUpdated: true };
+    state.user = user;
+  },
+  updateUserFailure(state) {
     state.status = {};
     state.user = null;
   },

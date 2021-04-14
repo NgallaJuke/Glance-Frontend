@@ -25,6 +25,7 @@ const actions = {
         dispatch('alert/error', error, { root: true });
       });
   },
+
   login({ dispatch, commit }, credentials) {
     commit('loginRequest', credentials);
     authServices
@@ -39,6 +40,7 @@ const actions = {
         dispatch('alert/error', error, { root: true });
       });
   },
+
   logout({ dispatch, commit }) {
     commit('logoutRequest');
     authServices.logout().then(
@@ -54,16 +56,27 @@ const actions = {
       }
     );
   },
+
   async getCurrentUser({ dispatch, commit }) {
     commit('UserProfilRequest');
     try {
       const UserProfil = await userServices.getCurrentUser();
-      if (UserProfil) {
-        commit('UserProfilSuccess', UserProfil);
-      }
+      commit('UserProfilSuccess', UserProfil);
     } catch (error) {
-      
       commit('UserProfilFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async changePassword({ dispatch, commit }, user) {
+    commit('ChangePasswordRequest');
+    try {
+      const UserProfil = await authServices.changePassword(user);
+      commit('ChangePasswordSuccess', UserProfil);
+      dispatch('alert/success', 'Password Changed Successfully', { root: true });
+      // location.reload(true);
+    } catch (error) {
+      commit('ChangePasswordFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -111,7 +124,19 @@ const mutations = {
   },
   UserProfilFailure(state, error) {
     state.user = null;
-    state.status= {NoUser: true};
+    state.status = { NoUser: true };
+    state.error = error;
+  },
+  ChangePasswordRequest(state) {
+    state.status = { ChangingPassword: true };
+  },
+  ChangePasswordSuccess(state, userProfil) {
+    state.user = userProfil;
+    state.status = { PasswordChanged: true, loggedIn: true };
+  },
+  ChangePasswordFailure(state, error) {
+    state.user = null;
+    state.status = { FailedChangePassword: true, loggedIn: true };
     state.error = error;
   },
 };

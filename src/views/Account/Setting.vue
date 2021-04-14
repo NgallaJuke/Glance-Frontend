@@ -12,7 +12,7 @@
       ></AvatarLink>
       <div class="Tab_Info">
         <div class="User">
-          <h4 class="User_Name mr-2">MysterJuke</h4>
+          <h4 class="User_Name mr-2">{{ account.user.userName }}</h4>
           <span>/</span>
           <h4 class="Tab_Name ml-2">{{ CurrentRouteName }}</h4>
         </div>

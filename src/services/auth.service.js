@@ -2,7 +2,7 @@ import { authHeader } from '../helpers';
 
 import { handleRequest } from '../helpers/index';
 
-export const authServices = { register, login, logout };
+export const authServices = { register, login, logout, changePassword };
 
 function register(user) {
   const requestOptions = {
@@ -52,6 +52,23 @@ function logout() {
         localStorage.removeItem('user_token');
       } else return response;
       return response;
+    })
+    .catch((error) => console.error(error));
+}
+
+function changePassword(user) {
+  console.log('user', user);
+
+  const requestOptions = {
+    method: 'PUT',
+    headers: { ...authHeader(), 'content-type': 'application/json' },
+    body: JSON.stringify(user),
+  };
+
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/change-password`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      if (response.success) return response;
     })
     .catch((error) => console.error(error));
 }

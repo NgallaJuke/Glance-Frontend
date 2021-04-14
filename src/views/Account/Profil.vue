@@ -13,7 +13,7 @@
       </div>
       <div class="Profil_User_Bio mb-3">
         <!-- Change this H2 to user's bio -->
-        <h2>Design for awesome experiences and bright brands</h2>
+        <h2>{{ users.user.bio }}</h2>
       </div>
       <div v-if="account.user._id === users.user._id" class="Profil_User_Options">
         <router-link class="link" :to="{ name: 'setting' }">
@@ -118,6 +118,7 @@ export default {
       avatar: '',
       active: false,
       dialog: false,
+      avatarDialog: false,
       isFollowed: Boolean,
       activefollower: false,
       activefollowed: false,

@@ -9,22 +9,24 @@
         :size="70"
         :avatar_uri="account.user.avatar.substring(62)"
       ></AvatarLink>
-      <v-btn class="ml-5 mr-3 pa-1 px-3" depressed color="primary white--text">Upload New Avatar</v-btn>
+      <v-btn class="ml-5 mr-3 pa-1 px-3" depressed color="primary white--text" @click="ShowDialogUpdateAvatar()"
+        >Upload New Avatar</v-btn
+      >
       <UpdateAvatar
-        v-if="dialog"
-        :closedialog="dialog"
-        :avatarDialog="dialog"
-        :post="receivedPost"
-        @update:closedialog="dialog = $event"
+        v-if="avatarDialog"
+        :avatarDialog="avatarDialog"
+        @update:closedialog="avatarDialog = $event"
       ></UpdateAvatar>
-      <v-btn class="mx-1 pa-1 px-3" depressed color=" grey lighten-3">Delete</v-btn>
+      <v-btn class="mx-1 pa-1 px-3" depressed color=" grey lighten-3" @click="ResetAvatar()">Delete</v-btn>
     </div>
     <div class="Form_List">
       <div>
-        <p class="Label">Name</p>
+        <p class="Label">Displayed Name</p>
         <v-text-field
           class="Text_Field"
-          label="Change Your Displayed User Name"
+          :label="account.user.displayName"
+          v-model="user.displayName"
+          :rules="displayRule"
           clearable
           filled
           dense
@@ -34,17 +36,38 @@
       </div>
       <div>
         <p class="Label">Bio</p>
-        <v-textarea class="Text_Field" label="Change Your Bio " clearable filled flat solo></v-textarea>
+        <v-textarea
+          class="Text_Field"
+          :label="account.user.bio"
+          v-model="user.bio"
+          :rules="bioRule"
+          clearable
+          filled
+          flat
+          solo
+        ></v-textarea>
       </div>
       <div>
         <p class="Label">Location</p>
-        <v-text-field class="Text_Field" label="Change Your Location" clearable filled dense flat solo></v-text-field>
+        <v-text-field
+          class="Text_Field"
+          :label="account.user.location"
+          v-model="user.location"
+          :rules="locationRule"
+          clearable
+          filled
+          dense
+          flat
+          solo
+        ></v-text-field>
       </div>
       <div>
         <p class="Label">Personal Website</p>
         <v-text-field
           class="Text_Field"
-          label="Add Your Personal Website"
+          :label="account.user.website"
+          v-model="user.website"
+          :rules="websiteRule"
           clearable
           filled
           dense
@@ -54,19 +77,29 @@
       </div>
     </div>
     <div>
-      <v-btn class="mt-10 pa-1 px-3" depressed color="primary white--text">Save Profil</v-btn>
+      <v-btn class="mt-10 pa-1 px-3" depressed color="primary white--text" @click="UpdateUserInfo()">Save Profil</v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import AvatarLink from '@/components/Bases/AvatarLink';
 import UpdateAvatar from '@/components/Popups/UpdateAvatar';
 
 export default {
   data: () => ({
-    dialog: false,
+    user: {
+      displayName: '',
+      bio: '',
+      location: '',
+      website: '',
+    },
+    displayRule: [(v) => v.length <= 30 || 'Max 30 characters'],
+    bioRule: [(v) => v.length <= 150 || 'Max 150 characters'],
+    locationRule: [(v) => v.length <= 60 || 'Max 60 characters'],
+    websiteRule: [(v) => v.length <= 60 || 'Max 60 characters'],
+    avatarDialog: false,
     url: process.env.VUE_APP_API_URI,
   }),
   components: { AvatarLink, UpdateAvatar },
@@ -74,6 +107,18 @@ export default {
     ...mapState({
       account: (state) => state.account,
     }),
+  },
+  methods: {
+    ...mapActions(['users/updateAvatar', 'users/updateUser']),
+    ShowDialogUpdateAvatar() {
+      if (!this.avatarDialog) this.avatarDialog = true;
+    },
+    ResetAvatar() {
+      this['users/updateAvatar'](null);
+    },
+    UpdateUserInfo() {
+      this['users/updateUser'](this.user);
+    },
   },
 };
 </script>
