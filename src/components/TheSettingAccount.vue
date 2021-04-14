@@ -12,7 +12,7 @@
           filled
           dense
           flat
-          solo
+          solo-inverted
         ></v-text-field>
       </div>
     </div>

@@ -31,7 +31,7 @@
           filled
           dense
           flat
-          solo
+          solo-inverted
         ></v-text-field>
       </div>
       <div>
@@ -44,7 +44,7 @@
           clearable
           filled
           flat
-          solo
+          solo-inverted
         ></v-textarea>
       </div>
       <div>
@@ -58,7 +58,7 @@
           filled
           dense
           flat
-          solo
+          solo-inverted
         ></v-text-field>
       </div>
       <div>
@@ -72,7 +72,7 @@
           filled
           dense
           flat
-          solo
+          solo-inverted
         ></v-text-field>
       </div>
     </div>

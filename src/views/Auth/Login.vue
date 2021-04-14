@@ -3,9 +3,11 @@
     <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field
+        clearable
         filled
         dense
         flat
+        solo-inverted
         sololabel="E-mail"
         v-model="user.email"
         :rules="emailRules"
@@ -13,10 +15,12 @@
       ></v-text-field>
 
       <v-text-field
+        clearable
         filled
         dense
         flat
-        solo
+        solo-inverted
+        counter
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
@@ -24,7 +28,6 @@
         name="input-10-1"
         label="Password"
         hint="At least 6 characters"
-        counter
         @click:append="show1 = !show1"
         required
       ></v-text-field>

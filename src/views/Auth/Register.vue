@@ -3,10 +3,11 @@
     <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field
+        clearable
         filled
         dense
         flat
-        solo
+        solo-inverted
         label="userName"
         v-model="user.userName"
         :rules="nameRules"
@@ -14,20 +15,22 @@
         required
       ></v-text-field>
       <v-text-field
+        clearable
         filled
         dense
         flat
-        solo
+        solo-inverted
         label="E-mail"
         v-model="user.email"
         :rules="emailRules"
         required
       ></v-text-field>
       <v-select
+        clearable
         filled
         dense
         flat
-        solo
+        solo-inverted
         label="Profil"
         v-model="user.role"
         :items="role"
@@ -36,10 +39,11 @@
       ></v-select>
 
       <v-text-field
+        clearable
         filled
         dense
         flat
-        solo
+        solo-inverted
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"

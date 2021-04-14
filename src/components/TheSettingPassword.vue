@@ -7,7 +7,7 @@
           filled
           dense
           flat
-          solo
+          solo-inverted
           v-model="user.oldPassword"
           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="passwordRules"
@@ -26,7 +26,7 @@
           filled
           dense
           flat
-          solo
+          solo-inverted
           v-model="user.newPassword"
           :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="passwordRules"
