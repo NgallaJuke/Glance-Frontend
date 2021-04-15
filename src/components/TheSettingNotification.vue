@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>Setting Notifications</div>
-    <div>Under Construction</div>
+    <div>Under Construction (Once the notification feature is added)</div>
   </div>
 </template>
 

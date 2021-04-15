@@ -31,7 +31,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -44,7 +45,8 @@
           clearable
           filled
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-textarea>
       </div>
       <div>
@@ -58,7 +60,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -72,7 +75,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
     </div>
@@ -131,9 +135,13 @@ export default {
   .Form_List {
     font-size: 0.9em;
     font-weight: 700;
+    .Label {
+      margin: 1.5em 0 0.5em 0;
+    }
     .Text_Field {
       font-size: 1em;
       font-weight: 400;
+      box-shadow: 0px 0px 10px $color_primary;
     }
   }
 }

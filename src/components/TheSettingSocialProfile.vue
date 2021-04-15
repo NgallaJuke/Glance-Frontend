@@ -11,11 +11,12 @@
           :label="account.user.socials.twitter"
           v-model="user.socials.twitter"
           :rules="socialRule"
-          clearable
           filled
           dense
-          solo-inverted
           flat
+          solo
+          hide-details
+          clearable
         ></v-text-field>
       </div>
       <div>
@@ -32,7 +33,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -49,7 +51,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -66,7 +69,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -83,7 +87,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -100,7 +105,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
       <div>
@@ -117,7 +123,8 @@
           filled
           dense
           flat
-          solo-inverted
+          solo
+          hide-details
         ></v-text-field>
       </div>
     </div>
@@ -168,16 +175,20 @@ export default {
     .Text_Field {
       font-size: 1em;
       font-weight: 400;
+
+      box-shadow: 0px 0px 10px $color_primary;
     }
+
     .Social {
       display: flex;
       align-items: center;
 
       .Label {
-        margin: 0;
+        margin: 1.5em 0 0.5em 0;
       }
       .Icon {
         width: 2em;
+        margin: 1.5em 0 0.5em 0;
       }
     }
   }
