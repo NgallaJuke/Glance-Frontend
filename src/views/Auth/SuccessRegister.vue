@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container py-10">
     <v-alert outlined class="success">
       <h1>Register Succesful.</h1>
       <p>Please check your email to confirm your registration!</p>

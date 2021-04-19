@@ -2,15 +2,14 @@
   <div>
     <div class="container">
       <div class="avatar">
-        <router-link :to="{ name: 'profil', params: { userName: receivedComment.user.userName } }">
-          <v-btn icon>
-            <v-avatar size="45" v-if="receivedComment.user.avatar">
-              <img :src="`${url}avatars/${receivedComment.user.avatar.substring(62)}`" alt="Ava" />
-            </v-avatar>
-            <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="22" height="22" />
-          </v-btn>
-        </router-link>
+        <AvatarLink
+          name_path="profil"
+          :user_name="receivedComment.user.userName"
+          :size="40"
+          :avatar_uri="receivedComment.user.avatar.substring(62)"
+        ></AvatarLink>
       </div>
+
       <div class="user_comment">
         <div class="user_options">
           <h3>
@@ -57,6 +56,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import AvatarLink from '@/components/Bases/AvatarLink';
+
 export default {
   props: {
     comment: { type: Object, required: true },
@@ -67,6 +68,7 @@ export default {
       account: (state) => state.account,
     }),
   },
+  components: { AvatarLink },
   methods: {
     ...mapActions(['comments/deleteComment', 'comments/likeCommnet', 'comments/dislikeCommnet']),
     DeleteComment() {

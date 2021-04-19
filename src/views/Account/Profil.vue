@@ -1,72 +1,6 @@
 <template>
-  <div>
+  <div class="py-10" :key="$route.fullPath">
     <slot name="alert"></slot>
-    <!-- <div v-if="users.user" class="container" align="center">
-      <v-row justify="start">
-        <v-col cols="3" sm="12" md="4">
-          <v-avatar class="my-2" size="100" v-if="!users.status.loggingOut && avatar !== ''">
-            <img :src="`${url}avatars/${avatar}`" />
-          </v-avatar>
-          <div>
-            <h2 class="my-1">{{ users.user.userName }}</h2>
-            <v-btn
-              v-if="account.user._id === users.user._id"
-              class="my-1"
-              outlined
-              color="primary"
-              dark
-              @click="ShowDialogUpdateAvatar()"
-              >Edit Profil</v-btn
-            >
-            <UpdateAvatar
-              v-if="avatarDialog"
-              :avatarDialog="avatarDialog"
-              @update:closedialog="avatarDialog = $event"
-            ></UpdateAvatar>
-            <div class="my-1">
-              <span>
-                <b> Post </b>
-
-                <span v-if="posts.timeline">
-                  {{ users.user.follower.length }}
-                </span>
-                <span v-else> 0 </span>
-              </span>
-              <span> - </span>
-              <span><b style="cursor: pointer" @click="ShowDialogListUserFollowers()"> Followers </b> </span>
-              <span v-if="users.user.follower">
-                {{ users.user.follower.length }}
-              </span>
-              <span v-else> 0 </span>
-
-              <FollowListUserPopUp
-                v-if="activefollower"
-                :userid="users.user._id"
-                :activefollower="activefollower"
-                @update:closedialog="activefollower = $event"
-                :closedialog="activefollower"
-              ></FollowListUserPopUp>
-              <span> - </span>
-              <span><b style="cursor: pointer" @click="ShowDialogListUserFollowed()"> Followed </b> </span>
-              <span v-if="users.user.following">
-                {{ users.user.following.length }}
-              </span>
-              <span v-else> 0 </span>
-              <FollowListUserPopUp
-                v-if="activefollowed"
-                :userid="users.user._id"
-                :activefollowed="activefollowed"
-                @update:closedialog="activefollowed = $event"
-                :closedialog="activefollowed"
-              ></FollowListUserPopUp>
-            </div>
-          </div>
-        </v-col>
-      </v-row>
-    </div>
-    <div v-else>
-      <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
-    </div> -->
 
     <div v-if="users.user" class="Profil_User">
       <div class="Profil_User_Avatar mb-3">
@@ -78,7 +12,8 @@
         <h1>{{ users.user.userName }}</h1>
       </div>
       <div class="Profil_User_Bio mb-3">
-        <h2>Design for awesome experiences and bright brands</h2>
+        <!-- Change this H2 to user's bio -->
+        <h2>{{ users.user.bio }}</h2>
       </div>
       <div v-if="account.user._id === users.user._id" class="Profil_User_Options">
         <router-link class="link" :to="{ name: 'setting' }">
@@ -86,72 +21,95 @@
         </router-link>
       </div>
       <div v-else class="Profil_User_Options">
-        <v-btn v-if="isFollowed" @click="UnFollowUser(users.user._id)" class="my-1 pa-2 mr-2" outlined color="primary"
-          ><v-icon left small> mdi-check </v-icon>Following</v-btn
-        >
-        <v-btn v-else @click="FollowUser(users.user._id)" class="my-1 pa-2 mr-2" depressed color="grey lighten-4"
-          ><v-icon left>mdi-plus </v-icon>Follow</v-btn
-        >
-        <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary"
-          ><v-icon left small> mdi-email </v-icon>Hire Us</v-btn
-        >
+        <FollowButton
+          :isfollowed="isFollowed"
+          :userid="users.user._id"
+          @follow="FollowUser($event)"
+          @unfollow="UnFollowUser($event)"
+        ></FollowButton>
+        <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary">
+          <v-icon left small> mdi-email </v-icon>
+          Hire Us
+        </v-btn>
       </div>
       <HireUserPopup v-if="dialog" :closedialog="dialog" :dialog="dialog" @update:closedialog="dialog = $event">
       </HireUserPopup>
-      <!-- <div class="Profil_User_Follow">
-        <span><b style="cursor: pointer" @click="ShowDialogListUserFollowers()"> Followers </b> </span>
-        <span v-if="users.user.follower">
-          {{ users.user.follower.length }}
-        </span>
-        <span v-else> 0 </span>
-
-        <FollowListUserPopUp
-          v-if="activefollower"
-          :userid="users.user._id"
-          :activefollower="activefollower"
-          @update:closedialog="activefollower = $event"
-          :closedialog="activefollower"
-        ></FollowListUserPopUp>
-        <span> - </span>
-        <span><b style="cursor: pointer" @click="ShowDialogListUserFollowed()"> Followed </b> </span>
-        <span v-if="users.user.following">
-          {{ users.user.following.length }}
-        </span>
-        <span v-else> 0 </span>
-        <FollowListUserPopUp
-          v-if="activefollowed"
-          :userid="users.user._id"
-          :activefollowed="activefollowed"
-          @update:closedialog="activefollowed = $event"
-          :closedialog="activefollowed"
-        ></FollowListUserPopUp>
-      </div> -->
     </div>
-    <div class="Container_Tab my-8">
+    <div class="Container_Tab my-8 ml-5">
       <ul class="Container_Tab_Items">
-        <li class="Container_Tab_Item">Posts</li>
-        <li class="Container_Tab_Item">Liked Posts</li>
-        <li class="Container_Tab_Item">Followers</li>
-        <li class="Container_Tab_Item">Following</li>
-        <li class="Container_Tab_Item">About</li>
+        <li class="Container_Tab_Item mx-4">
+          <span
+            class="Tag"
+            @click="currentTabComponent = 'TheTimeLine'"
+            :class="['Tab', { active: currentTabComponent === 'TheTimeLine' }]"
+            >Posts
+          </span>
+          <span class="Count">{{ posts.timeline.length }}</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span class="Tag">Liked Posts </span>
+          <span class="Count">000</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span class="Tag" @click="ShowDialogListUserFollowers()">Followers </span>
+          <span class="Count"> {{ users.user.follower.length }}</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span class="Tag" @click="ShowDialogListUserFollowed()">Following </span>
+          <span class="Count">{{ users.user.following.length }}</span>
+        </li>
+        <li class="Container_Tab_Item mx-4">
+          <span
+            class="Tag"
+            @click="currentTabComponent = 'TheProfileAbout'"
+            :class="['Tab', { active: currentTabComponent === 'TheProfileAbout' }]"
+            >About
+          </span>
+        </li>
       </ul>
     </div>
+    <FollowListUserPopUp
+      v-if="activefollower"
+      :userid="users.user._id"
+      :activefollower="activefollower"
+      @update:closedialog="activefollower = $event"
+      :closedialog="activefollower"
+    ></FollowListUserPopUp>
+    <FollowListUserPopUp
+      v-if="activefollowed"
+      :userid="users.user._id"
+      :activefollowed="activefollowed"
+      @update:closedialog="activefollowed = $event"
+      :closedialog="activefollowed"
+    ></FollowListUserPopUp>
     <v-divider></v-divider>
-
     <div class="container--fluid" style="display: flex; justify-content: center; margin-top: 50px">
-      <!-- :key="$route.fullPath" will recreate this component when ever the route fullPath changes 
-      Ex -> http://localhost:8080/profil/user1 to http://localhost:8080/profil/user2   -->
-      <TimeLine :timeline="timeline" :key="$route.fullPath"></TimeLine>
+      <!-- :key="$route.fullPath" will recreate this component whenever the route fullPath changes 
+      Ex-> http://localhost:8080/profil/user1 to http://localhost:8080/profil/user2   -->
+      <!-- <TimeLine :timeline="timeline" :key="$route.fullPath"></TimeLine>  -->
+      <keep-alive>
+        <component :is="currentTabComponent" v-bind="currentProperties"></component>
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import TimeLine from '../../components/TimeLine';
-// import UpdateAvatar from '../../components/Popups/UpdateAvatar';
-// import FollowListUserPopUp from '../../components/Popups/FollowListUserPopUp';
-import HireUserPopup from '../../components/Popups/HireUserPopup';
+import TheProfileAbout from '@/components/TheProfileAbout';
+import FollowListUserPopUp from '@/components/Popups/FollowListUserPopUp';
+import HireUserPopup from '@/components/Popups/HireUserPopup';
+import TheTimeLineLoading from '@/components/Loaders/TheTimeLineLoading';
+import ErrorFetch from '@/components/Loaders/ErrorFetch';
+import FollowButton from '@/components/Bases/FollowButton';
+
+//Dynamic component
+const TheTimeLine = () => ({
+  component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
+  loading: TheTimeLineLoading,
+  error: ErrorFetch,
+  timeout: 500,
+});
 
 export default {
   data: () => {
@@ -160,53 +118,54 @@ export default {
       avatar: '',
       active: false,
       dialog: false,
+      avatarDialog: false,
       isFollowed: Boolean,
       activefollower: false,
       activefollowed: false,
-
-      timeline: 'home-timeline',
+      currentTabComponent: 'TheTimeLine',
     };
   },
-  components: { TimeLine, HireUserPopup },
+  components: { TheTimeLine, FollowListUserPopUp, HireUserPopup, TheProfileAbout, FollowButton },
   computed: {
     ...mapState({
       account: (state) => state.account,
       users: (state) => state.users,
       posts: (state) => state.posts,
     }),
+    // eslint-disable-next-line vue/return-in-computed-property
+    currentProperties() {
+      if (this.currentTabComponent === 'TheTimeLine') {
+        return { timeline: 'home-timeline' };
+      }
+    },
   },
   methods: {
     ...mapActions(['users/getSingleUser', 'users/followUser', 'users/unfollowUser']),
-
-    // ShowDialogListUserFollowers() {
-    //   if (this.users.user.follower.length === 0) return;
-    //   if (!this.activefollower) this.activefollower = true;
-    // },
-    // ShowDialogListUserFollowed() {
-    //   if (this.users.user.following.length === 0) return;
-    //   if (!this.activefollowed) this.activefollowed = true;
-    // },
-    FollowUser(userID) {
-      this['users/followUser'](userID);
-      this.isFollowed = true;
+    ShowDialogListUserFollowers() {
+      if (this.users.user.follower.length === 0) return;
+      if (!this.activefollower) this.activefollower = true;
     },
-    UnFollowUser(userID) {
-      this['users/unfollowUser'](userID);
-      this.isFollowed = false;
+    ShowDialogListUserFollowed() {
+      if (this.users.user.following.length === 0) return;
+      if (!this.activefollowed) this.activefollowed = true;
+    },
+    FollowUser(even) {
+      this.isFollowed = even;
+    },
+    UnFollowUser(even) {
+      this.isFollowed = even;
     },
     ShowDialogHireUs() {
       if (!this.dialog) this.dialog = true;
     },
   },
-  created() {
+  async created() {
     const payload = { userName: this.$route.params.userName };
-    this['users/getSingleUser'](payload).then(() => {
-      const avatar = this.users.user.avatar;
-      const lastIndex = avatar.lastIndexOf('avatars');
-      this.avatar = this.users.user.avatar.substring(lastIndex + 8);
-      if (this.account.user.following.includes(this.users.user._id)) this.isFollowed = true;
-      else this.isFollowed = false;
-    });
+    await this['users/getSingleUser'](payload);
+    const avatar = this.users.user.avatar;
+    const lastIndex = avatar.lastIndexOf('avatars');
+    this.avatar = this.users.user.avatar.substring(lastIndex + 8);
+    this.isFollowed = this.account.user.following.includes(this.users.user._id) ? true : false;
   },
   watch: {
     '$route.params.userName': function (userName) {
@@ -246,29 +205,38 @@ export default {
       text-decoration: none;
     }
   }
-
-  .Container_Tab {
+}
+.Container_Tab {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  .Container_Tab_Items {
+    list-style: none;
     display: flex;
     align-items: center;
-    padding: 0;
-    .Container_Tab_Items {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      .Container_Tab_Item {
-        font-size: 1rem;
-
-        color: #000;
-        text-decoration: none;
+    .Container_Tab_Item {
+      font-size: 1rem;
+      text-decoration: none;
+      .Tag {
+        color: rgb(30, 30, 30);
+        font-weight: 600;
         &:hover {
           color: $color_primary;
+          cursor: pointer;
+        }
+        &.active {
+          color: $color_primary;
+          font-size: 1.1em;
         }
       }
+      .Count {
+        color: rgb(114, 114, 114);
+      }
     }
-    .Container_Tab_Item:hover {
-      background-color: $btn_hover_color;
-      border-radius: $border_radius;
-    }
+  }
+  .Container_Tab_Item:hover {
+    background-color: $btn_hover_color;
+    border-radius: $border_radius;
   }
 }
 </style>

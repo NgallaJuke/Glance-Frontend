@@ -3,17 +3,16 @@
     <v-row justify="space-between" align-content="center">
       <v-row align-self="center" style="flex-grow: 0; margin: 0 10px">
         <v-col justify="center" align-content="center" style="margin: 5px 0">
-          <router-link :to="{ name: 'profil', params: { userName: receivedUser.userName } }">
-            <v-btn icon>
-              <v-avatar size="70" v-if="receivedUser.avatar">
-                <img :src="`${url}avatars/${receivedUser.avatar.substring(62)}`" alt="avatar" />
-              </v-avatar>
-              <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
-            </v-btn>
-          </router-link>
+          <AvatarLink
+            v-if="receivedUser.avatar"
+            name_path="profil"
+            :user_name="receivedUser.userName"
+            :size="50"
+            :avatar_uri="receivedUser.avatar.substring(62)"
+          ></AvatarLink>
         </v-col>
         <v-col justify="center" align-content="center">
-          <h3>{{ receivedUser.userName }}</h3>
+          <h4>{{ receivedUser.userName }}</h4>
         </v-col>
       </v-row>
       <v-col
@@ -21,19 +20,27 @@
         align-self="center"
         style="flex-grow: 0; margin: 0 10px"
       >
-        <v-row v-if="!isFollowed" justify="center" align-content="center" style="margin: 5px 0">
+        <FollowButton
+          :isfollowed="isFollowed"
+          :userid="receivedUser._id"
+          @follow="FollowUser($event)"
+          @unfollow="UnFollowUser($event)"
+        ></FollowButton>
+        <!-- <v-row v-if="!isFollowed" justify="center" align-content="center" style="margin: 5px 0">
           <v-btn small color="primary" outlined @click="FollowUser(receivedUser._id)">Follow</v-btn>
         </v-row>
         <v-row v-else justify="center" align-content="center" style="margin: 5px 0">
           <v-btn small color="red" outlined @click="UnFollowUser(receivedUser._id)">UnFollow</v-btn>
-        </v-row>
+        </v-row> -->
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import AvatarLink from '@/components/Bases/AvatarLink';
+import FollowButton from '@/components/Bases/FollowButton';
 export default {
   props: {
     user: {
@@ -45,6 +52,7 @@ export default {
     url: process.env.VUE_APP_API_URI,
     isFollowed: Boolean,
   }),
+  components: { AvatarLink, FollowButton },
   computed: {
     ...mapState({
       account: (state) => state.account,
@@ -52,14 +60,11 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['users/followUser', 'users/unfollowUser']),
-    FollowUser(userID) {
-      this['users/followUser'](userID);
-      this.isFollowed = true;
+    FollowUser(even) {
+      this.isFollowed = even;
     },
-    UnFollowUser(userID) {
-      this['users/unfollowUser'](userID);
-      this.isFollowed = false;
+    UnFollowUser(even) {
+      this.isFollowed = even;
     },
   },
 

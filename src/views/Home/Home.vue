@@ -1,27 +1,33 @@
 <template>
-  <div>
+  <div class="py-10 container--fluid">
     <slot name="alert"></slot>
-    <div class="spacer"></div>
-    <div class="container--fluid" style="display: flex; justify-content: center">
-      <TimeLine :timeline="timeline"></TimeLine>
+    <div class="Current_Tab">
+      <TheTimeLine :timeline="timeline"></TheTimeLine>
     </div>
   </div>
 </template>
 
 <script>
-import TimeLine from '../../components/TimeLine';
+import TheTimeLineLoading from '@/components/Loaders/TheTimeLineLoading';
+import ErrorFetch from '@/components/Loaders/ErrorFetch';
+const TheTimeLine = () => ({
+  component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
+  loading: TheTimeLineLoading,
+  error: ErrorFetch,
+  timeout: 5000,
+});
 export default {
   data: () => {
     return {
       timeline: 'timeline',
     };
   },
-  components: { TimeLine },
+  components: { TheTimeLine },
 };
 </script>
-
-<style  scoped>
-.spacer {
-  height: calc(2vh + 2vw);
+<style lang="scss" scoped>
+.Current_Tab {
+  display: flex;
+  justify-content: center;
 }
 </style>

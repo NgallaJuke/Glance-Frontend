@@ -8,6 +8,7 @@ export const userServices = {
   getAllFollower,
   getAllFollowing,
   updateAvatar,
+  updateUser,
   getAllUser,
   followUser,
   unFollowUser,
@@ -94,23 +95,53 @@ async function getAllFollowing(userid) {
       throw error;
     });
 }
+
 async function updateAvatar(avatar) {
-  const formData = new FormData();
-  avatar.forEach((pic) => {
-    formData.append('file', pic);
-  });
+  console.log('Avatar', avatar);
+  if (avatar !== null) {
+    const formData = new FormData();
+    avatar.forEach((pic) => {
+      formData.append('file', pic);
+    });
+    const requestOptions = {
+      method: 'PUT',
+      headers: authHeader(),
+      body: formData,
+    };
+
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/update-avatar`, requestOptions)
+      .then(handleRequest)
+      .catch((error) => {
+        throw error;
+      });
+  } else {
+    const requestOptions = {
+      method: 'PUT',
+      headers: authHeader(),
+    };
+
+    return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/update-avatar?reset=yes`, requestOptions)
+      .then(handleRequest)
+      .catch((error) => {
+        throw error;
+      });
+  }
+}
+
+async function updateUser(user) {
+  Object.keys(user).forEach((k) => user[k] === '' && delete user[k]);
   const requestOptions = {
     method: 'PUT',
-    headers: authHeader(),
-    body: formData,
+    headers: { ...authHeader(), 'content-type': 'application/json' },
+    body: JSON.stringify(user),
   };
-
-  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/update-avatar`, requestOptions)
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/update`, requestOptions)
     .then(handleRequest)
     .catch((error) => {
       throw error;
     });
 }
+
 async function followUser(userID) {
   const requestOptions = {
     method: 'PUT',
@@ -125,6 +156,7 @@ async function followUser(userID) {
       throw error;
     });
 }
+
 async function unFollowUser(userID) {
   const requestOptions = {
     method: 'PUT',

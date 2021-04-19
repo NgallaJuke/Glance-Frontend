@@ -1,20 +1,36 @@
 <template>
-  <div class="container my-5">
+  <div class="container py-10">
     <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
-      <v-text-field outlined dense label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
-
+      <p class="Label">Email</p>
       <v-text-field
-        outlined
+        class="Text_Field"
+        clearable
+        filled
         dense
+        flat
+        solo
+        hide-details
+        v-model="user.email"
+        :rules="emailRules"
+        required
+      ></v-text-field>
+      <p class="Label">Password</p>
+      <v-text-field
+        class="Text_Field"
+        clearable
+        filled
+        dense
+        flat
+        solo
+        hide-details
+        counter
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
         :type="show1 ? 'text' : 'password'"
         name="input-10-1"
-        label="Password"
         hint="At least 6 characters"
-        counter
         @click:append="show1 = !show1"
         required
       ></v-text-field>
@@ -64,3 +80,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.Label {
+  margin: 1.5em 0 0.5em 0;
+}
+.Text_Field {
+  font-size: 1em;
+  font-weight: 400;
+  box-shadow: 0px 0px 10px $color_primary;
+}
+</style>

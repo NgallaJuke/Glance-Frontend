@@ -14,12 +14,12 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: () => import(/* webpackChunckName: "register"*/ '../views/Auth/Register.vue'),
+    component: () => import(/* webpackChunckName: "register"*/ '@/views/Auth/Register.vue'),
   },
   {
     path: '/register-success',
     name: 'register-success',
-    component: () => import(/* webpackChunckName: "register-success"*/ '../views/Auth/SuccessRegister.vue'),
+    component: () => import(/* webpackChunckName: "register-success"*/ '@/views/Auth/SuccessRegister.vue'),
   },
   {
     path: '/',
@@ -29,18 +29,58 @@ const routes = [
   {
     path: '/profil/:userName',
     name: 'profil',
-    component: () => import(/* webpackChunckName: "profil"*/ '../views/Account/Profil.vue'),
+    component: () => import(/* webpackChunckName: "profil"*/ '@/views/Account/Profil.vue'),
+  },
+
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import(/* webpackChunckName: "Users"*/ '@/views/Account/Users.vue'),
   },
   {
     path: '/account',
     name: 'setting',
-    component: () => import(/* webpackChunckName: "setting"*/ '../views/Account/Setting.vue'),
+    redirect: '/account/profile',
+    component: () => import(/* webpackChunckName: "setting"*/ '@/views/Account/Setting.vue'),
+    children: [
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: () => import(/* webpackChunckName: "Profile"*/ '@/components/TheSettingEditProfile.vue'),
+      },
+
+      {
+        path: 'general',
+        name: 'General',
+        component: () => import(/* webpackChunckName: "General"*/ '@/components/TheSettingAccount.vue'),
+      },
+      {
+        path: 'password',
+        name: 'Password',
+        component: () => import(/* webpackChunckName: "Password"*/ '@/components/TheSettingPassword.vue'),
+      },
+      {
+        path: 'social_profile',
+        name: 'Social Profile',
+        component: () => import(/* webpackChunckName: "Social Profile"*/ '@/components/TheSettingSocialProfile.vue'),
+      },
+      {
+        path: 'notification',
+        name: 'Notification',
+        component: () => import(/* webpackChunckName: "Notification"*/ '@/components/TheSettingNotification.vue'),
+      },
+      {
+        path: '',
+        redirect: 'profile', // default child path
+      },
+    ],
   },
   {
-    path: '/tailors',
-    name: 'tailors',
-    component: () => import(/* webpackChunckName: "Tailors"*/ '../views/Account/Tailors.vue'),
+    path: '/hire',
+    name: 'hire',
+    component: () => import(/* webpackChunckName: "Users"*/ '@/views/Account/Hire.vue'),
   },
+
   { path: '*', redirect: '/' },
 ];
 
@@ -56,6 +96,7 @@ router.beforeEach((to, from, next) => {
   const authIsRequired = !publicPagesRoute.includes(to.path);
   const loggedIn = localStorage.getItem('user_token');
   if (authIsRequired && !loggedIn) return next('/login');
+
   next();
 });
 

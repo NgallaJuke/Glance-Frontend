@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-sheet depressed v-if="timelineLimited.length > 0" class="mx-auto grey lighten-3" max-width="1000">
-      <v-slide-group depressed>
+    <v-sheet depressed v-if="timelineLimited.length > 0" class="mx-auto grey lighten-5">
+      <v-slide-group mobile-breakpoint="1260" depressed>
         <v-slide-item depressed v-for="post in timelineLimited" :key="post._id">
-          <v-card class="ma-3 card_img" max-width="200" style="border-radius: 10px">
+          <v-card class="ma-3 card_img grey lighten-5" style="border-radius: 6px">
             <v-img
               :src="`${url}posts_pic/${post.picture[0]}`"
               @click="ShowDialog(post)"
               alt="postImage"
               height="227.7"
               width="200"
-              style="border-radius: 10px"
+              style="border-radius: 6px"
             ></v-img>
           </v-card>
         </v-slide-item>

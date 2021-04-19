@@ -7,13 +7,10 @@
       v-click-outside="onClickOutside"
       v-model="dialog"
     >
-      <v-card
-        class="pa-5"
-        v-for="follower in users.follower"
-        :key="follower._id"
-        style="overflow: hidden; overflow-y: auto"
-      >
-        <UserSingle :user="follower" class="py-3"></UserSingle>
+      <v-card class="pa-5" style="overflow: hidden; overflow-y: auto">
+        <div v-for="follower in users.follower" :key="follower._id">
+          <UserSingle :user="follower" class="py-3"></UserSingle>
+        </div>
       </v-card>
     </v-dialog>
     <v-dialog

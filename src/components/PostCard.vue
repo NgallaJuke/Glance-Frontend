@@ -60,7 +60,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import SinglePostPopup from './Popups/SinglePostPopup';
-import AvatarLink from './Bases/AvatarLink';
+import AvatarLink from '@/components/Bases/AvatarLink';
 export default {
   props: { post: { type: Object, required: true } },
   data: () => ({
@@ -123,7 +123,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
 .PostCard {
   border-radius: $border_radius;
   .card_img {

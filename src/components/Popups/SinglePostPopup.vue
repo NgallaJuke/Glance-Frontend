@@ -1,72 +1,54 @@
 <template>
   <div>
     <v-dialog v-model="dialoge" persistent max-width="75vw">
-      <v-card class="grey lighten-3 card">
-        <v-toolbar flat class="grey lighten-3">
+      <v-card class="grey lighten-5 card">
+        <v-toolbar flat class="grey lighten-5">
           <v-spacer></v-spacer>
           <v-btn icon @click="CloseDialog">
             <img src="https://s.svgbox.net/hero-outline.svg?ic=x&fill=000" width="25" height="25" />
           </v-btn>
         </v-toolbar>
-        <div class="container">
-          <div class="user_details">
-            <router-link :to="{ name: 'profil', params: { userName: receivedPost.postOwner.userName } }">
-              <v-btn icon class="spacer">
-                <v-avatar size="60" v-if="receivedPost.postOwner.avatar">
-                  <img :src="`${url}avatars/${receivedPost.postOwner.avatar.substring(62)}`" alt="Ava" />
-                </v-avatar>
-                <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
+        <div class="container grey lighten-5">
+          <div class="Post_Info">
+            <div class="Post_Info_User">
+              <AvatarLink
+                class="mx-5"
+                name_path="profil"
+                :user_name="receivedPost.postOwner.userName"
+                :size="50"
+                :avatar_uri="receivedPost.postOwner.avatar.substring(62)"
+              ></AvatarLink>
+              <h4 class="ml-2 mr-10">
+                {{ receivedPost.postOwner.userName }}
+              </h4>
+              <FollowButton
+                v-if="receivedPost.postOwner.userName !== account.user.userName"
+                class="Post_Info_User_FollowBtn"
+                :isfollowed="isFollowed"
+                :userid="receivedPost.postOwner._id"
+                @follow="FollowUser($event)"
+                @unfollow="UnFollowUser($event)"
+              ></FollowButton>
+            </div>
+
+            <div class="Post_Info_LikeBtn">
+              <v-btn color="primary" outlined icon id="like_btn">
+                <img
+                  v-if="isLiked"
+                  @click="DisLikePost(receivedPost._id)"
+                  src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
+                  width="25"
+                  height="25"
+                />
+                <img
+                  v-else
+                  @click="LikePost(receivedPost._id)"
+                  src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
+                  width="25"
+                  height="25"
+                />
               </v-btn>
-            </router-link>
-            <h3>
-              {{ receivedPost.postOwner.userName }}
-            </h3>
-            <v-btn
-              v-if="
-                !receivedPost.postOwner.follower.includes(account.user._id) &&
-                account.user._id != receivedPost.postOwner._id
-              "
-              small
-              color="primary"
-              outlined
-              @click="
-                FollowUser(receivedPost.postOwner._id);
-                receivedPost.postOwner.follower.push(account.user._id);
-              "
-            >
-              Follow
-            </v-btn>
-            <v-btn
-              v-else-if="
-                receivedPost.postOwner.follower.includes(account.user._id) &&
-                account.user._id != receivedPost.postOwner._id
-              "
-              small
-              color="red"
-              outlined
-              @click="
-                UnFollowUser(receivedPost.postOwner._id);
-                receivedPost.postOwner.follower.splice(receivedPost.postOwner.follower.indexOf(account.user._id), 1);
-              "
-            >
-              UnFollow
-            </v-btn>
-            <v-btn color="primary" outlined icon id="like_btn">
-              <img
-                v-if="isLiked"
-                @click="DisLikePost(receivedPost._id)"
-                src="https://s.svgbox.net/hero-solid.svg?ic=heart&fill=1976D2"
-                width="25"
-                height="25"
-              />
-              <img
-                v-else
-                @click="LikePost(receivedPost._id)"
-                src="https://s.svgbox.net/hero-outline.svg?ic=heart&fill=1976D2"
-                width="25"
-                height="25"
-              />
-            </v-btn>
+            </div>
           </div>
           <div class="post_pic">
             <img class="card_img" :src="`${url}posts_pic/${receivedPost.picture[0]}`" alt="postImage" />
@@ -85,11 +67,22 @@
           <div class="make_comment">
             <v-form ref="form" v-model="valid" lazy-validation>
               <div class="form">
-                <div class="btn_comment">
-                  <v-btn :disabled="!valid" color="primary" @click.stop="MakeComment(receivedPost._id)">Publish</v-btn>
-                </div>
                 <div class="input_comment">
-                  <v-text-field v-model="comment" :rules="commentRules" label="Comment" required></v-text-field>
+                  <v-text-field
+                    v-model="comment"
+                    :rules="commentRules"
+                    label="Comment here"
+                    clearable
+                    filled
+                    dense
+                    flat
+                    solo
+                  ></v-text-field>
+                </div>
+                <div class="btn_comment">
+                  <v-btn :disabled="!valid" outlined color="primary" @click.stop="MakeComment(receivedPost._id)"
+                    >Publish</v-btn
+                  >
                 </div>
               </div>
             </v-form>
@@ -102,7 +95,9 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
-import Comment from '../Comment';
+import Comment from '@/components/Bases/Comment';
+import AvatarLink from '@/components/Bases/AvatarLink';
+import FollowButton from '@/components/Bases/FollowButton';
 export default {
   props: {
     dialog: { type: Boolean, required: true },
@@ -113,11 +108,12 @@ export default {
     dialoge: true,
     isLiked: Boolean,
     receivedPost: Object,
+    isFollowed: Boolean,
     comment: '',
     valid: false,
     commentRules: [(v) => !!v || 'Comment is required'],
   }),
-  components: { Comment },
+  components: { Comment, AvatarLink, FollowButton },
   computed: {
     ...mapState({
       account: (state) => state.account,
@@ -126,14 +122,7 @@ export default {
     ...mapGetters({ orderedComments: 'comments/orderedComments' }),
   },
   methods: {
-    ...mapActions([
-      'posts/likePost',
-      'posts/disLikePost',
-      'comments/makeComment',
-      'comments/getAllPostComments',
-      'users/followUser',
-      'users/unfollowUser',
-    ]),
+    ...mapActions(['posts/likePost', 'posts/disLikePost', 'comments/makeComment', 'comments/getAllPostComments']),
     CloseDialog() {
       this.dialoge = false;
       this.$emit('update:closedialog', false);
@@ -150,13 +139,11 @@ export default {
       this.$emit('commentpost', this.comments.comment[this.comments.comment.length - 1]._id);
       this.$refs.form.reset();
     },
-    FollowUser(userID) {
-      this['users/followUser'](userID);
-      this.$parent.$emit('follow', true); //emit to the grand Parent
+    FollowUser(even) {
+      this.isFollowed = even;
     },
-    UnFollowUser(userID) {
-      this['users/unfollowUser'](userID);
-      this.$parent.$emit('unfollow', false); //emit to the grand Parent
+    UnFollowUser(even) {
+      this.isFollowed = even;
     },
     LikePost(postID) {
       this['posts/likePost'](postID);
@@ -176,9 +163,9 @@ export default {
       this.$emit('deletecomment');
     },
   },
-  created() {
+  async created() {
     this.receivedPost = JSON.parse(JSON.stringify(this.post));
-    this['comments/getAllPostComments'](this.receivedPost._id);
+    await this['comments/getAllPostComments'](this.receivedPost._id);
   },
   mounted() {
     if (this.receivedPost.likes.liker.includes(this.account.user._id)) {
@@ -186,18 +173,17 @@ export default {
     } else {
       this.isLiked = false;
     }
+    this.isFollowed = this.account.user.following.includes(this.receivedPost.postOwner._id) ? true : false;
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
-  background-color: #eeeeee;
   width: 100%;
   padding: 0 10px;
 }
 .container {
-  background-color: #eeeeee;
   max-width: 911px;
   padding: 0;
 }
@@ -207,14 +193,23 @@ export default {
 .spacer {
   margin: 0 10px 0 20px;
 }
-.user_details {
+.Post_Info {
   height: 80px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .Post_Info_User {
+    display: flex;
+    align-items: center;
+  }
 }
-.user_details h3 {
+/* .Post_Info h3 {
   display: inline;
   margin: 0 20px;
-}
+} */
+
 #like_btn {
   float: right;
 }
@@ -252,16 +247,17 @@ export default {
 .form {
   width: 100%;
   display: flex;
-  align-content: center;
+  align-content: flex-start;
+  justify-content: center;
 }
 .btn_comment {
   display: flex;
-  align-self: center;
+
   justify-content: center;
   width: 15%;
   margin-right: 20px;
 }
 .input_comment {
-  width: 75%;
+  width: 60%;
 }
 </style>

@@ -35,19 +35,19 @@
         ></v-text-field>
         <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
         <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
-        <v-btn class="mx-5" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
+        <v-btn class="mx-5 px-3" dense depressed color="primary white--text" @click="ShowDialog()">Upload</v-btn>
         <v-menu offsetY open-on-hover left bottom transition="slide-y-transition">
           <template v-slot:activator="{ on, attrs }" style="margin-right: 1em">
             <AvatarLink
               name_path="profil"
               :user_name="account.user.userName"
-              :size="40"
+              :size="35"
               :avatar_uri="account.user.avatar.substring(62)"
               :on="on"
               :attrs="attrs"
             ></AvatarLink>
           </template>
-          <TheProfilOptions></TheProfilOptions>
+          <TheAppBarOptions></TheAppBarOptions>
         </v-menu>
       </div>
     </v-app-bar>
@@ -107,10 +107,10 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UploadPost from './Popups/Uploadpost';
-import TheAppBarLink from './TheAppBarLink';
-import TheProfilOptions from './TheProfilOptions';
-import AvatarLink from './Bases/AvatarLink';
+import UploadPost from '@/components/Popups/Uploadpost';
+import TheAppBarLink from '@/components/TheAppBarLink';
+import TheAppBarOptions from '@/components/TheAppBarOptions';
+import AvatarLink from '@/components/Bases/AvatarLink';
 
 export default {
   props: { account: Object },
@@ -125,7 +125,7 @@ export default {
       searchClosed: true,
     };
   },
-  components: { TheAppBarLink, TheProfilOptions, AvatarLink },
+  components: { TheAppBarLink, TheAppBarOptions, AvatarLink },
 
   methods: {
     ...mapActions(['account/logout']),
@@ -142,7 +142,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .closed {
   max-width: 45px !important;
   .v-input__slot {
