@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-app-bar class="grey lighten-5" flat fixed height="60px">
-      <div class="AppBar hidden-md-and-up">
+    <v-app-bar class="grey px-md-5 px-sm-and-down-5 lighten-5" flat fixed>
+      <div class="AppBar hidden-md-and-up" height="45px">
         <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = true"></v-app-bar-nav-icon>
         <v-spacer></v-spacer>
         <v-text-field
@@ -18,8 +18,7 @@
         <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
         <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
       </div>
-
-      <div class="AppBar hidden-sm-and-down">
+      <div class="AppBar hidden-sm-and-down" height="60px">
         <TheAppBarLink> </TheAppBarLink>
         <v-spacer></v-spacer>
 
@@ -36,48 +35,42 @@
         ></v-text-field>
         <v-btn icon> <v-icon>mdi-email-outline</v-icon> </v-btn>
         <v-btn icon> <v-icon>mdi-bell-ring-outline</v-icon> </v-btn>
-        <v-btn class="mx-5" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
+        <v-btn class="mx-5 px-3" dense depressed color="primary white--text" @click="ShowDialog()">Upload</v-btn>
         <v-menu offsetY open-on-hover left bottom transition="slide-y-transition">
           <template v-slot:activator="{ on, attrs }" style="margin-right: 1em">
             <AvatarLink
               name_path="profil"
               :user_name="account.user.userName"
-              :size="40"
+              :size="35"
               :avatar_uri="account.user.avatar.substring(62)"
               :on="on"
               :attrs="attrs"
             ></AvatarLink>
           </template>
-          <TheProfilOptions></TheProfilOptions>
+          <TheAppBarOptions></TheAppBarOptions>
         </v-menu>
       </div>
     </v-app-bar>
 
     <v-navigation-drawer class="Drawer" v-model="drawer" temporary fixed>
-      <TheAppBarLink class="AppBarLink_drawer"></TheAppBarLink>
-      <v-btn
-        style="margin-left: 28px; margin-bottom: 10px"
-        depressed
-        rounded
-        color="primary white--text"
-        @click="ShowDialog()"
-        >Upload</v-btn
-      >
-      <v-divider></v-divider>
+      <TheAppBarLink class="AppBarLink_drawer pl-5"></TheAppBarLink>
+      <v-btn class="ml-10 mb-8" depressed rounded color="primary white--text" @click="ShowDialog()">Upload</v-btn>
 
-      <AvatarLink
-        class="Drawer_Avatar"
-        name_path="profil"
-        :user_name="account.user.userName"
-        :size="40"
-        :avatar_uri="account.user.avatar.substring(62)"
-      ></AvatarLink>
-      <div class="UserInfo">
-        <h4>{{ account.user.userName }}</h4>
-        <p>{{ account.user.email }}</p>
+      <div class="Drawer_User pl-6">
+        <AvatarLink
+          class="Drawer_User_Avatar mr-5"
+          name_path="profil"
+          :user_name="account.user.userName"
+          :size="40"
+          :avatar_uri="account.user.avatar.substring(62)"
+        ></AvatarLink>
+        <div class="Drawer_User_Info">
+          <h4>{{ account.user.userName }}</h4>
+          <p>{{ account.user.email }}</p>
+        </div>
       </div>
 
-      <div class="Drawer_Profil_Options">
+      <div class="pl-6">
         <v-list>
           <v-list-item-group>
             <v-list-item>
@@ -102,6 +95,7 @@
       </div>
     </v-navigation-drawer>
     <div
+      class="Post_PopUp"
       v-if="dialog"
       :is="dialogComp"
       :dialog="dialog"
@@ -113,10 +107,10 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UploadPost from './Popups/Uploadpost';
-import TheAppBarLink from './TheAppBarLink';
-import TheProfilOptions from './TheProfilOptions';
-import AvatarLink from './Bases/AvatarLink';
+import UploadPost from '@/components/Popups/Uploadpost';
+import TheAppBarLink from '@/components/TheAppBarLink';
+import TheAppBarOptions from '@/components/TheAppBarOptions';
+import AvatarLink from '@/components/Bases/AvatarLink';
 
 export default {
   props: { account: Object },
@@ -131,7 +125,7 @@ export default {
       searchClosed: true,
     };
   },
-  components: { TheAppBarLink, TheProfilOptions, AvatarLink },
+  components: { TheAppBarLink, TheAppBarOptions, AvatarLink },
 
   methods: {
     ...mapActions(['account/logout']),
@@ -148,8 +142,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
-@import '@/styles/variables.scss';
+<style lang="scss">
 .closed {
   max-width: 45px !important;
   .v-input__slot {
@@ -191,13 +184,15 @@ export default {
     padding: 8px 10px;
   }
 }
-.Drawer {
-  .Drawer_Avatar {
-    margin: 30px 20px 0 28px;
+.Drawer_User {
+  .Drawer_User_Avatar {
     display: inline-block;
+    .v-btn__content {
+      top: 10px;
+    }
   }
 
-  .UserInfo {
+  .Drawer_User_Info {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
@@ -207,9 +202,6 @@ export default {
     p {
       display: inline;
     }
-  }
-  .Drawer_Profil_Options {
-    margin-left: 12px;
   }
 }
 </style>

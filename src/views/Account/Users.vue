@@ -1,20 +1,20 @@
 <template>
-  <div>
+  <div class="py-10">
     <slot name="alert"></slot>
-    <v-container v-if="!allUsers">
+    <v-container v-if="users.status.allUsersLaoding">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"
     /></v-container>
-    <v-container fluid style="width: 90%">
-      <v-row v-for="user in allUsers" :key="user._id" justify="start" align="center" class="pb-5">
-        <TailorsList :user="user"></TailorsList>
-      </v-row>
+    <v-container style="width: 90%">
+      <div v-for="user in allUsers" :key="user._id" class="User_List">
+        <UsersList :user="user"></UsersList>
+      </div>
     </v-container>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import TailorsList from '../../components/TailorsList';
+import UsersList from '../../components/UsersList';
 export default {
   data: () => {
     return {
@@ -22,7 +22,7 @@ export default {
       allUsers: Array,
     };
   },
-  components: { TailorsList },
+  components: { UsersList },
   computed: {
     ...mapState({
       posts: (state) => state.posts,

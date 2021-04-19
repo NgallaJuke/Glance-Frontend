@@ -1,15 +1,12 @@
 <template>
   <div style="width: 90%">
-    <div v-if="posts.status.loading">
-      <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32" />
-    </div>
-    <div v-else-if="posts.status.empty">
+    <!-- <div v-if="posts.status.empty">
       <img src="https://s.svgbox.net/hero-solid.svg?ic=eye-off&fill=000" width="32" height="32" />
       <h1>
         {{ posts.message }}
       </h1>
-    </div>
-    <div v-else-if="posts.timeline">
+    </div> -->
+    <div v-if="posts.timeline">
       <v-container fluid>
         <v-row>
           <v-col v-for="post in posts.timeline.slice().reverse()" :key="post._id" cols="12" lg="3" md="4" sm="6">
@@ -27,6 +24,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import PostCard from './PostCard';
+
 export default {
   props: { timeline: String },
   data: () => ({ url: process.env.VUE_APP_API_URI }),

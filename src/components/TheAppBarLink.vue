@@ -4,18 +4,18 @@
       <h1>Glance</h1>
     </router-link>
     <ul class="menu-items">
-      <li class="menu-item">
-        <router-link class="link" :to="{ name: 'tailors' }">
+      <li class="menu-item px-3 py-1">
+        <router-link class="link" :to="{ name: 'users' }">
           <h3>Descover</h3>
         </router-link>
       </li>
-      <li class="menu-item">
-        <router-link class="link" :to="{ name: 'tailors' }">
-          <h3>Tailors</h3>
+      <li class="menu-item px-3 py-1">
+        <router-link class="link" :to="{ name: 'users' }">
+          <h3>Photographers</h3>
         </router-link>
       </li>
-      <li class="menu-item">
-        <router-link class="link" :to="{ name: 'tailors' }">
+      <li class="menu-item px-3 py-1">
+        <router-link class="link" :to="{ name: 'hire' }">
           <h3>Hire</h3>
         </router-link>
       </li>
@@ -33,13 +33,13 @@ export default {};
 .container {
   display: flex;
   align-items: center;
+  padding: 0;
   .menu-items {
     list-style: none;
     display: flex;
     align-items: center;
     .menu-item {
       font-size: 1rem;
-      padding: 0.5em 1em;
       .link {
         color: #000;
         text-decoration: none;
@@ -56,7 +56,7 @@ export default {};
   .logo {
     color: #000;
     text-decoration: none;
-    padding: 0.5em 1em;
+    padding: 0.5em 0px;
     display: inline;
   }
 }

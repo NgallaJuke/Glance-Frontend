@@ -1,41 +1,68 @@
 <template>
-  <div class="container my-5">
+  <div class="container py-10">
     <slot name="alert"></slot>
     <v-form v-model="valid" ref="form" lazy-validation>
+      <p class="Label">User Name</p>
       <v-text-field
-        outlined
+        class="Text_Field"
+        clearable
+        filled
         dense
-        label="userName"
+        flat
+        solo
+        hide-details
         v-model="user.userName"
         :rules="nameRules"
         :counter="20"
         required
       ></v-text-field>
-      <v-text-field outlined dense label="E-mail" v-model="user.email" :rules="emailRules" required></v-text-field>
-      <v-select
-        outlined
+      <p class="Label">E-mail</p>
+      <v-text-field
+        class="Text_Field"
+        clearable
+        filled
         dense
-        label="Profil"
+        flat
+        solo
+        hide-details
+        v-model="user.email"
+        :rules="emailRules"
+        required
+      ></v-text-field>
+      <p class="Label">Profil</p>
+      <v-select
+        class="Text_Field"
+        clearable
+        filled
+        dense
+        flat
+        solo
+        hide-details
         v-model="user.role"
         :items="role"
         :rules="[(v) => !!v || 'Profil is required']"
         required
       ></v-select>
-
+      <p class="Label">Password</p>
       <v-text-field
-        outlined
+        class="Text_Field"
+        clearable
+        filled
         dense
+        flat
+        solo
+        hide-details
         v-model="user.password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
         :type="show1 ? 'text' : 'password'"
         name="input-10-1"
-        label="Password"
         hint="At least 6 characters"
         counter
         @click:append="show1 = !show1"
         required
       ></v-text-field>
+
       <v-checkbox
         label="Do you agree?"
         v-model="checkbox"
@@ -102,3 +129,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.Label {
+  margin: 1.5em 0 0.5em 0;
+}
+.Text_Field {
+  font-size: 1em;
+  font-weight: 400;
+  box-shadow: 0px 0px 10px $color_primary;
+}
+</style>

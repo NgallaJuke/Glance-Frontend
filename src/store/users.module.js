@@ -1,12 +1,12 @@
 import { userServices } from '../services';
 // import router from '../router/index';
 const state = {
-  user: null,
-  listUsers: [],
-  follower: [],
-  following: [],
-  allUsers: null,
-  status: null,
+  user: Object,
+  listUsers: Array,
+  follower: Array,
+  following: Array,
+  allUsers: Array,
+  status: Boolean,
   follow: Boolean,
   unfollow: Boolean,
 };
@@ -31,6 +31,27 @@ const actions = {
       }
     );
   },
+
+  updateUser({ dispatch, commit }, user) {
+    commit('updateUserRequest', user);
+    userServices
+      .updateUser(user)
+      .then((data) => {
+        if (data !== undefined) {
+          commit('updateUserSuccess', data.user);
+          dispatch('alert/success', 'User Updated Successfully.', { root: true });
+          location.reload(true);
+        } else {
+          commit('updateUserFailure', 'Something went wrong');
+          dispatch('alert/error', 'error', { root: true });
+        }
+      })
+      .catch((error) => {
+        commit('updateUserFailure', error);
+        dispatch('alert/error', error, { root: true });
+      });
+  },
+
   async getSingleUser({ dispatch, commit }, payload) {
     commit('UserProfilRequest');
     try {
@@ -108,7 +129,7 @@ const actions = {
 };
 const mutations = {
   updateAvatarRequest(state) {
-    state.status = { updating: true };
+    state.status = { updatingAvatar: true };
   },
   updateAvatarSuccess(state, user) {
     state.status = { updated: true };
@@ -118,12 +139,23 @@ const mutations = {
     state.status = {};
     state.user = null;
   },
+  updateUserRequest(state) {
+    state.status = { updatingUser: true };
+  },
+  updateUserSuccess(state, user) {
+    state.status = { userUpdated: true };
+    state.user = user;
+  },
+  updateUserFailure(state) {
+    state.status = {};
+    state.user = null;
+  },
   UserProfilRequest(state) {
     state.status = { UserProfilLaoding: true };
   },
   UserProfilSuccess(state, userProfil) {
     state.user = userProfil;
-    state.status = { loggedIn: true };
+    state.status = { UserProfilLaoded: true };
   },
   UserProfilListSuccess(state, userProfil) {
     state.listUsers.push(userProfil);
