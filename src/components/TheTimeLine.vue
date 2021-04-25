@@ -1,11 +1,5 @@
 <template>
   <div style="width: 90%">
-    <!-- <div v-if="posts.status.empty">
-      <img src="https://s.svgbox.net/hero-solid.svg?ic=eye-off&fill=000" width="32" height="32" />
-      <h1>
-        {{ posts.message }}
-      </h1>
-    </div> -->
     <div v-if="posts.timeline">
       <v-container fluid>
         <v-row>

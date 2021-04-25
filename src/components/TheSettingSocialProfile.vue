@@ -1,5 +1,5 @@
 <template>
-  <div class="Edit_Password">
+  <div class="Edit_Socials">
     <div class="Form_List">
       <div>
         <div class="Social mb-2">
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Edit_Password {
+.Edit_Socials {
   .Form_List {
     font-size: 0.9em;
     font-weight: 700;

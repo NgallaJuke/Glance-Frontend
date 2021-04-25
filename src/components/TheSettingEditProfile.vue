@@ -50,6 +50,20 @@
         ></v-textarea>
       </div>
       <div>
+        <p class="Label">About Me</p>
+        <v-textarea
+          class="Text_Field"
+          :label="account.user.about_user"
+          v-model="user.about_user"
+          :rules="aboutRule"
+          clearable
+          filled
+          flat
+          solo
+          hide-details
+        ></v-textarea>
+      </div>
+      <div>
         <p class="Label">Location</p>
         <v-text-field
           class="Text_Field"
@@ -96,11 +110,13 @@ export default {
     user: {
       displayName: '',
       bio: '',
+      about_user: '',
       location: '',
       website: '',
     },
     displayRule: [(v) => v.length <= 30 || 'Max 30 characters'],
     bioRule: [(v) => v.length <= 150 || 'Max 150 characters'],
+    aboutRule: [(v) => v.length <= 500 || 'Max 500 characters'],
     locationRule: [(v) => v.length <= 60 || 'Max 60 characters'],
     websiteRule: [(v) => v.length <= 60 || 'Max 60 characters'],
     avatarDialog: false,

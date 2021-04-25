@@ -13,7 +13,7 @@
       </div>
       <div class="Profil_User_Bio mb-3">
         <!-- Change this H2 to user's bio -->
-        <h2>{{ users.user.bio }}</h2>
+        <h2 class="mb-2">{{ users.user.bio }}</h2>
       </div>
       <div v-if="account.user._id === users.user._id" class="Profil_User_Options">
         <router-link class="link" :to="{ name: 'setting' }">
