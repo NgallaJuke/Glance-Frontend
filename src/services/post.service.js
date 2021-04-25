@@ -1,6 +1,6 @@
 import { authHeader } from '../helpers';
 import { handleRequest, handleRequestPostFeed } from '../helpers/index';
-export const postServices = { createPost, likePost, disLikePost, getPostFeed };
+export const postServices = { createPost, likePost, disLikePost, getPostFeed, getLikedPost };
 
 async function createPost(post) {
   const formData = new FormData();
@@ -27,6 +27,20 @@ async function likePost(postID) {
     headers: authHeader(),
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${postID}/like`, requestOptions)
+    .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+async function getLikedPost(id) {
+  console.log('id1', id);
+
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/like/${id}`, requestOptions)
     .then(handleRequest)
     .catch((error) => {
       throw error;

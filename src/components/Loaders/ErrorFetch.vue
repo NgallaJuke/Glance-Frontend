@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5 style="color: red">something went wrong! Opps</h5>
+    <h5 style="color: red">No data</h5>
   </div>
 </template>
 

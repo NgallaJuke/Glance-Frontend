@@ -1,6 +1,6 @@
 import { postServices } from '../services';
 // import router from '../router/index';
-const state = { post: null, status: null, timeline: [], error: null, message: null };
+const state = { post: null, status: null, timeline: [], likedPost: [], error: null, message: null };
 const getters = {};
 const actions = {
   async createpost({ dispatch, commit }, post) {
@@ -33,6 +33,24 @@ const actions = {
       }
     } catch (error) {
       commit('likePostFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async getLikedPost({ dispatch, commit }, id) {
+    console.log('id2', id);
+
+    commit('getLikedPostRequest');
+    try {
+      const likedPost = await postServices.getLikedPost(id);
+      if (likedPost.success) {
+        commit('getLikedPostSuccess', likedPost);
+      } else {
+        const message = 'No liked Post';
+        commit('getLikedPostEmpty', message);
+      }
+    } catch (error) {
+      commit('postFeedFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -154,6 +172,23 @@ const mutations = {
   },
   UserHomeTimelineFailure(state, error) {
     state.hometimeline = null;
+    state.error = error;
+    state.status = { error: true };
+  },
+  getLikedPostRequest(state) {
+    state.status = { loading: true };
+  },
+  getLikedPostSuccess(state, likedPost) {
+    state.status = { isLoaded: true };
+    state.likedPost = likedPost;
+    state.error = null;
+  },
+  getLikedPostEmpty(state, message) {
+    state.message = message;
+    state.status = { empty: true };
+    state.error = null;
+  },
+  getLikedPostFailure(state, error) {
     state.error = error;
     state.status = { error: true };
   },

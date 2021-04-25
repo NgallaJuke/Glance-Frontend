@@ -9,9 +9,6 @@
         </v-row>
       </v-container>
     </div>
-    <div v-else-if="!posts.timeline">
-      <h2 style="color: red">Timeline is Empty</h2>
-    </div>
   </div>
 </template>
 

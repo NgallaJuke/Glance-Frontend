@@ -47,8 +47,13 @@
           <span class="Count">{{ posts.timeline.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
-          <span class="Tag">Liked Posts </span>
-          <span class="Count">000</span>
+          <span
+            class="Tag"
+            @click="currentTabComponent = 'PostGrid'"
+            :class="['Tab', { active: currentTabComponent === 'PostGrid' }]"
+            >Liked Posts
+          </span>
+          <span class="Count">{{ posts.likedPost.likedPost.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span class="Tag" @click="ShowDialogListUserFollowers()">Followers </span>
@@ -110,6 +115,12 @@ const TheTimeLine = () => ({
   error: ErrorFetch,
   timeout: 500,
 });
+const PostGrid = () => ({
+  component: import(/* webpackChunckName: "PostGrid"*/ '@/components/PostGrid'),
+  loading: TheTimeLineLoading,
+  error: ErrorFetch,
+  timeout: 500,
+});
 
 export default {
   data: () => {
@@ -125,7 +136,7 @@ export default {
       currentTabComponent: 'TheTimeLine',
     };
   },
-  components: { TheTimeLine, FollowListUserPopUp, HireUserPopup, TheProfileAbout, FollowButton },
+  components: { TheTimeLine, PostGrid, FollowListUserPopUp, HireUserPopup, TheProfileAbout, FollowButton },
   computed: {
     ...mapState({
       account: (state) => state.account,
@@ -187,7 +198,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   height: 400px;
-  width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   .Profil_User_Name {
     font-size: 1em;
