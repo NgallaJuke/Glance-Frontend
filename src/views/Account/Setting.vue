@@ -39,7 +39,19 @@
           </li>
         </ul>
       </div>
-      <div class="Setting_Tab_Small hidden-sm-and-up"><p>Setting_Tab SMALL</p></div>
+      <div class="Setting_Tab_Small hidden-sm-and-up">
+        <v-select
+          class="Text_Field"
+          v-model="select"
+          :items="tabs"
+          item-text="tab"
+          @change="changeRoute"
+          dense
+          hide-details
+          hide-selected
+          single-line
+        ></v-select>
+      </div>
       <div class="Setting_Current_Tab"><router-view class="Current_Tab"></router-view></div>
     </div>
   </div>
@@ -50,7 +62,16 @@ import { mapState } from 'vuex';
 import AvatarLink from '@/components/Bases/AvatarLink';
 export default {
   data: () => {
-    return {};
+    return {
+      select: { tab: 'Profile', src: '/profile' },
+      tabs: [
+        { tab: 'Profile', src: '/profile' },
+        { tab: 'General', src: '/general' },
+        { tab: 'Password', src: '/password' },
+        { tab: 'Social Profile', src: '/social_profile' },
+        { tab: 'Notification', src: '/notification' },
+      ],
+    };
   },
   components: { AvatarLink },
   computed: {
@@ -83,6 +104,11 @@ export default {
           routeDescription = 'Set up your Glance presence and hiring needs';
       }
       return routeDescription;
+    },
+  },
+  methods: {
+    changeRoute(a) {
+      this.$router.push({ name: a });
     },
   },
 };
@@ -150,6 +176,41 @@ export default {
   }
   .Setting_Current_Tab {
     width: clamp(50%, 70%, 95%);
+  }
+}
+@media screen and (max-width: 959px) {
+  .Setting {
+    margin: 10vw;
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 599px) {
+  .Setting {
+    margin: 5vw;
+    width: 95vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .Setting_Header {
+    justify-content: center !important;
+    align-items: center;
+  }
+  .Setting_Tab {
+    margin: 5vw;
+    width: 95vw;
+    flex-direction: column;
+    align-items: center !important;
+    .Setting_Tab_Small {
+      .Text_Field {
+        margin: 5vw;
+        margin-bottom: 10vh;
+        width: 80vw;
+        font-size: 1em;
+        font-weight: 400;
+        box-shadow: 0px 0px 10px $color_primary;
+      }
+    }
   }
 }
 </style>
