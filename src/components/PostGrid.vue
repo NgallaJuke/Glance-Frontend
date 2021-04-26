@@ -3,7 +3,7 @@
     <div v-if="posts.likedPost">
       <v-container fluid>
         <v-row>
-          <v-col v-for="post in posts.likedPost.likedPost" :key="post._id" cols="12" lg="3" md="4" sm="6">
+          <v-col v-for="post in posts.likedPost" :key="post._id" cols="12" lg="3" md="4" sm="6">
             <PostCard :post="post"></PostCard>
           </v-col>
         </v-row>

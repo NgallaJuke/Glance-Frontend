@@ -4,7 +4,7 @@
     <v-container v-if="users.status.allUsersLaoding">
       <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=000" width="32" height="32"
     /></v-container>
-    <v-container style="width: 90%">
+    <v-container style="display: flex; width: 90%; flex-direction: column; align-items: flex-start">
       <div v-for="user in allUsers" :key="user._id" class="User_List">
         <UsersList :user="user"></UsersList>
       </div>

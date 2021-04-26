@@ -44,6 +44,8 @@ const actions = {
     try {
       const likedPost = await postServices.getLikedPost(id);
       if (likedPost.success) {
+        console.log('likedPost', likedPost);
+
         commit('getLikedPostSuccess', likedPost);
       } else {
         const message = 'No liked Post';
@@ -180,7 +182,7 @@ const mutations = {
   },
   getLikedPostSuccess(state, likedPost) {
     state.status = { isLoaded: true };
-    state.likedPost = likedPost;
+    state.likedPost = likedPost.likedPost;
     state.error = null;
   },
   getLikedPostEmpty(state, message) {

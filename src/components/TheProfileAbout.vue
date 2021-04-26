@@ -100,7 +100,10 @@ export default {
     'about about about . info'
     'about about about . socials '
     'about about about . socials ';
-
+  h2 {
+    font-size: 1.1em;
+    font-weight: 600;
+  }
   .About {
     grid-area: about;
   }

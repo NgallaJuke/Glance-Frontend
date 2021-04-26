@@ -44,7 +44,7 @@
             :class="['Tab', { active: currentTabComponent === 'TheTimeLine' }]"
             >Posts
           </span>
-          <span class="Count">{{ posts.timeline.length }}</span>
+          <span v-if="posts.timeline.length" class="Count">{{ posts.timeline.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span
@@ -53,7 +53,7 @@
             :class="['Tab', { active: currentTabComponent === 'PostGrid' }]"
             >Liked Posts
           </span>
-          <span class="Count">{{ posts.likedPost.likedPost.length }}</span>
+          <span v-if="posts.likedPost.length !== 0" class="Count">{{ posts.likedPost.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span class="Tag" @click="ShowDialogListUserFollowers()">Followers </span>
@@ -89,9 +89,6 @@
     ></FollowListUserPopUp>
     <v-divider></v-divider>
     <div class="container--fluid" style="display: flex; justify-content: center; margin-top: 50px">
-      <!-- :key="$route.fullPath" will recreate this component whenever the route fullPath changes 
-      Ex-> http://localhost:8080/profil/user1 to http://localhost:8080/profil/user2   -->
-      <!-- <TimeLine :timeline="timeline" :key="$route.fullPath"></TimeLine>  -->
       <keep-alive>
         <component :is="currentTabComponent" v-bind="currentProperties"></component>
       </keep-alive>
