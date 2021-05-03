@@ -75,11 +75,11 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/hire',
-    name: 'hire',
-    component: () => import(/* webpackChunckName: "Users"*/ '@/views/Account/Hire.vue'),
-  },
+  // {
+  //   path: '/hire',
+  //   name: 'hire',
+  //   component: () => import(/* webpackChunckName: "Users"*/ '@/views/Account/Hire.vue'),
+  // },
 
   { path: '*', redirect: '/' },
 ];
