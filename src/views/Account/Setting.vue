@@ -144,8 +144,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    // .Setting_Tab_Small {
-    // }
+
     .Setting_Tab_Big {
       width: 180px;
       height: 200px;
@@ -175,7 +174,7 @@ export default {
     }
   }
   .Setting_Current_Tab {
-    width: clamp(50%, 70%, 95%);
+    width: clamp(50%, 60%, 70%);
   }
 }
 @media screen and (max-width: 959px) {

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <router-link class="logo" :to="{ name: 'home' }">
-      <h1>Glance</h1>
+      <img src="@/assets/glance_logo_blue.png" alt="Glance" width="40" />
     </router-link>
     <ul class="menu-items">
       <li class="menu-item px-3 py-1">
@@ -24,7 +24,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => {
+    return {};
+  },
+};
 </script>
 
 <style lang="scss" scoped>
