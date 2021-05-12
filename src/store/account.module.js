@@ -12,7 +12,7 @@ const actions = {
       .register(user)
       .then((user) => {
         commit('registerSuccess', user);
-        router.push('/login');
+        router.push('/register-success');
         setTimeout(() => {
           // display success message after route change completes
           dispatch('alert/success', 'Registration successful. Please check your email to confirm your registration!', {

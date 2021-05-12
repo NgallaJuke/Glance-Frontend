@@ -1,7 +1,11 @@
 <template>
   <v-app>
     <v-main class="grey lighten-5">
-      <TheAppBar v-if="account.status.loggedIn" :account="account" class="mb-16"></TheAppBar>
+      <TheAppBar
+        v-if="account.status.loggedIn && $route.name !== 'login' && 'register' && 'register-success'"
+        :account="account"
+        class="mb-16"
+      ></TheAppBar>
       <router-view>
         <transition name="slide-fade" cols="6" sm="4" slot="alert">
           <v-alert outlined :class="`${alert.type} ma-2`" v-if="alert.message && show">
