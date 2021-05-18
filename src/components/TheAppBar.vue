@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="account.status.loggedIn">
     <v-app-bar class="grey px-md-5 px-sm-and-down-5 lighten-5" flat fixed>
       <div class="AppBar hidden-md-and-up" height="45px">
         <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = true"></v-app-bar-nav-icon>
@@ -106,14 +106,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import UploadPost from '@/components/Popups/Uploadpost';
 import TheAppBarLink from '@/components/TheAppBarLink';
 import TheAppBarOptions from '@/components/TheAppBarOptions';
 import AvatarLink from '@/components/Bases/AvatarLink';
 
 export default {
-  props: { account: Object },
   data: () => {
     return {
       url: process.env.VUE_APP_API_URI,
@@ -126,9 +125,18 @@ export default {
     };
   },
   components: { TheAppBarLink, TheAppBarOptions, AvatarLink },
-
+  computed: {
+    ...mapState({
+      account: (state) => state.account,
+    }),
+    AuthRequired() {
+      const publicPagesRoute = ['/login', '/register', '/register-success'];
+      const authIsRequired = !publicPagesRoute.includes(this.$router.to.path);
+      return authIsRequired;
+    },
+  },
   methods: {
-    ...mapActions(['account/logout']),
+    ...mapActions(['account/logout', 'account/getCurrentUser']),
     Logout() {
       this['account/logout']();
     },
@@ -138,6 +146,9 @@ export default {
     ShowDialog() {
       if (!this.dialog) this.dialog = true;
     },
+  },
+  created() {
+    this['account/getCurrentUser']();
   },
 };
 </script>

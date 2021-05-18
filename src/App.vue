@@ -2,8 +2,7 @@
   <v-app>
     <v-main class="grey lighten-5">
       <TheAppBar
-        v-if="account.status.loggedIn && $route.name !== 'login' && 'register' && 'register-success'"
-        :account="account"
+        v-if="$route.name !== 'login' && $route.name !== 'register' && $route.name !== 'register-success'"
         class="mb-16"
       ></TheAppBar>
       <router-view>
@@ -32,18 +31,13 @@ export default {
   computed: {
     ...mapState({
       alert: (state) => state.alert,
-      account: (state) => state.account,
     }),
   },
   methods: {
     ...mapActions({
       clearAlert: 'alert/clear',
       fadeAlert: 'alert/fade',
-      getCurrentUser: 'account/getCurrentUser',
     }),
-  },
-  created() {
-    this.getCurrentUser();
   },
   updated() {
     setTimeout(() => {
