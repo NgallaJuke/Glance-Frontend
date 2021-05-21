@@ -10,7 +10,7 @@
         :avatar_uri="receivedUser.avatar.substring(62)"
       ></AvatarLink>
       <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
-      <h4 class="mb-4">{{ receivedUser.userName }}</h4>
+      <h4 class="mb-4">{{ receivedUser.userName | capitalize }}</h4>
       <FollowButton
         class=""
         :isfollowed="isFollowed"

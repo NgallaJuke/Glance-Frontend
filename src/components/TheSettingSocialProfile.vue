@@ -17,6 +17,7 @@
           solo
           hide-details
           clearable
+          background-color="#f3f3f4"
         ></v-text-field>
       </div>
       <div>
@@ -30,6 +31,7 @@
           v-model="user.socials.facebook"
           :rules="socialRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -48,6 +50,7 @@
           v-model="user.socials.instagram"
           :rules="socialRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -66,6 +69,7 @@
           v-model="user.socials.github"
           :rules="socialRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -84,6 +88,7 @@
           v-model="user.socials.linkedin"
           :rules="socialRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -102,6 +107,7 @@
           v-model="user.socials.dribbble"
           :rules="socialRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -120,6 +126,7 @@
           v-model="user.socials.behance"
           :rules="socialRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -175,8 +182,13 @@ export default {
     .Text_Field {
       font-size: 1em;
       font-weight: 400;
-
-      box-shadow: 0px 0px 10px $color_primary;
+      &:hover {
+        box-shadow: 0px 0px 5px $color_primary_light;
+      }
+      &:focus-within {
+        box-shadow: 0px 0px 5px $color_primary;
+        border: 1.5px solid $color_primary;
+      }
     }
 
     .Social {

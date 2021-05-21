@@ -9,11 +9,11 @@
         </v-avatar>
       </div>
       <div class="Profil_User_Name">
-        <h1>{{ users.user.userName }}</h1>
+        <h1>{{ users.user.userName | capitalize }}</h1>
       </div>
       <div class="Profil_User_Bio mb-3">
         <!-- Change this H2 to user's bio -->
-        <h2 class="mb-2">{{ users.user.bio }}</h2>
+        <h2 class="mb-2">{{ users.user.bio | capitalize }}</h2>
       </div>
       <div v-if="account.user._id === users.user._id" class="Profil_User_Options">
         <router-link class="link" :to="{ name: 'setting' }">

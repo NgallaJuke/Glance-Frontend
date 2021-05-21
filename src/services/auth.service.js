@@ -2,7 +2,7 @@ import { authHeader } from '../helpers';
 
 import { handleRequest } from '../helpers/index';
 
-export const authServices = { register, login, logout, changePassword };
+export const authServices = { register, login, logout, changePassword, deleteAccount };
 
 function register(user) {
   const requestOptions = {
@@ -69,6 +69,25 @@ function changePassword(user) {
     .then(handleRequest)
     .then((response) => {
       if (response.success) return response;
+    })
+    .catch((error) => console.error(error));
+}
+
+function deleteAccount() {
+  // remove user from local storage to log user out
+  // remove user from backend
+  const requestOptions = {
+    method: 'DELETE',
+    headers: authHeader(),
+  };
+
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/delete`, requestOptions)
+    .then(handleRequest)
+    .then((response) => {
+      if (response.success) {
+        localStorage.removeItem('user_token');
+      } else return response;
+      return response;
     })
     .catch((error) => console.error(error));
 }

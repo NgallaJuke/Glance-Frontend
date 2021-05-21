@@ -6,6 +6,7 @@
       <v-text-field
         class="Text_Field"
         clearable
+        background-color="#f3f3f4"
         filled
         dense
         flat
@@ -19,6 +20,7 @@
       <v-text-field
         class="Text_Field"
         clearable
+        background-color="#f3f3f4"
         filled
         dense
         flat
@@ -88,6 +90,12 @@ export default {
 .Text_Field {
   font-size: 1em;
   font-weight: 400;
-  box-shadow: 0px 0px 10px $color_primary;
+  &:hover {
+    box-shadow: 0px 0px 5px $color_primary_light;
+  }
+  &:focus-within {
+    box-shadow: 0px 0px 5px $color_primary;
+    border: 1.5px solid $color_primary;
+  }
 }
 </style>

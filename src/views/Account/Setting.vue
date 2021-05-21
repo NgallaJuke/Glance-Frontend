@@ -12,7 +12,7 @@
       ></AvatarLink>
       <div class="Tab_Info">
         <div class="User">
-          <h4 class="User_Name mr-2">{{ account.user.userName }}</h4>
+          <h4 class="User_Name mr-2">{{ account.user.userName | capitalize }}</h4>
           <span>/</span>
           <h4 class="Tab_Name ml-2">{{ CurrentRouteName }}</h4>
         </div>
@@ -41,12 +41,13 @@
       </div>
       <div class="Setting_Tab_Small hidden-sm-and-up">
         <v-select
-          class="Text_Field"
+          class="Select_Field"
           v-model="select"
           :items="tabs"
           item-text="tab"
           @change="changeRoute"
           dense
+          offsetY
           hide-details
           hide-selected
           single-line
@@ -106,6 +107,7 @@ export default {
       return routeDescription;
     },
   },
+
   methods: {
     changeRoute(a) {
       this.$router.push({ name: a });
@@ -201,12 +203,15 @@ export default {
     flex-direction: column;
     align-items: center !important;
     .Setting_Tab_Small {
-      .Text_Field {
+      .Select_Field {
         margin: 5vw;
         margin-bottom: 10vh;
         width: 80vw;
+        padding: 0.2em 0.4em;
         font-size: 1em;
         font-weight: 400;
+        border: 1px solid $color_primary;
+        border-radius: $border_radius/2;
         box-shadow: 0px 0px 10px $color_primary;
       }
     }

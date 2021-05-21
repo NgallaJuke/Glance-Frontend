@@ -97,12 +97,12 @@ async function getAllFollowing(userid) {
 }
 
 async function updateAvatar(avatar) {
-  console.log('Avatar', avatar);
+  console.log('Avatar', typeof avatar, avatar);
   if (avatar !== null) {
     const formData = new FormData();
-    avatar.forEach((pic) => {
-      formData.append('file', pic);
-    });
+
+    formData.append('file', avatar);
+
     const requestOptions = {
       method: 'PUT',
       headers: authHeader(),

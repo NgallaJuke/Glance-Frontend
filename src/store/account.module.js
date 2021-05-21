@@ -80,6 +80,25 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+  async deleteAccount({ dispatch, commit }) {
+    commit('deleteAccountRequest');
+    authServices
+      .deleteAccount()
+      .then((data) => {
+        if (data !== undefined) {
+          commit('deleteAccountSuccess', data.message);
+          dispatch('alert/success', data.message, { root: true });
+          router.push('/login');
+        } else {
+          commit('deleteAccountFailure', 'Something went wrong');
+          dispatch('alert/error', 'Something went wrong', { root: true });
+        }
+      })
+      .catch((error) => {
+        commit('deleteAccountFailure', error);
+        dispatch('alert/error', error, { root: true });
+      });
+  },
 };
 const mutations = {
   registerRequest(state, user) {
@@ -137,6 +156,15 @@ const mutations = {
   ChangePasswordFailure(state, error) {
     state.user = null;
     state.status = { FailedChangePassword: true, loggedIn: true };
+    state.error = error;
+  },
+  deleteAccountRequest(state) {
+    state.status = { DeletingAccount: true };
+  },
+  deleteAccountSuccess(state) {
+    state.status = { AccountDeleted: true };
+  },
+  deleteAccountFailure(state, error) {
     state.error = error;
   },
 };

@@ -24,12 +24,13 @@
         <p class="Label">Displayed Name</p>
         <v-text-field
           class="Text_Field"
+          background-color="#f3f3f4"
           :label="account.user.displayName"
           v-model="user.displayName"
           :rules="displayRule"
           clearable
-          filled
           dense
+          filled
           flat
           solo
           hide-details
@@ -39,10 +40,12 @@
         <p class="Label">Bio</p>
         <v-textarea
           class="Text_Field"
+          background-color="#f3f3f4"
           :label="account.user.bio"
           v-model="user.bio"
           :rules="bioRule"
           clearable
+          dense
           filled
           flat
           solo
@@ -53,10 +56,12 @@
         <p class="Label">About Me</p>
         <v-textarea
           class="Text_Field"
+          background-color="#f3f3f4"
           :label="account.user.about_user"
           v-model="user.about_user"
           :rules="aboutRule"
           clearable
+          dense
           filled
           flat
           solo
@@ -67,12 +72,13 @@
         <p class="Label">Location</p>
         <v-text-field
           class="Text_Field"
+          background-color="#f3f3f4"
           :label="account.user.location"
           v-model="user.location"
           :rules="locationRule"
           clearable
-          filled
           dense
+          filled
           flat
           solo
           hide-details
@@ -82,12 +88,13 @@
         <p class="Label">Personal Website</p>
         <v-text-field
           class="Text_Field"
+          background-color="#f3f3f4"
           :label="account.user.website"
           v-model="user.website"
           :rules="websiteRule"
           clearable
-          filled
           dense
+          filled
           flat
           solo
           hide-details
@@ -157,7 +164,13 @@ export default {
     .Text_Field {
       font-size: 1em;
       font-weight: 400;
-      box-shadow: 0px 0px 10px $color_primary;
+      &:hover {
+        box-shadow: 0px 0px 5px $color_primary_light;
+      }
+      &:focus-within {
+        box-shadow: 0px 0px 5px $color_primary;
+        border: 1.5px solid $color_primary;
+      }
     }
   }
 }

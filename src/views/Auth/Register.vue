@@ -5,6 +5,7 @@
       <p class="Label">User Name</p>
       <v-text-field
         class="Text_Field"
+        background-color="#f3f3f4"
         clearable
         filled
         dense
@@ -19,6 +20,7 @@
       <p class="Label">E-mail</p>
       <v-text-field
         class="Text_Field"
+        background-color="#f3f3f4"
         clearable
         filled
         dense
@@ -32,6 +34,7 @@
       <p class="Label">Profil</p>
       <v-select
         class="Text_Field"
+        background-color="#f3f3f4"
         clearable
         filled
         dense
@@ -46,6 +49,7 @@
       <p class="Label">Password</p>
       <v-text-field
         class="Text_Field"
+        background-color="#f3f3f4"
         clearable
         filled
         dense
@@ -137,6 +141,12 @@ export default {
 .Text_Field {
   font-size: 1em;
   font-weight: 400;
-  box-shadow: 0px 0px 10px $color_primary;
+  &:hover {
+    box-shadow: 0px 0px 5px $color_primary_light;
+  }
+  &:focus-within {
+    box-shadow: 0px 0px 5px $color_primary;
+    border: 1.5px solid $color_primary;
+  }
 }
 </style>

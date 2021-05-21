@@ -9,6 +9,7 @@
           v-model="user.email"
           :rules="emailRule"
           clearable
+          background-color="#f3f3f4"
           filled
           dense
           flat
@@ -20,7 +21,9 @@
     <v-divider></v-divider>
     <div class="Delete_Account pt-5">
       <p>Delete your account and account data</p>
-      <v-btn class="ml-10 pa-1 Delete_Btn" depressed color="error white--text">Delete Account</v-btn>
+      <v-btn class="ml-10 pa-1 px-3 Delete_Btn" depressed color="error white--text" @click="DeleteAccount()"
+        >Delete Account</v-btn
+      >
     </div>
     <div>
       <v-btn class="mt-10 pa-1 px-3" depressed color="primary white--text" @click="UpdateUserInfo()">Save Change</v-btn>
@@ -42,10 +45,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['users/updateUser']),
+    ...mapActions(['users/updateUser', 'account/deleteAccount']),
 
     UpdateUserInfo() {
       this['users/updateUser'](this.user);
+    },
+
+    DeleteAccount() {
+      this['account/deleteAccount']();
     },
   },
 };
@@ -62,7 +69,13 @@ export default {
     .Text_Field {
       font-size: 1em;
       font-weight: 400;
-      box-shadow: 0px 0px 10px $color_primary;
+      &:hover {
+        box-shadow: 0px 0px 5px $color_primary_light;
+      }
+      &:focus-within {
+        box-shadow: 0px 0px 5px $color_primary;
+        border: 1.5px solid $color_primary;
+      }
     }
   }
   .Delete_Account {
