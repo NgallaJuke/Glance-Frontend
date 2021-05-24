@@ -19,6 +19,23 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+  async deletePost({ dispatch, commit }, postID) {
+    commit('deletePostRequest', postID);
+    try {
+      const postDelete = await postServices.deletePost(postID);
+      if (postDelete.success) {
+        commit('deletePostSuccess');
+        dispatch('alert/success', `${postDelete.message}`, { root: true });
+        window.location.reload();
+      } else {
+        commit('deletePostFailure', `${postDelete.message}`);
+        dispatch('alert/error', 'error', { root: true });
+      }
+    } catch (error) {
+      commit('deletePostFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
 
   async likePost({ dispatch, commit }, postID) {
     commit('likePostRequest');
@@ -116,6 +133,18 @@ const mutations = {
     state.error = null;
   },
   createPostFailure(state, error) {
+    state.error = error;
+    state.post = null;
+    state.status = null;
+  },
+  deletePostRequest(state, post) {
+    state.status = { deletingPost: true };
+    state.post = post;
+  },
+  deletePostSuccess(state) {
+    state.status = { postDeleted: true };
+  },
+  deletePostFailure(state, error) {
     state.error = error;
     state.post = null;
     state.status = null;

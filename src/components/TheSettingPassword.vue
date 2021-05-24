@@ -6,7 +6,7 @@
         <v-text-field
           class="Text_Field"
           filled
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           dense
           flat
           solo
@@ -28,7 +28,7 @@
         <v-text-field
           class="Text_Field"
           filled
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           dense
           flat
           solo

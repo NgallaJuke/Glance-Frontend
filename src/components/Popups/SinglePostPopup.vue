@@ -18,9 +18,18 @@
                 :size="50"
                 :avatar_uri="receivedPost.postOwner.avatar.substring(62)"
               ></AvatarLink>
+
               <h4 class="ml-2 mr-10">
                 {{ receivedPost.postOwner.userName }}
               </h4>
+              <v-btn v-if="receivedPost.postOwner._id === account.user._id" color="red" outlined icon class="mx-5">
+                <img
+                  @click="DeletePost(receivedPost._id)"
+                  src="https://s2.svgbox.net/hero-outline.svg?ic=trash&fill=e60a0a"
+                  width="25"
+                  height="25"
+                />
+              </v-btn>
               <FollowButton
                 v-if="receivedPost.postOwner.userName !== account.user.userName"
                 class="Post_Info_User_FollowBtn"
@@ -122,7 +131,13 @@ export default {
     ...mapGetters({ orderedComments: 'comments/orderedComments' }),
   },
   methods: {
-    ...mapActions(['posts/likePost', 'posts/disLikePost', 'comments/makeComment', 'comments/getAllPostComments']),
+    ...mapActions([
+      'posts/likePost',
+      'posts/disLikePost',
+      'comments/makeComment',
+      'comments/getAllPostComments',
+      'posts/deletePost',
+    ]),
     CloseDialog() {
       this.dialoge = false;
       this.$emit('update:closedialog', false);
@@ -161,6 +176,9 @@ export default {
       const index = this.orderedComments.findIndex((f) => f.commentID === commentID);
       this.orderedComments.splice(index, 1);
       this.$emit('deletecomment');
+    },
+    DeletePost(postID) {
+      this['posts/deletePost'](postID);
     },
   },
   async created() {
@@ -211,6 +229,9 @@ export default {
 } */
 
 #like_btn {
+  float: right;
+}
+#Delete_btn {
   float: right;
 }
 .post_pic {

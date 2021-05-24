@@ -17,8 +17,7 @@
                 dense
                 multiple
                 accept="image/png, image/jpeg, image/jpg"
-                label="Picture"
-                placeholder="Pick a picture"
+                placeholder="Pick A Picture"
                 required
               ></v-file-input>
               <v-text-field
@@ -27,8 +26,7 @@
                 :rules="descriptionRules"
                 outlined
                 dense
-                label="Description"
-                placeholder="Add a description"
+                placeholder="Description"
                 required
               ></v-text-field>
             </v-col>

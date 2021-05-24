@@ -24,7 +24,7 @@
         <p class="Label">Displayed Name</p>
         <v-text-field
           class="Text_Field"
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           :label="account.user.displayName"
           v-model="user.displayName"
           :rules="displayRule"
@@ -40,7 +40,7 @@
         <p class="Label">Bio</p>
         <v-textarea
           class="Text_Field"
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           :label="account.user.bio"
           v-model="user.bio"
           :rules="bioRule"
@@ -56,7 +56,7 @@
         <p class="Label">About Me</p>
         <v-textarea
           class="Text_Field"
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           :label="account.user.about_user"
           v-model="user.about_user"
           :rules="aboutRule"
@@ -72,7 +72,7 @@
         <p class="Label">Location</p>
         <v-text-field
           class="Text_Field"
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           :label="account.user.location"
           v-model="user.location"
           :rules="locationRule"
@@ -88,7 +88,7 @@
         <p class="Label">Personal Website</p>
         <v-text-field
           class="Text_Field"
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           :label="account.user.website"
           v-model="user.website"
           :rules="websiteRule"

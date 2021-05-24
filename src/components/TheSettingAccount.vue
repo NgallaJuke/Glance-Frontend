@@ -9,7 +9,7 @@
           v-model="user.email"
           :rules="emailRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat

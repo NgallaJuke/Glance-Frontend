@@ -1,6 +1,6 @@
 import { authHeader } from '../helpers';
 import { handleRequest, handleRequestPostFeed } from '../helpers/index';
-export const postServices = { createPost, likePost, disLikePost, getPostFeed, getLikedPost };
+export const postServices = { createPost, deletePost, likePost, disLikePost, getPostFeed, getLikedPost };
 
 async function createPost(post) {
   const formData = new FormData();
@@ -21,6 +21,18 @@ async function createPost(post) {
     });
 }
 
+async function deletePost(id) {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${id}/delete`, requestOptions)
+    .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
+
 async function likePost(postID) {
   const requestOptions = {
     method: 'PUT',
@@ -34,8 +46,6 @@ async function likePost(postID) {
 }
 
 async function getLikedPost(id) {
-  console.log('id1', id);
-
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),

@@ -17,7 +17,7 @@
           solo
           hide-details
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
         ></v-text-field>
       </div>
       <div>
@@ -31,7 +31,7 @@
           v-model="user.socials.facebook"
           :rules="socialRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat
@@ -50,7 +50,7 @@
           v-model="user.socials.instagram"
           :rules="socialRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat
@@ -69,7 +69,7 @@
           v-model="user.socials.github"
           :rules="socialRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat
@@ -88,7 +88,7 @@
           v-model="user.socials.linkedin"
           :rules="socialRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat
@@ -107,7 +107,7 @@
           v-model="user.socials.dribbble"
           :rules="socialRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat
@@ -126,7 +126,7 @@
           v-model="user.socials.behance"
           :rules="socialRule"
           clearable
-          background-color="#f3f3f4"
+          background-color="#E8EAEC"
           filled
           dense
           flat
