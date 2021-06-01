@@ -7,7 +7,7 @@
         name_path="profil"
         :user_name="account.user.userName"
         :size="70"
-        :avatar_uri="account.user.avatar.substring(62)"
+        :avatar_uri="account.user.avatar.slice(account.user.avatar.lastIndexOf('avatars') + 8)"
       ></AvatarLink>
       <v-btn class="ml-5 mr-3 pa-1 px-3" depressed color="primary white--text" @click="ShowDialogUpdateAvatar()"
         >Upload New Avatar</v-btn

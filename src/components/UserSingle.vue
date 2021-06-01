@@ -8,7 +8,7 @@
             name_path="profil"
             :user_name="receivedUser.userName"
             :size="50"
-            :avatar_uri="receivedUser.avatar.substring(62)"
+            :avatar_uri="receivedUser.avatar.slice(receivedUser.avatar.lastIndexOf('avatars') + 8)"
           ></AvatarLink>
         </v-col>
         <v-col justify="center" align-content="center">
