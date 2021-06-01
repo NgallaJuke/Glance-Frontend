@@ -8,7 +8,7 @@
         name_path="profil"
         :user_name="account.user.userName"
         :size="50"
-        :avatar_uri="account.user.avatar.substring(62)"
+        :avatar_uri="account.user.avatar.slice(account.user.avatar.lastIndexOf('avatars') + 8)"
       ></AvatarLink>
       <div class="Tab_Info">
         <div class="User">

@@ -7,7 +7,7 @@
         name_path="profil"
         :user_name="receivedUser.userName"
         :size="60"
-        :avatar_uri="receivedUser.avatar.substring(62)"
+        :avatar_uri="receivedUser.avatar.slice(receivedUser.avatar.lastIndexOf('avatars') + 8)"
       ></AvatarLink>
       <img v-else src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
       <h4 class="mb-4">{{ receivedUser.userName | capitalize }}</h4>
