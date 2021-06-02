@@ -242,10 +242,8 @@ export default {
 }
 .card_img {
   display: block;
-  max-width: 100%;
-  max-height: 80vh;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 .comments {
   min-height: 10vh;

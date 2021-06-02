@@ -20,7 +20,7 @@
         <h4>{{ receivedPost.postOwner.userName }}</h4>
         <v-spacer></v-spacer>
         <v-btn icon small>
-          <img src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=000" width="20" height="20" />
+          <img src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=1976D2" width="20" height="20" />
         </v-btn>
         <h5 class="mr-2">{{ receivedPost.comments.count }}</h5>
         <v-btn icon small>
@@ -41,6 +41,16 @@
           />
         </v-btn>
         <h5>{{ receivedPost.likes.count }}</h5>
+        <img
+          class="ml-2 mr-1"
+          src="https://s2.svgbox.net/hero-outline.svg?ic=eye&color=1976D2"
+          width="20"
+          height="20"
+        />
+        <h5 v-if="receivedPost.viewedBy && receivedPost.viewedBy.length > 0">
+          {{ Views }}
+        </h5>
+        <h5 v-else>0</h5>
       </v-toolbar>
     </v-card>
     <SinglePostPopup
@@ -75,6 +85,21 @@ export default {
       posts: (state) => state.posts,
       account: (state) => state.account,
     }),
+    Views() {
+      if (this.receivedPost.viewedBy) {
+        return Math.abs(this.receivedPost.viewedBy.length) > 999
+          ? Math.sign(this.receivedPost.viewedBy.length) *
+              (Math.abs(this.receivedPost.viewedBy.length) / 1000).toFixed(1) +
+              'k'
+          : Math.abs(this.receivedPost.viewedBy.length) > 999999
+          ? Math.sign(this.receivedPost.viewedBy.length) *
+              (Math.abs(this.receivedPost.viewedBy.length) / 1000000).toFixed(1) +
+            'm'
+          : Math.sign(this.receivedPost.viewedBy.length) * Math.abs(this.receivedPost.viewedBy.length);
+      } else {
+        return 0;
+      }
+    },
   },
   methods: {
     ...mapActions(['posts/likePost', 'posts/disLikePost']),

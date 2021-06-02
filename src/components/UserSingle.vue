@@ -26,12 +26,6 @@
           @follow="FollowUser($event)"
           @unfollow="UnFollowUser($event)"
         ></FollowButton>
-        <!-- <v-row v-if="!isFollowed" justify="center" align-content="center" style="margin: 5px 0">
-          <v-btn small color="primary" outlined @click="FollowUser(receivedUser._id)">Follow</v-btn>
-        </v-row>
-        <v-row v-else justify="center" align-content="center" style="margin: 5px 0">
-          <v-btn small color="red" outlined @click="UnFollowUser(receivedUser._id)">UnFollow</v-btn>
-        </v-row> -->
       </v-col>
     </v-row>
   </div>
