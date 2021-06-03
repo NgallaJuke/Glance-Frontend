@@ -30,7 +30,7 @@
             ></v-text-field>
             <div><h4>recommanded tag: please select a tag to help the post be more populare</h4></div>
             <v-row class="mt-2" align="center">
-              <v-chip-group column multiple v-model="selectedTag" active-class="primary--text">
+              <v-chip-group column multiple v-model="post.tags" active-class="primary--text">
                 <v-chip v-for="(tag, i) in tags" :value="tag" :key="i">
                   {{ tag }}
                 </v-chip>
@@ -64,12 +64,12 @@ export default {
     post: {
       pictures: null,
       description: '',
+      tags: Array,
     },
     dialoge: true,
     // pictureRules: [(v) => !!v || v.size < 2000000 || 'Picture"s size should be less than 2 MB!'],
     descriptionRules: [(v) => !!v || 'the description is required!'],
     tags: ['Illustration', 'Graphic Design', 'Photography', 'Branding'],
-    selectedTag: [],
   }),
   computed: {
     ...mapState({

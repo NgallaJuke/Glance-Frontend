@@ -6,6 +6,7 @@ async function createPost(post) {
   const formData = new FormData();
 
   formData.append('description', post.description);
+  formData.append('tags', JSON.stringify(post.tags));
   post.pictures.forEach((pic) => {
     formData.append('picture', pic);
   });
