@@ -50,7 +50,7 @@ export default {};
         border-radius: 50%;
         display: grid;
         place-items: center;
-        z-index: 10;
+        z-index: 2;
 
         b {
           font-size: 1.5em;
@@ -64,7 +64,7 @@ export default {};
         border-radius: 5px;
         left: -20px;
         width: 180px;
-        z-index: 2;
+        z-index: 1;
         h4 {
           padding-left: 30px;
           padding-right: 20px;

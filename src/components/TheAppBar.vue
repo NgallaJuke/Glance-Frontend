@@ -1,5 +1,5 @@
 <template>
-  <div v-if="account.status.loggedIn">
+  <div v-if="account.status.loggedIn" class="App_Bar">
     <v-app-bar class="grey px-md-5 px-sm-and-down-5 lighten-5" flat fixed>
       <div class="AppBar hidden-md-and-up" height="45px">
         <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = true"></v-app-bar-nav-icon>
@@ -154,64 +154,66 @@ export default {
 </script>
 
 <style lang="scss">
-.closed {
-  max-width: 45px !important;
-  .v-input__slot {
-    background: transparent !important;
-    cursor: pointer !important;
-    border-radius: 50% !important;
-    &:hover {
-      background: rgba(0, 0, 0, 0.06) !important;
+.App_Bar {
+  .closed {
+    max-width: 45px !important;
+    .v-input__slot {
+      background: transparent !important;
+      cursor: pointer !important;
+      border-radius: 50% !important;
+      &:hover {
+        background: rgba(0, 0, 0, 0.06) !important;
+      }
     }
   }
-}
-.v-input.expanding-search {
-  transition: max-width 0.3s;
-  max-width: 350px;
-  .v-input__slot {
-    border-radius: $border_radius;
-    &::before {
-      border-style: none !important;
-    }
-    &::after {
-      border: none !important;
+  .v-input.expanding-search {
+    transition: max-width 0.3s;
+    max-width: 350px;
+    .v-input__slot {
+      border-radius: $border_radius;
+      &::before {
+        border-style: none !important;
+      }
+      &::after {
+        border: none !important;
+      }
     }
   }
-}
-.v-ripple__container {
-  display: none !important;
-}
+  .v-ripple__container {
+    display: none !important;
+  }
 
-.AppBar {
-  display: contents;
-}
+  .AppBar {
+    display: contents;
+  }
 
-.AppBarLink_drawer {
-  flex-direction: column;
-  align-items: flex-start !important;
-  .menu-items {
+  .AppBarLink_drawer {
     flex-direction: column;
     align-items: flex-start !important;
-    padding: 8px 10px;
-  }
-}
-.Drawer_User {
-  .Drawer_User_Avatar {
-    display: inline-block;
-    .v-btn__content {
-      top: 10px;
+    .menu-items {
+      flex-direction: column;
+      align-items: flex-start !important;
+      padding: 8px 10px;
     }
   }
+  .Drawer_User {
+    .Drawer_User_Avatar {
+      display: inline-block;
+      .v-btn__content {
+        top: 10px;
+      }
+    }
 
-  .Drawer_User_Info {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    h4 {
-      display: inline;
-    }
-    p {
-      display: inline;
+    .Drawer_User_Info {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      h4 {
+        display: inline;
+      }
+      p {
+        display: inline;
+      }
     }
   }
 }
