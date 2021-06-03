@@ -15,7 +15,7 @@
           name_path="profil"
           :user_name="receivedPost.postOwner.userName"
           :size="25"
-          :avatar_uri="receivedPost.postOwner.avatar.substring(62)"
+          :avatar_uri="receivedPost.postOwner.avatar.slice(receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8)"
         ></AvatarLink>
         <h4>{{ receivedPost.postOwner.userName }}</h4>
         <v-spacer></v-spacer>

@@ -42,7 +42,7 @@
               name_path="profil"
               :user_name="account.user.userName"
               :size="35"
-              :avatar_uri="account.user.avatar.substring(62)"
+              :avatar_uri="account.user.avatar.slice(account.user.avatar.lastIndexOf('avatars') + 8)"
               :on="on"
               :attrs="attrs"
             ></AvatarLink>
@@ -62,7 +62,7 @@
           name_path="profil"
           :user_name="account.user.userName"
           :size="40"
-          :avatar_uri="account.user.avatar.substring(62)"
+          :avatar_uri="account.user.avatar.slice(account.user.avatar.lastIndexOf('avatars') + 8)"
         ></AvatarLink>
         <div class="Drawer_User_Info">
           <h4>{{ account.user.userName }}</h4>
