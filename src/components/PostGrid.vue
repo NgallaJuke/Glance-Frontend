@@ -1,9 +1,9 @@
 <template>
   <div style="width: 90%">
-    <div v-if="posts.likedPost">
+    <div v-if="fetchedPost">
       <v-container fluid>
         <v-row>
-          <v-col v-for="post in posts.likedPost" :key="post._id" cols="12" lg="3" md="4" sm="6">
+          <v-col v-for="post in fetchedPost" :key="post._id" cols="12" lg="3" md="4" sm="6">
             <PostCard :post="post"></PostCard>
           </v-col>
         </v-row>
@@ -17,7 +17,15 @@ import { mapState, mapActions } from 'vuex';
 import PostCard from './PostCard';
 
 export default {
-  data: () => ({ url: process.env.VUE_APP_API_URI }),
+  //This prop is use for this component to load post of different type
+  // If the postType === likedPost then fetch all the liked post and display it
+  props: {
+    postType: {
+      type: String,
+      required: true,
+    },
+  },
+  data: () => ({ url: process.env.VUE_APP_API_URI, fetchedPost: Array }),
   components: { PostCard },
   computed: {
     ...mapState({
@@ -29,8 +37,16 @@ export default {
   methods: {
     ...mapActions(['posts/getLikedPost']),
   },
-  created() {
-    this['posts/getLikedPost'](this.users.user._id);
+  async created() {
+    switch (this.postType) {
+      case 'likedPost':
+        await this['posts/getLikedPost'](this.users.user._id);
+        this.fetchedPost = this.posts.likedPost;
+        break;
+
+      default:
+        break;
+    }
   },
 };
 </script>

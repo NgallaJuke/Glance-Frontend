@@ -11,6 +11,10 @@
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
+        <div class="hashTag_Name"><h4>Art</h4></div>
+      </li>
+      <li class="Tag_Container">
+        <div class="HashTag"><b>#</b></div>
         <div class="hashTag_Name"><h4>Photography</h4></div>
       </li>
       <li class="Tag_Container">

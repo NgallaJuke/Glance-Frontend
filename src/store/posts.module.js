@@ -55,14 +55,10 @@ const actions = {
   },
 
   async getLikedPost({ dispatch, commit }, id) {
-    console.log('id2', id);
-
     commit('getLikedPostRequest');
     try {
       const likedPost = await postServices.getLikedPost(id);
       if (likedPost.success) {
-        console.log('likedPost', likedPost);
-
         commit('getLikedPostSuccess', likedPost);
       } else {
         const message = 'No liked Post';

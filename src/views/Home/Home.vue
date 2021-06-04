@@ -2,8 +2,8 @@
   <div class="py-10 container--fluid">
     <slot name="alert"></slot>
     <TheHashTagNavBar></TheHashTagNavBar>
-    <div class="mb-10 ml-15"><h3>Projets de créatifs que vous suivez</h3></div>
     <div class="Current_Tab">
+      <router-view class="Current_Tab"></router-view>
       <TheTimeLine :timeline="timeline"></TheTimeLine>
     </div>
   </div>

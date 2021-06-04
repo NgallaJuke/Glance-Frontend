@@ -90,7 +90,7 @@
     <v-divider></v-divider>
     <div class="container--fluid" style="display: flex; justify-content: center; margin-top: 50px">
       <keep-alive>
-        <component :is="currentTabComponent" v-bind="currentProperties"></component>
+        <component :is="currentTabComponent" :postType="'likedPost'" v-bind="currentProperties"></component>
       </keep-alive>
     </div>
   </div>
@@ -148,7 +148,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['users/getSingleUser', 'users/followUser', 'users/unfollowUser']),
+    ...mapActions(['users/getSingleUser', 'users/followUser', 'users/unfollowUser', 'posts/getLikedPost']),
     ShowDialogListUserFollowers() {
       if (this.users.user.follower.length === 0) return;
       if (!this.activefollower) this.activefollower = true;
@@ -175,6 +175,7 @@ export default {
     this.avatar = this.users.user.avatar.substring(lastIndex + 8);
     this.isFollowed = this.account.user.following.includes(this.users.user._id) ? true : false;
   },
+
   watch: {
     '$route.params.userName': function (userName) {
       const payload = { userName: userName };
