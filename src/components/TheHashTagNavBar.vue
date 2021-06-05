@@ -3,30 +3,82 @@
     <ul class="NavTag_Container">
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
-        <div class="hashTag_Name"><h4>Illustration</h4></div>
+
+        <div class="hashTag_Name">
+          <router-link
+            @click="GoToHashTag('illustration')"
+            class="Link"
+            :to="{ name: 'following-posts', params: { post: 'illustration' } }"
+          >
+            <h4>Illustration</h4>
+          </router-link>
+        </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
-        <div class="hashTag_Name"><h4>Graphic Design</h4></div>
+        <div class="hashTag_Name">
+          <router-link
+            @click="GoToHashTag('graphic-design')"
+            class="Link"
+            :to="{ name: 'following-posts', params: { post: 'graphic-design' } }"
+          >
+            <h4>Graphic Design</h4>
+          </router-link>
+        </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
-        <div class="hashTag_Name"><h4>Art</h4></div>
+        <div class="hashTag_Name">
+          <router-link
+            @click="GoToHashTag('art')"
+            class="Link"
+            :to="{ name: 'following-posts', params: { post: 'art' } }"
+          >
+            <h4>Art</h4>
+          </router-link>
+        </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
-        <div class="hashTag_Name"><h4>Photography</h4></div>
+        <div class="hashTag_Name">
+          <router-link
+            @click="GoToHashTag('photography')"
+            class="Link"
+            :to="{ name: 'following-posts', params: { post: 'photography' } }"
+          >
+            <h4>Photography</h4>
+          </router-link>
+        </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
-        <div class="hashTag_Name"><h4>Branding</h4></div>
+        <div class="hashTag_Name">
+          <router-link
+            @click="GoToHashTag('branding')"
+            class="Link"
+            :to="{ name: 'following-posts', params: { post: 'branding' } }"
+          >
+            <h4>Branding</h4>
+          </router-link>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => {
+    return {};
+  },
+  components: {},
+  computed: {},
+  methods: {
+    GoToHashTag(hashTag) {
+      this.$emit('gotohashtag', hashTag);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -69,9 +121,13 @@ export default {};
         left: -20px;
         width: 180px;
         z-index: 1;
-        h4 {
-          padding-left: 30px;
-          padding-right: 20px;
+        .Link {
+          color: #000;
+          text-decoration: none;
+          h4 {
+            padding-left: 30px;
+            padding-right: 20px;
+          }
         }
       }
     }

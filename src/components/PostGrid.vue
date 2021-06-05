@@ -1,5 +1,6 @@
 <template>
-  <div style="width: 90%">
+  <div :key="$route.params.post" style="width: 90%">
+    <div>{{ $route.params.post }}</div>
     <div v-if="fetchedPost">
       <v-container fluid>
         <v-row>
@@ -43,10 +44,17 @@ export default {
         await this['posts/getLikedPost'](this.users.user._id);
         this.fetchedPost = this.posts.likedPost;
         break;
+      case '':
+        this.fetchedPost = 'Testing';
+        break;
 
       default:
         break;
     }
   },
+
+  // beforeUpdate() {
+  //   alert('before Update ' + this.$route.params.post);
+  // },
 };
 </script>

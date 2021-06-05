@@ -1,8 +1,10 @@
 <template>
-  <div class="py-10 container--fluid">HIRE PAGE</div>
+  <div>Popular Posts</div>
 </template>
 
 <script>
 export default {};
 </script>
 
+<style lang="scss" scoped>
+</style>
