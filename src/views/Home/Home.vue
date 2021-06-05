@@ -1,8 +1,9 @@
 <template>
   <div class="py-10 container--fluid">
     <slot name="alert"></slot>
+
     <TheHashTagNavBar @gotohashtag="GoToHashTag($event)"></TheHashTagNavBar>
-    <div>
+    <div class="Current_Tab">
       <keep-alive>
         <component :is="currentTabComponent" :timeline="timeline" :postType="'likedPost'"></component>
       </keep-alive>
