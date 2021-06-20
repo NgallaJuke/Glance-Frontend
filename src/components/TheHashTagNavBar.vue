@@ -5,60 +5,40 @@
         <div class="HashTag"><b>#</b></div>
 
         <div class="hashTag_Name">
-          <router-link
-            @click="GoToHashTag('illustration')"
-            class="Link"
-            :to="{ name: 'following-posts', params: { post: 'illustration' } }"
-          >
-            <h4>Illustration</h4>
+          <router-link class="Link" :to="{ name: hashType, params: { post: 'illustration' } }">
+            <h4 @click="GoToHashTag('illustration')">Illustration</h4>
           </router-link>
         </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
         <div class="hashTag_Name">
-          <router-link
-            @click="GoToHashTag('graphic-design')"
-            class="Link"
-            :to="{ name: 'following-posts', params: { post: 'graphic-design' } }"
-          >
-            <h4>Graphic Design</h4>
+          <router-link class="Link" :to="{ name: hashType, params: { post: 'graphic-design' } }">
+            <h4 @click="GoToHashTag('graphic-design')">Graphic Design</h4>
           </router-link>
         </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
         <div class="hashTag_Name">
-          <router-link
-            @click="GoToHashTag('art')"
-            class="Link"
-            :to="{ name: 'following-posts', params: { post: 'art' } }"
-          >
-            <h4>Art</h4>
+          <router-link class="Link" :to="{ name: hashType, params: { post: 'art' } }">
+            <h4 @click="GoToHashTag('art')">Art</h4>
           </router-link>
         </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
         <div class="hashTag_Name">
-          <router-link
-            @click="GoToHashTag('photography')"
-            class="Link"
-            :to="{ name: 'following-posts', params: { post: 'photography' } }"
-          >
-            <h4>Photography</h4>
+          <router-link class="Link" :to="{ name: hashType, params: { post: 'photography' } }">
+            <h4 @click="GoToHashTag('photography')">Photography</h4>
           </router-link>
         </div>
       </li>
       <li class="Tag_Container">
         <div class="HashTag"><b>#</b></div>
         <div class="hashTag_Name">
-          <router-link
-            @click="GoToHashTag('branding')"
-            class="Link"
-            :to="{ name: 'following-posts', params: { post: 'branding' } }"
-          >
-            <h4>Branding</h4>
+          <router-link class="Link" :to="{ name: hashType, params: { post: 'branding' } }">
+            <h4 @click="GoToHashTag('branding')">Branding</h4>
           </router-link>
         </div>
       </li>
@@ -68,6 +48,12 @@
 
 <script>
 export default {
+  props: {
+    hashType: {
+      type: String,
+      required: true,
+    },
+  },
   data: () => {
     return {};
   },
@@ -75,7 +61,7 @@ export default {
   computed: {},
   methods: {
     GoToHashTag(hashTag) {
-      this.$emit('gotohashtag', hashTag);
+      this.$emit('gotohashtag', hashTag.replace('-', ' '));
     },
   },
 };

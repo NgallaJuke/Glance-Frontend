@@ -1,6 +1,6 @@
 import { postServices } from '../services';
 // import router from '../router/index';
-const state = { post: null, status: null, timeline: [], likedPost: [], error: null, message: null };
+const state = { post: null, status: null, timeline: [], likedPost: [], HashtagPost: [], error: null, message: null };
 const getters = {};
 const actions = {
   async createpost({ dispatch, commit }, post) {
@@ -65,7 +65,24 @@ const actions = {
         commit('getLikedPostEmpty', message);
       }
     } catch (error) {
-      commit('postFeedFailure', error);
+      commit('getLikedPostFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async getHashtagPost({ dispatch, commit }, hashtag) {
+    commit('getHashtagPostRequest');
+    try {
+      const hashtagPosts = await postServices.getHashtagPost(hashtag);
+      console.log(`hashtagPosts`, hashtagPosts);
+      if (hashtagPosts.success) {
+        commit('getHashtagPostSuccess', hashtagPosts.posts);
+      } else {
+        const message = 'No post with that hashtag';
+        commit('getHashtagPostEmpty', message);
+      }
+    } catch (error) {
+      commit('pgetHashtagPosFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -216,6 +233,24 @@ const mutations = {
     state.error = null;
   },
   getLikedPostFailure(state, error) {
+    state.error = error;
+    state.status = { error: true };
+  },
+
+  getHashtagPostRequest(state) {
+    state.status = { loading: true };
+  },
+  getHashtagPostSuccess(state, hashtagPosts) {
+    state.status = { isLoaded: true };
+    state.HashtagPost = hashtagPosts;
+    state.error = null;
+  },
+  getHashtagPostEmpty(state, message) {
+    state.message = message;
+    state.status = { empty: true };
+    state.error = null;
+  },
+  getHashtagPostFailure(state, error) {
     state.error = error;
     state.status = { error: true };
   },

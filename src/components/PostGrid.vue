@@ -1,5 +1,5 @@
 <template>
-  <div :key="$route.params.post" style="width: 90%">
+  <div style="width: 90%">
     <div>{{ $route.params.post }}</div>
     <div v-if="fetchedPost">
       <v-container fluid>
@@ -36,25 +36,23 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['posts/getLikedPost']),
+    ...mapActions(['posts/getLikedPost', 'posts/getHashtagPost']),
   },
   async created() {
     switch (this.postType) {
-      case 'likedPost':
-        await this['posts/getLikedPost'](this.users.user._id);
+      case 'likedPost': {
+        let userID = this.users.user._id ? this.users.user._id : this.account.user._id;
+        await this['posts/getLikedPost'](userID);
         this.fetchedPost = this.posts.likedPost;
         break;
-      case '':
-        this.fetchedPost = 'Testing';
-        break;
+      }
 
-      default:
+      default: {
+        await this['posts/getHashtagPost'](this.postType);
+        this.fetchedPost = this.posts.HashtagPost;
         break;
+      }
     }
   },
-
-  // beforeUpdate() {
-  //   alert('before Update ' + this.$route.params.post);
-  // },
 };
 </script>

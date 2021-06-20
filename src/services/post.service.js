@@ -1,6 +1,14 @@
 import { authHeader } from '../helpers';
 import { handleRequest, handleRequestPostFeed } from '../helpers/index';
-export const postServices = { createPost, deletePost, likePost, disLikePost, getPostFeed, getLikedPost };
+export const postServices = {
+  createPost,
+  deletePost,
+  likePost,
+  disLikePost,
+  getLikedPost,
+  getHashtagPost,
+  getPostFeed,
+};
 
 async function createPost(post) {
   const formData = new FormData();
@@ -46,6 +54,18 @@ async function likePost(postID) {
     });
 }
 
+async function disLikePost(postID) {
+  const requestOptions = {
+    method: 'PUT',
+    headers: authHeader(),
+  };
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${postID}/unlike`, requestOptions)
+    .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
+
 async function getLikedPost(id) {
   const requestOptions = {
     method: 'GET',
@@ -57,13 +77,12 @@ async function getLikedPost(id) {
       throw error;
     });
 }
-
-async function disLikePost(postID) {
+async function getHashtagPost(hashtag) {
   const requestOptions = {
-    method: 'PUT',
+    method: 'GET',
     headers: authHeader(),
   };
-  return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${postID}/unlike`, requestOptions)
+  return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/hashtags/${hashtag}`, requestOptions)
     .then(handleRequest)
     .catch((error) => {
       throw error;

@@ -17,7 +17,7 @@
           :size="25"
           :avatar_uri="receivedPost.postOwner.avatar.slice(receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8)"
         ></AvatarLink>
-        <h4>{{ receivedPost.postOwner.userName }}</h4>
+        <h4>{{ receivedPost.postOwner.userName | capitalize }}</h4>
         <v-spacer></v-spacer>
         <v-btn icon small>
           <img src="https://s.svgbox.net/hero-outline.svg?ic=annotation&fill=1976D2" width="20" height="20" />
