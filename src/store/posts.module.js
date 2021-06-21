@@ -1,6 +1,15 @@
 import { postServices } from '../services';
 // import router from '../router/index';
-const state = { post: null, status: null, timeline: [], likedPost: [], HashtagPost: [], error: null, message: null };
+const state = {
+  post: null,
+  status: null,
+  timeline: [],
+  likedPost: [],
+  HashtagPost: [],
+  DicoverPost: [],
+  error: null,
+  message: null,
+};
 const getters = {};
 const actions = {
   async createpost({ dispatch, commit }, post) {
@@ -19,6 +28,7 @@ const actions = {
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async deletePost({ dispatch, commit }, postID) {
     commit('deletePostRequest', postID);
     try {
@@ -70,11 +80,10 @@ const actions = {
     }
   },
 
-  async getHashtagPost({ dispatch, commit }, hashtag) {
+  async getHashtagPost({ dispatch, commit }, payload) {
     commit('getHashtagPostRequest');
     try {
-      const hashtagPosts = await postServices.getHashtagPost(hashtag);
-      console.log(`hashtagPosts`, hashtagPosts);
+      const hashtagPosts = await postServices.getHashtagPost(payload);
       if (hashtagPosts.success) {
         commit('getHashtagPostSuccess', hashtagPosts.posts);
       } else {
@@ -82,7 +91,7 @@ const actions = {
         commit('getHashtagPostEmpty', message);
       }
     } catch (error) {
-      commit('pgetHashtagPosFailure', error);
+      commit('getHashtagPostFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -100,6 +109,28 @@ const actions = {
       }
     } catch (error) {
       commit('disLikePostFailure', error);
+      dispatch('alert/error', error, { root: true });
+    }
+  },
+
+  async getDiscoverPost({ dispatch, commit }, limit) {
+    commit('postDiscoveredRequest');
+    try {
+      const postDiscovered = await postServices.getDiscoverPost(limit);
+
+      if (!postDiscovered) {
+        const message = 'Your Timeline is empty.';
+        commit('postDiscoveredEmpty', message);
+        return;
+      }
+      if (postDiscovered.success) {
+        commit('postDiscoveredSuccess', postDiscovered.posts);
+      } else {
+        const message = 'Your Home Timeline is empty.';
+        commit('postDiscoveredEmpty', message);
+      }
+    } catch (error) {
+      commit('postDiscoveredFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
@@ -251,6 +282,23 @@ const mutations = {
     state.error = null;
   },
   getHashtagPostFailure(state, error) {
+    state.error = error;
+    state.status = { error: true };
+  },
+  postDiscoveredRequest(state) {
+    state.status = { loading: true };
+  },
+  postDiscoveredSuccess(state, posts) {
+    state.status = { isLoaded: true };
+    state.postDiscovered = posts;
+    state.error = null;
+  },
+  postDiscoveredEmpty(state, message) {
+    state.message = message;
+    state.status = { empty: true };
+    state.error = null;
+  },
+  postDiscoveredFailure(state, error) {
     state.error = error;
     state.status = { error: true };
   },

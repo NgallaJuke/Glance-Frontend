@@ -36,7 +36,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['posts/getLikedPost', 'posts/getHashtagPost']),
+    ...mapActions(['posts/getLikedPost', 'posts/getHashtagPost', 'posts/getDiscoverPost']),
   },
   async created() {
     switch (this.postType) {
@@ -46,9 +46,18 @@ export default {
         this.fetchedPost = this.posts.likedPost;
         break;
       }
+      case 'popular': {
+        await this['posts/getDiscoverPost'](20);
+        this.fetchedPost = this.posts.postDiscovered;
+        break;
+      }
 
       default: {
-        await this['posts/getHashtagPost'](this.postType);
+        const payload = {
+          hashtag: this.postType,
+          limit: 20,
+        };
+        await this['posts/getHashtagPost'](payload);
         this.fetchedPost = this.posts.HashtagPost;
         break;
       }
