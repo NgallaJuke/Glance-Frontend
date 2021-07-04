@@ -4,19 +4,19 @@
       <img src="@/assets/glance_logo_blue.png" alt="Glance" width="40" />
     </router-link>
     <ul class="menu-items">
-      <li class="menu-item px-3 py-1">
+      <li class="menu-item px-3">
         <router-link class="link" :to="{ name: 'discover' }">
-          <h3>Discover</h3>
+          <p>Discover</p>
         </router-link>
       </li>
-      <li class="menu-item px-3 py-1">
+      <li class="menu-item px-3">
         <router-link class="link" :to="{ name: 'creators' }">
-          <h3>Creators</h3>
+          <p>Creators</p>
         </router-link>
       </li>
-      <!-- <li class="menu-item px-3 py-1">
+      <!-- <li class="menu-item px-3 ">
         <router-link class="link" :to="{ name: 'hire' }">
-          <h3>Hire</h3>
+          <p>Hire</p>
         </router-link>
       </li> -->
     </ul>
@@ -43,8 +43,11 @@ export default {
     display: flex;
     align-items: center;
     .menu-item {
-      font-size: 1rem;
       .link {
+        display: grid;
+        place-items: center;
+        font-size: 1em;
+        font-weight: 500;
         color: #000;
         text-decoration: none;
         :hover {

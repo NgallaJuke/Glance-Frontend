@@ -1,44 +1,63 @@
 <template>
   <div class="Container">
     <ul class="NavTag_Container">
-      <li class="Tag_Container">
-        <div class="HashTag"><b>#</b></div>
-
+      <li
+        class="Tag_Container"
+        @click="GoToHashTag('illustration')"
+        :class="[{ active: $route.params.post === 'illustration' }]"
+        :style="{ backgroundImage: `url(${require('@/assets/tags/illustration.jpg')})` }"
+      >
         <div class="hashTag_Name">
           <router-link class="Link" :to="{ name: hashType, params: { post: 'illustration' } }">
-            <h4 @click="GoToHashTag('illustration')">Illustration</h4>
+            <h4>Illustration</h4>
           </router-link>
         </div>
       </li>
-      <li class="Tag_Container">
-        <div class="HashTag"><b>#</b></div>
+      <li
+        class="Tag_Container"
+        :class="[{ active: $route.params.post === 'graphic-design' }]"
+        @click="GoToHashTag('graphic-design')"
+        :style="{ backgroundImage: `url(${require('@/assets/tags/graphic_design.jpg')})` }"
+      >
         <div class="hashTag_Name">
           <router-link class="Link" :to="{ name: hashType, params: { post: 'graphic-design' } }">
-            <h4 @click="GoToHashTag('graphic-design')">Graphic Design</h4>
+            <h4>Graphic Design</h4>
           </router-link>
         </div>
       </li>
-      <li class="Tag_Container">
-        <div class="HashTag"><b>#</b></div>
+      <li
+        class="Tag_Container"
+        :class="[{ active: $route.params.post === 'art' }]"
+        @click="GoToHashTag('art')"
+        :style="{ backgroundImage: `url(${require('@/assets/tags/art.jpg')})` }"
+      >
         <div class="hashTag_Name">
           <router-link class="Link" :to="{ name: hashType, params: { post: 'art' } }">
-            <h4 @click="GoToHashTag('art')">Art</h4>
+            <h4>Art</h4>
           </router-link>
         </div>
       </li>
-      <li class="Tag_Container">
-        <div class="HashTag"><b>#</b></div>
+      <li
+        class="Tag_Container"
+        :class="[{ active: $route.params.post === 'photography' }]"
+        @click="GoToHashTag('photography')"
+        :style="{ backgroundImage: `url(${require('@/assets/tags/photography.jpg')})` }"
+      >
         <div class="hashTag_Name">
           <router-link class="Link" :to="{ name: hashType, params: { post: 'photography' } }">
-            <h4 @click="GoToHashTag('photography')">Photography</h4>
+            <h4>Photography</h4>
           </router-link>
         </div>
       </li>
-      <li class="Tag_Container">
-        <div class="HashTag"><b>#</b></div>
+      <li
+        class="Tag_Container"
+        :class="[{ active: $route.params.post === 'branding' }]"
+        @click="GoToHashTag('branding')"
+        :style="{ backgroundImage: `url(${require('@/assets/tags/branding.jpg')})` }"
+      >
         <div class="hashTag_Name">
           <router-link class="Link" :to="{ name: hashType, params: { post: 'branding' } }">
-            <h4 @click="GoToHashTag('branding')">Branding</h4>
+            <h4>Branding</h4>
           </router-link>
         </div>
       </li>
@@ -55,7 +74,7 @@ export default {
     },
   },
   data: () => {
-    return {};
+    return { active: false };
   },
   components: {},
   computed: {},
@@ -82,38 +101,62 @@ export default {
       list-style: none;
       margin: 0 1em;
       padding: 0;
-      display: flex;
-      cursor: pointer;
-      .HashTag {
-        height: 50px;
-        width: 50px;
-        background-color: rgb(145, 196, 245);
-        border: solid $color_primary 1.5px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        z-index: 2;
-
-        b {
-          font-size: 1.5em;
-        }
+      background-size: cover;
+      position: relative;
+      border-radius: $border_radius;
+      &::after {
+        content: '';
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: #333;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: $border_radius;
+        z-index: 0;
       }
-      .hashTag_Name {
-        position: relative;
-        display: grid;
-        place-items: center;
-        background-color: rgb(153, 245, 145);
-        border-radius: 5px;
-        left: -20px;
-        width: 180px;
-        z-index: 1;
-        .Link {
-          color: #000;
-          text-decoration: none;
-          h4 {
-            padding-left: 30px;
-            padding-right: 20px;
-          }
+    }
+    .active {
+      list-style: none;
+      margin: 0 1em;
+      padding: 0;
+      background-size: cover;
+      position: relative;
+      border: 1.5px solid $color_primary;
+      border-radius: $border_radius;
+      &::after {
+        content: '';
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: #2274f875;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: $border_radius;
+        z-index: 0;
+      }
+    }
+    .hashTag_Name {
+      display: grid;
+      place-items: center;
+      height: 50px;
+      width: 180px;
+      border-radius: 5px;
+      z-index: 3;
+      .Link {
+        text-decoration: none;
+        z-index: 3;
+        h4 {
+          color: white;
+          padding-left: 30px;
+          padding-right: 20px;
+          z-index: 3;
         }
       }
     }

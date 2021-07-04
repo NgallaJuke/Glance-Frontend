@@ -22,13 +22,11 @@ const TheTimeLine = () => ({
   component: import(/* webpackChunckName: "TheTimeLine"*/ '@/components/TheTimeLine'),
   loading: TheTimeLineLoading,
   error: ErrorFetch,
-  timeout: 5000,
 });
 const PostGrid = () => ({
   component: import(/* webpackChunckName: "PostGrid"*/ '@/components/PostGrid'),
   loading: TheTimeLineLoading,
   error: ErrorFetch,
-  timeout: 2000,
 });
 export default {
   data: () => {
@@ -63,7 +61,7 @@ export default {
       vm._data.currentTabComponent = goto;
     });
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.currentTabComponent = to.fullPath === '/' ? 'TheTimeLine' : 'PostGrid';
     next();
   },

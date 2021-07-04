@@ -4,7 +4,7 @@
     <TheHashTagNavBar :hashType="hashType" @gotohashtag="goToHashTag"></TheHashTagNavBar>
     <div class="Current_Tab">
       <keep-alive>
-        <PostGrid :postType="postType" :key="Key"></PostGrid>
+        <PostGrid :postType="postType" :hashTag="hashTag" :key="Key"></PostGrid>
       </keep-alive>
     </div>
   </div>
@@ -18,15 +18,13 @@ const PostGrid = () => ({
   component: import(/* webpackChunckName: "PostGrid"*/ '@/components/PostGrid'),
   loading: TheTimeLineLoading,
   error: ErrorFetch,
-  timeout: 2000,
 });
 export default {
   data: () => {
     return {
-      timeline: 'timeline',
-      currentTabComponent: '',
       postType: 'popular',
-      hashType: '',
+      hashType: 'popular-posts',
+      hashTag: '',
     };
   },
   computed: {
@@ -37,19 +35,19 @@ export default {
   },
   methods: {
     goToHashTag(e) {
-      this.postType = e;
+      this.hashTag = e;
     },
   },
   components: { PostGrid, TheHashTagNavBar },
   created() {},
-  beforeRouteEnter(to, from, next) {
-    // if the user refresh the page when the past route is like :8080/posts/following/illustration
-    // then make the currentTab swith to PostGrib component and postType prop to params to.params.prop( = illustration ) for this exemple
-    // let goto = to.fullPath === '/discover' ? 'TheTimeLine' : 'PostGrid';
-    next((vm) => {
-      vm._data.hashType = 'popular';
-    });
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   // if the user refresh the page when the past route is like :8080/posts/following/illustration
+  //   // then make the currentTab swith to PostGrib component and postType prop to params to.params.prop( = illustration ) for this exemple
+  //   // let goto = to.fullPath === '/discover' ? 'TheTimeLine' : 'PostGrid';
+  //   next((vm) => {
+  //     vm._data.hashType = 'popular-posts';
+  //   });
+  // },
   // beforeRouteUpdate: function (to, from, next) {
   //   this.currentTabComponent = to.fullPath === '/' ? 'TheTimeLine' : 'PostGrid';
   //   next();

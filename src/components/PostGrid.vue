@@ -25,6 +25,9 @@ export default {
       type: String,
       required: true,
     },
+    hashTag: {
+      type: String,
+    },
   },
   data: () => ({ url: process.env.VUE_APP_API_URI, fetchedPost: Array }),
   components: { PostCard },
@@ -49,16 +52,22 @@ export default {
       case 'popular': {
         await this['posts/getDiscoverPost'](20);
         this.fetchedPost = this.posts.postDiscovered;
+        if (this.hashTag) {
+          const payload = {
+            hashtag: this.hashTag,
+            limit: 20,
+          };
+          await this['posts/getHashtagPost'](payload);
+          this.fetchedPost = this.posts.HashtagPost;
+          break;
+        }
         break;
       }
 
       default: {
-        const payload = {
-          hashtag: this.postType,
-          limit: 20,
-        };
-        await this['posts/getHashtagPost'](payload);
-        this.fetchedPost = this.posts.HashtagPost;
+        this.fetchedPost = this.posts.timeline.filter((post) => {
+          return post.tags.includes(`#${this.postType}`);
+        });
         break;
       }
     }

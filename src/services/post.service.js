@@ -78,21 +78,6 @@ async function getLikedPost(id) {
       throw error;
     });
 }
-async function getHashtagPost(payload) {
-  console.log(`payload`, payload);
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader(),
-  };
-  return fetch(
-    `${process.env.VUE_APP_API_URI}api/v1/posts/hashtags/${payload.hashtag}?limit=${payload.limit}`,
-    requestOptions
-  )
-    .then(handleRequest)
-    .catch((error) => {
-      throw error;
-    });
-}
 
 async function getPostFeed(timeline, userName, limit) {
   const requestOptions = {
@@ -120,6 +105,22 @@ async function getPostFeed(timeline, userName, limit) {
       });
   }
 }
+
+async function getHashtagPost(payload) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+  return fetch(
+    `${process.env.VUE_APP_API_URI}api/v1/posts/hashtags/${payload.hashtag}?popular=true&limit=${payload.limit}`,
+    requestOptions
+  )
+    .then(handleRequest)
+    .catch((error) => {
+      throw error;
+    });
+}
+
 async function getDiscoverPost(limit) {
   const requestOptions = {
     method: 'GET',

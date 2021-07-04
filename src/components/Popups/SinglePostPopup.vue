@@ -61,8 +61,8 @@
               </v-btn>
             </div>
           </div>
-          <div class="post_pic">
-            <img class="card_img" :src="`${url}posts_pic/${receivedPost.picture[0]}`" alt="postImage" />
+          <div class="post_pic py-1" v-for="(pic, index) in receivedPost.picture" :key="index">
+            <img class="card_img" :src="`${url}posts_pic/${pic}`" alt="postImage" />
           </div>
           <div v-if="comments.status.gettingPostComments">
             <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
