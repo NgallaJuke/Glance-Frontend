@@ -6,7 +6,7 @@
           name_path="profil"
           :user_name="receivedComment.user.userName"
           :size="40"
-          :avatar_uri="receivedComment.user.avatar.substring(62)"
+          :avatar_uri="receivedComment.user.avatar.slice(receivedComment.user.avatar.lastIndexOf('avatars') + 8)"
         ></AvatarLink>
       </div>
 

@@ -14,7 +14,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import UsersList from '../../components/UsersList';
+import UsersList from '@/components/UsersList';
 export default {
   data: () => {
     return {

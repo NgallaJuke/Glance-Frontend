@@ -1,6 +1,6 @@
 <template>
   <div class="About_User">
-    <div class="About">
+    <div v-if="users.user.about_user" class="About">
       <h2>About Me</h2>
       <p>
         {{ users.user.about_user }}

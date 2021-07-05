@@ -27,10 +27,10 @@
           @follow="FollowUser($event)"
           @unfollow="UnFollowUser($event)"
         ></FollowButton>
-        <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary">
+        <!-- <v-btn class="my-1 ml-2" @click="ShowDialogHireUs()" depressed color="primary">
           <v-icon left small> mdi-email </v-icon>
           Hire Us
-        </v-btn>
+        </v-btn> -->
       </div>
       <HireUserPopup v-if="dialog" :closedialog="dialog" :dialog="dialog" @update:closedialog="dialog = $event">
       </HireUserPopup>
@@ -44,7 +44,7 @@
             :class="['Tab', { active: currentTabComponent === 'TheTimeLine' }]"
             >Posts
           </span>
-          <span v-if="posts.timeline.length" class="Count">{{ posts.timeline.length }}</span>
+          <span v-if="posts.timeline" class="Count">{{ posts.timeline.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span
@@ -53,17 +53,17 @@
             :class="['Tab', { active: currentTabComponent === 'PostGrid' }]"
             >Liked Posts
           </span>
-          <span v-if="posts.likedPost.length !== 0" class="Count">{{ posts.likedPost.length }}</span>
+          <span v-if="posts.likedPost && posts.likedPost.length !== 0" class="Count">{{ posts.likedPost.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span class="Tag" @click="ShowDialogListUserFollowers()">Followers </span>
-          <span class="Count"> {{ users.user.follower.length }}</span>
+          <span v-if="users.user" class="Count"> {{ users.user.follower.length }}</span>
         </li>
         <li class="Container_Tab_Item mx-4">
           <span class="Tag" @click="ShowDialogListUserFollowed()">Following </span>
-          <span class="Count">{{ users.user.following.length }}</span>
+          <span v-if="users.user" class="Count">{{ users.user.following.length }}</span>
         </li>
-        <li class="Container_Tab_Item mx-4">
+        <li class="Container_Tab_Item mx-4" v-if="users.user.about_user || users.user.location || users.user.website">
           <span
             class="Tag"
             @click="currentTabComponent = 'TheProfileAbout'"
@@ -90,7 +90,7 @@
     <v-divider></v-divider>
     <div class="container--fluid" style="display: flex; justify-content: center; margin-top: 50px">
       <keep-alive>
-        <component :is="currentTabComponent" v-bind="currentProperties"></component>
+        <component :is="currentTabComponent" :postType="'likedPost'" v-bind="currentProperties"></component>
       </keep-alive>
     </div>
   </div>
@@ -148,7 +148,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['users/getSingleUser', 'users/followUser', 'users/unfollowUser']),
+    ...mapActions(['users/getSingleUser', 'users/followUser', 'users/unfollowUser', 'posts/getLikedPost']),
     ShowDialogListUserFollowers() {
       if (this.users.user.follower.length === 0) return;
       if (!this.activefollower) this.activefollower = true;
@@ -175,6 +175,7 @@ export default {
     this.avatar = this.users.user.avatar.substring(lastIndex + 8);
     this.isFollowed = this.account.user.following.includes(this.users.user._id) ? true : false;
   },
+
   watch: {
     '$route.params.userName': function (userName) {
       const payload = { userName: userName };

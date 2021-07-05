@@ -16,7 +16,9 @@
                 name_path="profil"
                 :user_name="receivedPost.postOwner.userName"
                 :size="50"
-                :avatar_uri="receivedPost.postOwner.avatar.slice(receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8)"
+                :avatar_uri="
+                  receivedPost.postOwner.avatar.slice(receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8)
+                "
               ></AvatarLink>
 
               <h4 class="ml-2 mr-10">
@@ -59,8 +61,8 @@
               </v-btn>
             </div>
           </div>
-          <div class="post_pic">
-            <img class="card_img" :src="`${url}posts_pic/${receivedPost.picture[0]}`" alt="postImage" />
+          <div class="post_pic py-1" v-for="(pic, index) in receivedPost.picture" :key="index">
+            <img class="card_img" :src="`${url}posts_pic/${pic}`" alt="postImage" />
           </div>
           <div v-if="comments.status.gettingPostComments">
             <img src="https://s.svgbox.net/loaders.svg?ic=bars&fill=fff" width="20" height="20" />
@@ -242,10 +244,8 @@ export default {
 }
 .card_img {
   display: block;
-  max-width: 100%;
-  max-height: 80vh;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 .comments {
   min-height: 10vh;

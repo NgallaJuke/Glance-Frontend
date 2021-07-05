@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home/Home.vue';
-import Login from '../views/Auth/Login.vue';
 
 Vue.use(VueRouter);
 
@@ -9,7 +7,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: () => import(/* webpackChunckName: "register"*/ '@/views/Auth/Login.vue'),
   },
   {
     path: '/register',
@@ -24,7 +22,26 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: () => import(/* webpackChunckName: "profil"*/ '@/views/Home/Home.vue'),
+    children: [
+      {
+        path: '/posts/following/:post',
+        name: 'following-posts',
+        component: () => import(/* webpackChunckName: "profil"*/ '@/views/Home/FollowingPost.vue'),
+      },
+    ],
+  },
+  {
+    path: '/discover',
+    name: 'discover',
+    component: () => import(/* webpackChunckName: "register-success"*/ '@/views/Discover/Discover.vue'),
+    children: [
+      {
+        path: '/posts/popular/:post',
+        name: 'popular-posts',
+        component: () => import(/* webpackChunckName: "profil"*/ '@/views//Discover/PopularPost.vue'),
+      },
+    ],
   },
   {
     path: '/profil/:userName',
@@ -33,9 +50,9 @@ const routes = [
   },
 
   {
-    path: '/users',
-    name: 'users',
-    component: () => import(/* webpackChunckName: "Users"*/ '@/views/Account/Users.vue'),
+    path: '/creators',
+    name: 'creators',
+    component: () => import(/* webpackChunckName: "Users"*/ '@/views/Creator/Creators.vue'),
   },
   {
     path: '/account',
@@ -92,6 +109,9 @@ const router = new VueRouter({
 
 // redirect to login page if not logged in or trying to access a restricted page
 router.beforeEach((to, from, next) => {
+  if (from.name === null && to.params.post && to.name === 'following-posts') return next('/');
+  if (from.name === null && to.params.post && to.name === 'popular-posts') return next('/discover');
+
   const publicPagesRoute = ['/login', '/register', '/register-success'];
   const authIsRequired = !publicPagesRoute.includes(to.path);
 
