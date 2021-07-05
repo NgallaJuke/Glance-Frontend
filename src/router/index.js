@@ -109,6 +109,9 @@ const router = new VueRouter({
 
 // redirect to login page if not logged in or trying to access a restricted page
 router.beforeEach((to, from, next) => {
+  if (from.name === null && to.params.post && to.name === 'following-posts') return next('/');
+  if (from.name === null && to.params.post && to.name === 'popular-posts') return next('/discover');
+
   const publicPagesRoute = ['/login', '/register', '/register-success'];
   const authIsRequired = !publicPagesRoute.includes(to.path);
 

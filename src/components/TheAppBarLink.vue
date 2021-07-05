@@ -5,13 +5,17 @@
     </router-link>
     <ul class="menu-items">
       <li class="menu-item px-3">
-        <router-link class="link" :to="{ name: 'discover' }">
-          <p>Discover</p>
+        <router-link
+          class="link"
+          :class="[{ active: $route.name === 'discover' || $route.name === 'popular-posts' }]"
+          :to="{ name: 'discover' }"
+        >
+          Discover
         </router-link>
       </li>
       <li class="menu-item px-3">
-        <router-link class="link" :to="{ name: 'creators' }">
-          <p>Creators</p>
+        <router-link class="link" :class="[{ active: $route.name === 'creators' }]" :to="{ name: 'creators' }">
+          Creators
         </router-link>
       </li>
       <!-- <li class="menu-item px-3 ">
@@ -26,7 +30,7 @@
 <script>
 export default {
   data: () => {
-    return {};
+    return { active: false };
   },
 };
 </script>
@@ -43,21 +47,20 @@ export default {
     display: flex;
     align-items: center;
     .menu-item {
+      display: grid;
+      place-items: center;
       .link {
-        display: grid;
-        place-items: center;
         font-size: 1em;
-        font-weight: 500;
+        font-weight: 450;
         color: #000;
         text-decoration: none;
-        :hover {
+        &:hover {
           color: $color_primary;
         }
       }
-    }
-    .menu-item:hover {
-      background-color: $btn_hover_color;
-      border-radius: $border_radius;
+      .active {
+        color: $color_primary;
+      }
     }
   }
   .logo {

@@ -55,6 +55,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     // if the user refresh the page when the past route is like :8080/posts/following/illustration
     // then make the currentTab swith to PostGrib component and postType prop to params to.params.prop( = illustration ) for this exemple
+
     let goto = to.fullPath === '/' ? 'TheTimeLine' : 'PostGrid';
     next((vm) => {
       vm._data.hashType = 'following-posts';

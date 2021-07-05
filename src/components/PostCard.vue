@@ -143,8 +143,6 @@ export default {
   },
   mounted() {
     this.isLiked = this.receivedPost.likes.liker.includes(this.account.user._id) ? true : false;
-    console.log('avatar--->',this.receivedPost.postOwner.avatar);
-    console.log('receivedPost.postOwner.avatar--->',this.receivedPost.postOwner.avatar.slice(this.receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8));
   },
 };
 </script>

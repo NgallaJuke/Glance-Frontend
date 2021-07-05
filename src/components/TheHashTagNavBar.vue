@@ -125,7 +125,7 @@ export default {
       padding: 0;
       background-size: cover;
       position: relative;
-      border: 1.5px solid $color_primary;
+      border: 2px solid $color_primary;
       border-radius: $border_radius;
       &::after {
         content: '';
@@ -133,7 +133,7 @@ export default {
         display: block;
         width: 100%;
         height: 100%;
-        background-color: #2274f875;
+        background-color: #2274f8c4;
         opacity: 0.6;
         position: absolute;
         top: 0;

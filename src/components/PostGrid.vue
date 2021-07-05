@@ -1,6 +1,5 @@
 <template>
   <div style="width: 90%">
-    <div>{{ $route.params.post }}</div>
     <div v-if="fetchedPost">
       <v-container fluid>
         <v-row>
