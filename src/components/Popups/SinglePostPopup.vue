@@ -15,10 +15,8 @@
                 class="mx-5"
                 name_path="profil"
                 :user_name="receivedPost.postOwner.userName"
-                :size="50"
-                :avatar_uri="
-                  receivedPost.postOwner.avatar.slice(receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8)
-                "
+                :size="50"    
+                :avatar_uri="receivedPost.postOwner.avatar.slice(receivedPost.postOwner.avatar.lastIndexOf('avatars') + 8)"
               ></AvatarLink>
 
               <h4 class="ml-2 mr-10">
