@@ -12,11 +12,11 @@ const actions = {
     commit('getAllPostCommentsRequest');
     try {
       const data = await commentServices.getAllPostComments(postID);
-      if (data.success) {
-        commit('getAllPostCommentsSuccess', { comments: data.comments, postID });
+      if (data.type === 'success') {
+        commit('getAllPostCommentsSuccess', data.data);
       } else {
-        commit('getAllPostCommentsFailure', 'Error: Error comment Post');
-        dispatch('alert/error', 'error', { root: true });
+        commit('getAllPostCommentsFailure', 'Error getting all comments in post');
+        dispatch('alert/error', 'Error getting all comments in post', { root: true });
       }
     } catch (error) {
       commit('getAllPostCommentsFailure', error);
@@ -28,13 +28,12 @@ const actions = {
     commit('makeCommentRequest');
     try {
       let data = await commentServices.makeComment(payload);
-      if (data.success) {
-        data.comment.user = payload.user;
-        commit('makeCommentSuccess', { comment: data.comment, postID: payload.postID });
-        dispatch('alert/success', 'Post commented successfully', { root: true });
+      if (data.type === 'success') {
+        commit('makeCommentSuccess', data.data);
+        dispatch('alert/success', data.message, { root: true });
       } else {
-        commit('makeCommentFailure', 'Error: Error comment Post');
-        dispatch('alert/error', 'error', { root: true });
+        commit('makeCommentFailure', 'Could not create the comment');
+        dispatch('alert/error', 'Could not create the comment', { root: true });
       }
     } catch (error) {
       commit('makeCommentFailure', error);
@@ -46,12 +45,12 @@ const actions = {
     commit('deleteCommentRequest');
     try {
       let data = await commentServices.deleteComment(payload);
-      if (data.success) {
+      if (data.type === 'success') {
         commit('deleteCommentSuccess');
-        dispatch('alert/success', 'Comment deleted successfully', { root: true });
+        dispatch('alert/success', data.message, { root: true });
       } else {
-        commit('deleteCommentFailure', 'Error: Error comment Post');
-        dispatch('alert/error', 'error', { root: true });
+        commit('deleteCommentFailure', 'Could not delete the comment');
+        dispatch('alert/error', 'Could not delete the comment', { root: true });
       }
     } catch (error) {
       commit('deleteCommentFailure', error);
@@ -63,12 +62,12 @@ const actions = {
     commit('likeCommentRequest');
     try {
       let data = await commentServices.likeComment(payload);
-      if (data.success) {
+      if (data.type === 'success') {
         commit('likeCommentSuccess');
-        dispatch('alert/success', 'Comment liked successfully', { root: true });
+        dispatch('alert/success', data.message, { root: true });
       } else {
-        commit('likeCommentFailure', 'Error: Error liking Post');
-        dispatch('alert/error', 'error', { root: true });
+        commit('likeCommentFailure', 'Could not like the comment');
+        dispatch('alert/error', 'Could not like the comment', { root: true });
       }
     } catch (error) {
       commit('likeCommentFailure', error);
@@ -80,12 +79,12 @@ const actions = {
     commit('dislikeCommentRequest');
     try {
       let data = await commentServices.dislikeComment(payload);
-      if (data.success) {
+      if (data.type === 'success') {
         commit('dislikeCommentSuccess');
-        dispatch('alert/success', 'Comment disliked successfully', { root: true });
+        dispatch('alert/success', data.message, { root: true });
       } else {
-        commit('dislikeCommentFailure', 'Error: Error disling Post');
-        dispatch('alert/error', 'error', { root: true });
+        commit('dislikeCommentFailure', 'Could not dislike the comment');
+        dispatch('alert/error', 'Could not dislike the comment', { root: true });
       }
     } catch (error) {
       commit('dislikeCommentFailure', error);
@@ -98,11 +97,11 @@ const mutations = {
   makeCommentRequest(state) {
     state.status = { commentingPost: true };
   },
-  makeCommentSuccess(state, { comment, postID }) {
+  makeCommentSuccess(state, data) {
     state.status = { postCommented: true };
-    state.comment.push(comment);
-    state.comments.push(comment);
-    state.post = postID;
+    state.comment.push(data);
+    state.comments.push(data);
+
     state.error = null;
   },
   makeCommentFailure(state, error) {
@@ -126,10 +125,10 @@ const mutations = {
   getAllPostCommentsRequest(state) {
     state.status = { gettingPostComments: true };
   },
-  getAllPostCommentsSuccess(state, { comments, postID }) {
+  getAllPostCommentsSuccess(state, data) {
     state.status = { gotPostComments: true };
-    state.comments = comments;
-    state.post = postID;
+    state.comments = data;
+
     state.error = null;
   },
   getAllPostCommentsFailure(state, error) {

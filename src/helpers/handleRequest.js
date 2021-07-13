@@ -6,17 +6,12 @@ export async function handleRequest(response) {
       localStorage.removeItem('user_token');
       router.push('/login');
     }
-    if (response.status === 404 || response.status === 500) {
-      const data = await response.json();
-      if (data.error) throw data.error;
-      throw response.statusText;
-    }
+    if (response.status === 404 || response.status === 500) throw response.statusText;
 
     // location.reload(true);
   }
   const data = await response.json();
-
-  if (!data.success) {
+  if (data.type !== 'success') {
     throw data.error;
   } else {
     return data;
@@ -29,16 +24,12 @@ export async function handleRequestPostFeed(response) {
       localStorage.removeItem('user_token');
       router.push('/login');
     }
-    if (response.status === 404 || response.status === 500) {
-      const data = await response.json();
-      if (data.error) throw data.error;
-      throw response.statusText;
-    }
+    if (response.status === 404 || response.status === 500) throw response.statusText;
 
     // location.reload(true);
   }
   const data = await response.json();
-  if (!data) throw 'UserFeed is Empty';
+  if (data.type !== 'success') throw 'UserFeed is Empty';
 
   return data;
 }

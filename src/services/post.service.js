@@ -13,17 +13,19 @@ export const postServices = {
 
 async function createPost(post) {
   const formData = new FormData();
-
   formData.append('description', post.description);
   formData.append('tags', JSON.stringify(post.tags));
+
   post.pictures.forEach((pic) => {
     formData.append('picture', pic);
   });
+
   const requestOptions = {
     method: 'POST',
     headers: authHeader(),
     body: formData,
   };
+
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/create`, requestOptions)
     .then(handleRequest)
     .catch((error) => {
@@ -36,6 +38,7 @@ async function deletePost(id) {
     method: 'DELETE',
     headers: authHeader(),
   };
+
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/${id}/delete`, requestOptions)
     .then(handleRequest)
     .catch((error) => {
@@ -72,6 +75,7 @@ async function getLikedPost(id) {
     method: 'GET',
     headers: authHeader(),
   };
+
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/posts/like/${id}`, requestOptions)
     .then(handleRequest)
     .catch((error) => {

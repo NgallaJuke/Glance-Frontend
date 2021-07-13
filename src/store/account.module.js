@@ -10,12 +10,12 @@ const actions = {
     commit('registerRequest', user);
     authServices
       .register(user)
-      .then((user) => {
-        commit('registerSuccess', user);
+      .then((data) => {
+        commit('registerSuccess', data);
         router.push('/register-success');
         setTimeout(() => {
           // display success message after route change completes
-          dispatch('alert/success', 'Registration successful. Please check your email to confirm your registration!', {
+          dispatch('alert/success', data.message, {
             root: true,
           });
         });
@@ -44,8 +44,8 @@ const actions = {
   logout({ dispatch, commit }) {
     commit('logoutRequest');
     authServices.logout().then(
-      (response) => {
-        if (response.success) {
+      (data) => {
+        if (data.type === 'success') {
           commit('logoutSuccess');
           router.push('/login');
         }
@@ -60,8 +60,9 @@ const actions = {
   async getCurrentUser({ dispatch, commit }) {
     commit('UserProfilRequest');
     try {
-      const UserProfil = await userServices.getCurrentUser();
-      commit('UserProfilSuccess', UserProfil);
+      const data = await userServices.getCurrentUser();
+      console.log('User', data);
+      if (data.type === 'success') commit('UserProfilSuccess', data.data);
     } catch (error) {
       commit('UserProfilFailure', error);
       dispatch('alert/error', error, { root: true });
@@ -71,9 +72,9 @@ const actions = {
   async changePassword({ dispatch, commit }, user) {
     commit('ChangePasswordRequest');
     try {
-      const UserProfil = await authServices.changePassword(user);
-      commit('ChangePasswordSuccess', UserProfil);
-      dispatch('alert/success', 'Password Changed Successfully', { root: true });
+      const data = await authServices.changePassword(user);
+      commit('ChangePasswordSuccess', data.data);
+      dispatch('alert/success', data.message, { root: true });
       // location.reload(true);
     } catch (error) {
       commit('ChangePasswordFailure', error);
@@ -85,7 +86,7 @@ const actions = {
     authServices
       .deleteAccount()
       .then((data) => {
-        if (data !== undefined) {
+        if (data.type === 'success') {
           commit('deleteAccountSuccess', data.message);
           dispatch('alert/success', data.message, { root: true });
           router.push('/login');
@@ -137,8 +138,8 @@ const mutations = {
   UserProfilRequest(state) {
     state.status = { laoding: true };
   },
-  UserProfilSuccess(state, userProfil) {
-    state.user = userProfil;
+  UserProfilSuccess(state, data) {
+    state.user = data;
     state.status = { loggedIn: true };
   },
   UserProfilFailure(state, error) {
@@ -149,8 +150,8 @@ const mutations = {
   ChangePasswordRequest(state) {
     state.status = { ChangingPassword: true };
   },
-  ChangePasswordSuccess(state, userProfil) {
-    state.user = userProfil;
+  ChangePasswordSuccess(state, data) {
+    state.user = data;
     state.status = { PasswordChanged: true, loggedIn: true };
   },
   ChangePasswordFailure(state, error) {

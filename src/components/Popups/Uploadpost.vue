@@ -69,7 +69,7 @@ export default {
     dialoge: true,
     // pictureRules: [(v) => !!v || v.size < 2000000 || 'Picture"s size should be less than 2 MB!'],
     descriptionRules: [(v) => !!v || 'the description is required!'],
-    tags: ['Illustration', 'Graphic Design', 'Photography', 'Branding'],
+    tags: ['Illustration', 'Art', 'Graphic Design', 'Photography', 'Branding'],
   }),
   computed: {
     ...mapState({

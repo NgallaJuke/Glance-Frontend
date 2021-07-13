@@ -21,8 +21,8 @@ async function getCurrentUser() {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/auth/current-user`, requestOptions)
     .then(handleRequest)
-    .then((response) => {
-      return response.UserProfil;
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       throw error;
@@ -36,18 +36,12 @@ async function getSingleUser(payload) {
   if (payload.userName) {
     return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${payload.userName}`, requestOptions)
       .then(handleRequest)
-      .then((response) => {
-        return response.UserProfil;
-      })
       .catch((error) => {
         throw error;
       });
   } else {
     return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/user/${payload.userID}`, requestOptions)
       .then(handleRequest)
-      .then((response) => {
-        return response.UserProfil;
-      })
       .catch((error) => {
         throw error;
       });
@@ -60,9 +54,6 @@ async function getAllUser() {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/`, requestOptions)
     .then(handleRequest)
-    .then((response) => {
-      return response.users;
-    })
     .catch((error) => {
       throw error;
     });
@@ -74,8 +65,8 @@ async function getAllFollower(userid) {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/all-follower/${userid}`, requestOptions)
     .then(handleRequest)
-    .then((response) => {
-      return response.follower;
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       throw error;
@@ -88,8 +79,8 @@ async function getAllFollowing(userid) {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/all-following/${userid}`, requestOptions)
     .then(handleRequest)
-    .then((response) => {
-      return response.following;
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       throw error;
@@ -97,10 +88,8 @@ async function getAllFollowing(userid) {
 }
 
 async function updateAvatar(avatar) {
-  console.log('Avatar', typeof avatar, avatar);
   if (avatar !== null) {
     const formData = new FormData();
-
     formData.append('file', avatar);
 
     const requestOptions = {
@@ -149,8 +138,8 @@ async function followUser(userID) {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${userID}/follow`, requestOptions)
     .then(handleRequest)
-    .then((response) => {
-      return response.success;
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       throw error;
@@ -164,8 +153,8 @@ async function unFollowUser(userID) {
   };
   return fetch(`${process.env.VUE_APP_API_URI}api/v1/users/${userID}/unfollow`, requestOptions)
     .then(handleRequest)
-    .then((response) => {
-      return response.success;
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       throw error;
