@@ -16,13 +16,13 @@ const actions = {
     commit('updateAvatarRequest', avatar);
     userServices.updateAvatar(avatar).then(
       (data) => {
-        if (data !== undefined) {
-          commit('updateAvatarSuccess', data.user);
-          dispatch('alert/success', 'Avatar Updated Successfully.', { root: true });
+        if (data.type === 'success') {
+          commit('updateAvatarSuccess', data.data);
+          dispatch('alert/success', data.message, { root: true });
           location.reload(true);
         } else {
           commit('updateAvatarFailure', 'Error: Image size too big!');
-          dispatch('alert/error', 'error', { root: true });
+          dispatch('alert/error', 'Error: Image size too big!', { root: true });
         }
       },
       (error) => {
@@ -37,9 +37,9 @@ const actions = {
     userServices
       .updateUser(user)
       .then((data) => {
-        if (data !== undefined) {
-          commit('updateUserSuccess', data.user);
-          dispatch('alert/success', 'User Updated Successfully.', { root: true });
+        if (data.type === 'success') {
+          commit('updateUserSuccess', data.data);
+          dispatch('alert/success', data.message, { root: true });
           location.reload(true);
         } else {
           commit('updateUserFailure', 'Something went wrong');
@@ -55,72 +55,76 @@ const actions = {
   async getSingleUser({ dispatch, commit }, payload) {
     commit('UserProfilRequest');
     try {
-      const UserProfil = await userServices.getSingleUser(payload);
-      if (UserProfil && payload.userName) {
-        commit('UserProfilSuccess', UserProfil);
+      const data = await userServices.getSingleUser(payload);
+      if (data.type === 'success' && payload.userName) {
+        commit('UserProfilSuccess', data.data);
       } else {
-        commit('UserProfilListSuccess', UserProfil);
+        commit('UserProfilListSuccess', data.data);
       }
     } catch (error) {
       commit('UserProfilFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async getAllUser({ dispatch, commit }) {
     commit('UsersRequest');
     try {
-      const allUsers = await userServices.getAllUser();
-      if (allUsers) {
-        commit('UsersSuccess', allUsers);
+      const data = await userServices.getAllUser();
+      console.log(`allUsers`, data);
+      if (data.type === 'success') {
+        commit('UsersSuccess', data.data);
       }
     } catch (error) {
       commit('UsersFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async followUser({ dispatch, commit }, userID) {
     commit('followRequest');
     try {
-      const follow = await userServices.followUser(userID);
-      if (follow.success) {
-        commit('followSuccess', follow.success);
+      const data = await userServices.followUser(userID);
+      if (data.type === 'success') {
+        commit('followSuccess');
+        dispatch('alert/success', data.message, { root: true });
       }
     } catch (error) {
       commit('followFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async unfollowUser({ dispatch, commit }, userID) {
     commit('unfollowRequest');
     try {
-      const unfollow = await userServices.unFollowUser(userID);
-      if (unfollow.success) {
-        commit('unfollowSuccess', unfollow.success);
+      const data = await userServices.unFollowUser(userID);
+      if (data.type === 'success') {
+        commit('unfollowSuccess');
+        dispatch('alert/success', data.message, { root: true });
       }
     } catch (error) {
       commit('unfollowFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async getAllFollower({ dispatch, commit }, userid) {
     commit('allFollowerRequest');
     try {
-      const follower = await userServices.getAllFollower(userid);
-      if (follower) {
-        commit('allFollowerSuccess', follower);
-      }
+      const data = await userServices.getAllFollower(userid);
+      if (data.type === 'success') commit('allFollowerSuccess', data.data);
     } catch (error) {
       commit('allFollowerFailure', error);
       dispatch('alert/error', error, { root: true });
     }
   },
+
   async getAllFollowing({ dispatch, commit }, userid) {
     commit('allFollowingRequest');
     try {
-      const following = await userServices.getAllFollowing(userid);
-      if (following) {
-        commit('allFollowingSuccess', following);
-      }
+      const data = await userServices.getAllFollowing(userid);
+      if (data.type === 'success') commit('allFollowingSuccess', data);
     } catch (error) {
       commit('allFollowingFailure', error);
       dispatch('alert/error', error, { root: true });
@@ -142,9 +146,9 @@ const mutations = {
   updateUserRequest(state) {
     state.status = { updatingUser: true };
   },
-  updateUserSuccess(state, user) {
+  updateUserSuccess(state, data) {
     state.status = { userUpdated: true };
-    state.user = user;
+    state.user = data;
   },
   updateUserFailure(state) {
     state.status = {};
@@ -153,12 +157,12 @@ const mutations = {
   UserProfilRequest(state) {
     state.status = { UserProfilLaoding: true };
   },
-  UserProfilSuccess(state, userProfil) {
-    state.user = userProfil;
+  UserProfilSuccess(state, data) {
+    state.user = data;
     state.status = { UserProfilLaoded: true };
   },
-  UserProfilListSuccess(state, userProfil) {
-    state.listUsers.push(userProfil);
+  UserProfilListSuccess(state, data) {
+    state.listUsers.push(data);
   },
   ClearUserProfilList(state) {
     state.listUsers = [];
@@ -170,8 +174,8 @@ const mutations = {
   UsersRequest(state) {
     state.status = { allUsersLaoding: true };
   },
-  UsersSuccess(state, allUsers) {
-    state.allUsers = allUsers;
+  UsersSuccess(state, data) {
+    state.allUsers = data;
     state.status = { allUsersSuccess: true };
   },
   UsersFailure(state, error) {
@@ -181,8 +185,8 @@ const mutations = {
   followRequest(state) {
     state.status = { followLaoding: true };
   },
-  followSuccess(state, follow) {
-    state.status = { followSuccess: follow };
+  followSuccess(state) {
+    state.status = { followSuccess: true };
   },
   followFailure(state, error) {
     state.error = error;
@@ -190,8 +194,8 @@ const mutations = {
   unfollowRequest(state) {
     state.status = { unfollowLaoding: true };
   },
-  unfollowSuccess(state, unfollow) {
-    state.status = { unfollowSuccess: unfollow };
+  unfollowSuccess(state) {
+    state.status = { unfollowSuccess: true };
   },
   unfollowFailure(state, error) {
     state.error = error;
@@ -201,9 +205,9 @@ const mutations = {
     state.status = { allFollowerLaoding: true };
     state.follower = [];
   },
-  allFollowerSuccess(state, follower) {
+  allFollowerSuccess(state, data) {
     state.status = { allFollowerSuccess: true };
-    state.follower = follower;
+    state.follower = data;
   },
   allFollowerFailure(state, error) {
     state.error = error;
@@ -212,9 +216,9 @@ const mutations = {
     state.status = { allFollowingLaoding: true };
     state.following = [];
   },
-  allFollowingSuccess(state, following) {
+  allFollowingSuccess(state, data) {
     state.status = { allFollowingSuccess: true };
-    state.following = following;
+    state.following = data;
   },
   allFollowingFailure(state, error) {
     state.error = error;

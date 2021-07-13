@@ -15,13 +15,13 @@ const actions = {
   async createpost({ dispatch, commit }, post) {
     commit('createPostRequest', post);
     try {
-      const newPost = await postServices.createPost(post);
-      if (newPost.success) {
-        commit('createPostSuccess', newPost);
-        dispatch('alert/success', 'Post created successfully.', { root: true });
+      const data = await postServices.createPost(post);
+      if (data.type === 'success') {
+        commit('createPostSuccess', data.data);
+        dispatch('alert/success', data.message, { root: true });
       } else {
-        commit('createPostFailure', 'Error: Image size too big!');
-        dispatch('alert/error', 'error', { root: true });
+        commit('createPostFailure', data.message);
+        dispatch('alert/error', data.message, { root: true });
       }
     } catch (error) {
       commit('createPostFailure', error);
@@ -32,14 +32,14 @@ const actions = {
   async deletePost({ dispatch, commit }, postID) {
     commit('deletePostRequest', postID);
     try {
-      const postDelete = await postServices.deletePost(postID);
-      if (postDelete.success) {
+      const data = await postServices.deletePost(postID);
+      if (data.type === 'success') {
         commit('deletePostSuccess');
-        dispatch('alert/success', `${postDelete.message}`, { root: true });
+        dispatch('alert/success', data.message, { root: true });
         window.location.reload();
       } else {
-        commit('deletePostFailure', `${postDelete.message}`);
-        dispatch('alert/error', 'error', { root: true });
+        commit('deletePostFailure', data.message);
+        dispatch('alert/error', data.message, { root: true });
       }
     } catch (error) {
       commit('deletePostFailure', error);
@@ -51,12 +51,12 @@ const actions = {
     commit('likePostRequest');
     try {
       const data = await postServices.likePost(postID);
-      if (data.success) {
+      if (data.type === 'success') {
         commit('likePostSuccess');
-        dispatch('alert/success', 'Post liked successfully.', { root: true });
+        dispatch('alert/success', data.message, { root: true });
       } else {
-        commit('likePostFailure', 'Error: Error Like Post');
-        dispatch('alert/error', 'error', { root: true });
+        commit('likePostFailure', data.message);
+        dispatch('alert/error', data.message, { root: true });
       }
     } catch (error) {
       commit('likePostFailure', error);
@@ -67,12 +67,11 @@ const actions = {
   async getLikedPost({ dispatch, commit }, id) {
     commit('getLikedPostRequest');
     try {
-      const likedPost = await postServices.getLikedPost(id);
-      if (likedPost.success) {
-        commit('getLikedPostSuccess', likedPost);
+      const data = await postServices.getLikedPost(id);
+      if (data.type === 'success') {
+        commit('getLikedPostSuccess', data.data);
       } else {
-        const message = 'No liked Post';
-        commit('getLikedPostEmpty', message);
+        commit('getLikedPostEmpty', data.message);
       }
     } catch (error) {
       commit('getLikedPostFailure', error);
@@ -83,12 +82,11 @@ const actions = {
   async getHashtagPost({ dispatch, commit }, payload) {
     commit('getHashtagPostRequest');
     try {
-      const hashtagPosts = await postServices.getHashtagPost(payload);
-      if (hashtagPosts.success) {
-        commit('getHashtagPostSuccess', hashtagPosts.posts);
+      const data = await postServices.getHashtagPost(payload);
+      if (data.type === 'success') {
+        commit('getHashtagPostSuccess', data.data);
       } else {
-        const message = 'No post with that hashtag';
-        commit('getHashtagPostEmpty', message);
+        commit('getHashtagPostEmpty', data.message);
       }
     } catch (error) {
       commit('getHashtagPostFailure', error);
@@ -100,9 +98,9 @@ const actions = {
     commit('disLikePostRequest');
     try {
       const data = await postServices.disLikePost(postID);
-      if (data.success) {
+      if (data.type === 'success') {
         commit('disLikePostSuccess');
-        dispatch('alert/success', 'Post disLiked successfully.', { root: true });
+        dispatch('alert/success', data.message, { root: true });
       } else {
         commit('disLikePostFailure', 'Error: Error Like Post');
         dispatch('alert/error', 'error', { root: true });
@@ -116,19 +114,13 @@ const actions = {
   async getDiscoverPost({ dispatch, commit }, limit) {
     commit('postDiscoveredRequest');
     try {
-      const postDiscovered = await postServices.getDiscoverPost(limit);
+      const data = await postServices.getDiscoverPost(limit);
 
-      if (!postDiscovered) {
-        const message = 'Your Timeline is empty.';
-        commit('postDiscoveredEmpty', message);
+      if (data.type === 'success' && Object.keys(data.data).length === 0 && data.data.constructor === Object) {
+        commit('postDiscoveredEmpty', 'Your Timeline is empty.');
         return;
       }
-      if (postDiscovered.success) {
-        commit('postDiscoveredSuccess', postDiscovered.posts);
-      } else {
-        const message = 'Your Home Timeline is empty.';
-        commit('postDiscoveredEmpty', message);
-      }
+      if (data.type === 'success') commit('postDiscoveredSuccess', data.data);
     } catch (error) {
       commit('postDiscoveredFailure', error);
       dispatch('alert/error', error, { root: true });
@@ -138,26 +130,20 @@ const actions = {
   async getPostFeed({ dispatch, commit }, paylaod) {
     commit('postFeedRequest');
     try {
-      let postFeed = {};
+      let data = {};
       if (paylaod.userName && paylaod.limit) {
-        postFeed = await postServices.getPostFeed(paylaod.timeline, paylaod.userName, paylaod.limit);
+        data = await postServices.getPostFeed(paylaod.timeline, paylaod.userName, paylaod.limit);
       } else if (paylaod.userName) {
-        postFeed = await postServices.getPostFeed(paylaod.timeline, paylaod.userName);
+        data = await postServices.getPostFeed(paylaod.timeline, paylaod.userName);
       } else {
-        postFeed = await postServices.getPostFeed(paylaod.timeline);
+        data = await postServices.getPostFeed(paylaod.timeline);
       }
 
-      if (!postFeed) {
-        const message = 'Your Timeline is empty.';
-        commit('postFeedEmpty', message);
+      if (data.type === 'success' && Object.keys(data.data).length === 0 && data.data.constructor === Object) {
+        commit('postFeedEmpty', 'Your Timeline is empty');
         return;
       }
-      if (postFeed.success) {
-        commit('postFeedSuccess', postFeed.timeline);
-      } else {
-        const message = 'Your Home Timeline is empty.';
-        commit('postFeedEmpty', message);
-      }
+      if (data.type === 'success') commit('postFeedSuccess', data.data);
     } catch (error) {
       commit('postFeedFailure', error);
       dispatch('alert/error', error, { root: true });
@@ -166,14 +152,14 @@ const actions = {
 };
 
 const mutations = {
-  createPostRequest(state, post) {
+  createPostRequest(state, data) {
     state.status = { postCreating: true };
-    state.post = post;
+    state.post = data;
   },
-  createPostSuccess(state, post) {
+  createPostSuccess(state, data) {
     state.status = { postCreated: true };
-    state.post = post;
-    state.timeline.push(post.post);
+    state.post = data;
+    state.timeline.push(data);
     state.error = null;
   },
   createPostFailure(state, error) {
@@ -181,9 +167,9 @@ const mutations = {
     state.post = null;
     state.status = null;
   },
-  deletePostRequest(state, post) {
+  deletePostRequest(state, data) {
     state.status = { deletingPost: true };
-    state.post = post;
+    state.post = data;
   },
   deletePostSuccess(state) {
     state.status = { postDeleted: true };
@@ -214,8 +200,8 @@ const mutations = {
   postFeedRequest(state) {
     state.status = { loading: true };
   },
-  postFeedSuccess(state, timeline) {
-    state.timeline = timeline;
+  postFeedSuccess(state, data) {
+    state.timeline = data;
     state.status = { isLoaded: true };
   },
   postFeedEmpty(state, message) {
@@ -232,8 +218,8 @@ const mutations = {
   UserHomeTimelineRequest(state) {
     state.status = { loading: true };
   },
-  UserHomeTimelineSuccess(state, userTimeline) {
-    state.hometimeline = userTimeline;
+  UserHomeTimelineSuccess(state, data) {
+    state.hometimeline = data;
     state.status = { isLoaded: true };
     state.post = null;
     state.error = null;
@@ -271,9 +257,9 @@ const mutations = {
   getHashtagPostRequest(state) {
     state.status = { loading: true };
   },
-  getHashtagPostSuccess(state, hashtagPosts) {
+  getHashtagPostSuccess(state, data) {
     state.status = { isLoaded: true };
-    state.HashtagPost = hashtagPosts;
+    state.HashtagPost = data;
     state.error = null;
   },
   getHashtagPostEmpty(state, message) {
@@ -288,9 +274,9 @@ const mutations = {
   postDiscoveredRequest(state) {
     state.status = { loading: true };
   },
-  postDiscoveredSuccess(state, posts) {
+  postDiscoveredSuccess(state, data) {
     state.status = { isLoaded: true };
-    state.postDiscovered = posts;
+    state.postDiscovered = data;
     state.error = null;
   },
   postDiscoveredEmpty(state, message) {
