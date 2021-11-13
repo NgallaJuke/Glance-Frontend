@@ -131,7 +131,7 @@ export default {
     }),
     AuthRequired() {
       const publicPagesRoute = ['/login', '/register', '/register-success'];
-      const authIsRequired = !publicPagesRoute.includes(this.$router.to.path);
+      const authIsRequired = !publicPagesRoute.includes(this.$router.history._startLocation);
       return authIsRequired;
     },
   },
@@ -148,7 +148,7 @@ export default {
     },
   },
   created() {
-    this['account/getCurrentUser']();
+    if (this.AuthRequired) this['account/getCurrentUser']();
   },
 };
 </script>

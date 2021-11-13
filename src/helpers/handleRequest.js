@@ -11,12 +11,13 @@ export async function handleRequest(response) {
     // location.reload(true);
   }
   const data = await response.json();
-  if (data.type !== 'success') {
+  if (data.type && data.type !== 'success') {
     throw data.error;
   } else {
     return data;
   }
 }
+
 export async function handleRequestPostFeed(response) {
   if (!response.ok) {
     //if user try to access to a forbiden toute then log him out

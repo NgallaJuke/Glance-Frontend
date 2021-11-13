@@ -114,7 +114,6 @@ router.beforeEach((to, from, next) => {
 
   const publicPagesRoute = ['/login', '/register', '/register-success'];
   const authIsRequired = !publicPagesRoute.includes(to.path);
-
   //if it's a new user that just confirm his registration then accept to token end let him in
 
   // if (to.path === '/' && to.query.token !== undefined) {
@@ -122,8 +121,8 @@ router.beforeEach((to, from, next) => {
   //   return next('/');
   // }
   const loggedIn = localStorage.getItem('user_token');
+  if (!authIsRequired && loggedIn) return next('/');
   if (authIsRequired && !loggedIn) return next('/login');
-
   next();
 });
 
