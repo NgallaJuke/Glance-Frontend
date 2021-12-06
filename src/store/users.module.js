@@ -124,7 +124,7 @@ const actions = {
     commit('allFollowingRequest');
     try {
       const data = await userServices.getAllFollowing(userid);
-      if (data.type === 'success') commit('allFollowingSuccess', data);
+      if (data.type === 'success') commit('allFollowingSuccess', data.data);
     } catch (error) {
       commit('allFollowingFailure', error);
       dispatch('alert/error', error, { root: true });

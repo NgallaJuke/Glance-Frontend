@@ -33,7 +33,6 @@ const actions = {
       .then(() => {
         dispatch('getCurrentUser');
         commit('loginSuccess');
-        console.log('user logged in');
         router.push('/');
       })
       .catch((error) => {

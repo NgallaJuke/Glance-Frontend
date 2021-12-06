@@ -4,6 +4,9 @@
     <div>
       <img class="mb-5" src="@/assets/glance_logo_blue.png" alt="Glance" width="200" />
     </div>
+    <div>
+      <h1>Sign Up</h1>
+    </div>
     <v-form v-model="valid" ref="form" class="Form" lazy-validation>
       <p class="Label">User Name</p>
       <v-text-field

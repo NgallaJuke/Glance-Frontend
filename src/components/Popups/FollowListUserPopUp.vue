@@ -65,6 +65,7 @@ export default {
     } else {
       this['users/getAllFollowing'](this.userid);
     }
+    console.log('users', this.users);
   },
 };
 </script>

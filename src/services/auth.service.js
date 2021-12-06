@@ -29,6 +29,7 @@ async function login(credentials) {
     console.log('response', response);
 
     const data = await handleRequest(response);
+    console.log(`data`, data);
 
     if (data.success) {
       localStorage.setItem('user_token', data.token);
