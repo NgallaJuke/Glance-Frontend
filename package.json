@@ -13,7 +13,7 @@
     "eslint": "^7.2.0",
     "vue": "^3.2.33",
     "vue-router": "^4.0.15",
-    "vuetify": "^2.2.11",
+    "vuetify": "^2.6.6",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
