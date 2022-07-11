@@ -12,7 +12,7 @@
     "cropperjs": "^1.5.11",
     "eslint": "^8.18.0",
     "vue": "^3.2.33",
-    "vue-router": "^4.0.15",
+    "vue-router": "^4.1.2",
     "vuetify": "^2.6.6",
     "vuex": "^4.0.2"
   },
